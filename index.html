@@ -113,7 +113,9 @@ h1{color:#6B4F33}
 .mt{min-width:640px}.mt td{vertical-align:middle}.mt td:first-child{white-space:normal;min-width:140px}.mt small{display:block;color:var(--mu);font-size:11px;font-weight:400}.ac{white-space:nowrap}.mvs{width:96px;padding:4px;margin:0;font-size:12px}
 .tw{overflow-x:auto}.tbl{border-collapse:collapse;width:100%;font-size:13px;min-width:540px}.tbl th,.tbl td{border-bottom:1px solid var(--bd);padding:8px 6px;text-align:center}.tbl th{background:var(--m1);color:var(--g2)}.tbl td:first-child{text-align:right;white-space:nowrap}.tbl td.its{text-align:right;font-size:12px;color:var(--mu);min-width:150px}.tbl .tt td{font-weight:800;background:var(--m2)}.tbl.sum{min-width:0;font-size:12.5px}.tbl.sum th,.tbl.sum td{padding:9px 3px}.tbl.sum td.gn{display:table-cell;text-align:right;white-space:normal;min-width:104px}.tbl.sum td.gn b{display:block;font-size:13px}.tbl.sum td.gn small{display:block;color:var(--mu);font-size:11px;font-weight:400;margin-top:2px}.tbl.sum .chv{float:left;color:var(--g2);font-size:14px;margin-right:4px}.tbl.sum tr.sg{cursor:pointer}.tbl.sum tr.sg.op td{background:var(--m2)}.tbl.sum tr.sx td{background:var(--m2);text-align:right;padding:4px 8px 12px}.schips{display:flex;flex-wrap:wrap;gap:6px}.schip{background:#fff;border:1px solid var(--bd);border-radius:999px;padding:4px 10px;font-size:12px;color:var(--tx)}.nochip,.unas{font-size:12px;color:var(--mu);margin-top:4px}.hint{font-size:12px;color:var(--mu);margin:2px 0 8px}button.xs{font-size:12px;padding:6px 12px;width:auto}
 .pay{background:var(--m1);border:1px solid var(--bd);border-radius:16px;padding:12px;margin:8px 0 12px}
-.jn{font-size:26px;font-weight:800;letter-spacing:1px;color:var(--g2);text-align:center;direction:ltr;margin:6px 0;word-break:break-all}
+.jn{font-size:24px;font-weight:800;letter-spacing:2px;color:var(--g2);direction:ltr;white-space:nowrap}
+.jbox{display:flex;flex-direction:column;align-items:center;gap:2px;text-align:center;background:#fff;border:1.5px dashed var(--g1);border-radius:14px;padding:10px 14px;margin-top:8px}
+.jlbl{font-size:13px;color:var(--mu);font-weight:600}
 .jnm{text-align:center;color:var(--mu);font-size:13px;margin-bottom:6px}
 .ok2{color:var(--g2);font-weight:700;font-size:14px;margin-top:8px}
 .codev{font-family:ui-monospace,Menlo,Consolas,monospace;font-weight:800;font-size:17px;letter-spacing:2px;direction:ltr;display:inline-block;color:var(--g2)}
@@ -610,7 +612,9 @@ function adCard(){return `<div class="card"><h2>بطاقة إعلان التطب
 const DEF_JEEB='8018706',DEF_WA='779500107';
 let reqs=[],reqErr='',payInfo=null,bkN=25;
 const jNum=()=>((payInfo&&payInfo.jeeb_number)||'').trim()||DEF_JEEB;
-const waAdmin=()=>window.open('https://wa.me/967'+DEF_WA+'?text='+encodeURIComponent('مرحباً، أريد الاشتراك في تطبيق مِقدار'),'_blank');
+const waNum=()=>String((payInfo&&payInfo.admin_wa)||'').replace(/[^0-9]/g,'')||DEF_WA;
+const waAdmin=()=>window.open(waLink('مرحباً، أريد الاشتراك في تطبيق مِقدار',waNum().length>=10&&waNum()[0]!=='0'?waNum():'967'+waNum().replace(/^0+/,'')),'_blank');
+const waAdminOld=()=>window.open('https://wa.me/967'+DEF_WA+'?text='+encodeURIComponent('مرحباً، أريد الاشتراك في تطبيق مِقدار'),'_blank');
 try{payInfo=JSON.parse(lsGet('miqdar_pay_v1')||'null')}catch(e){}
 async function loadPay(){try{const r=await rpc('get_pay_info',{});if(r&&r.ok){const ch=JSON.stringify(r)!==JSON.stringify(payInfo);payInfo=r;try{lsSet('miqdar_pay_v1',JSON.stringify(r))}catch(e){}if(ch&&page==='adm'&&!(document.activeElement&&document.activeElement.closest&&document.activeElement.closest('#app')&&/INPUT|TEXTAREA/.test(document.activeElement.tagName)))rr()}}catch(e){}return payInfo}
 function toast(m){const o=document.querySelector('.toast');if(o)o.remove();const t=document.createElement('div');t.className='toast';t.textContent=m;document.body.appendChild(t);setTimeout(()=>t.remove(),2200)}
@@ -625,14 +629,14 @@ function subHTML(done){const pi=payInfo||{},num=jNum();
  if(done)return `<h2>تم إرسال طلبك ✅</h2><div class="qres"><small>سنراجع الحوالة ثم يصلك كود الاشتراك على رقم التواصل الذي كتبتِه. بعد وصوله ارجعي لصفحة الدخول واكتبيه.</small></div><div class="acts"><button data-act="sclose">تم</button><button class="s" data-act="swa">واتساب الأدمن</button></div>`;
  return `<h2>الاشتراك في مِقدار</h2>
  <div class="pay"><div class="mh">١) حوّلي رسوم الاشتراك${pi.price?' ('+esc(pi.price)+')':''} إلى حساب «جيب»:</div>
- ${num?`<div class="jn" id="jn">${esc(num)}</div>${pi.jeeb_name?`<div class="jnm">باسم: ${esc(pi.jeeb_name)}</div>`:''}<div class="acts"><button data-act="jcopy">نسخ الرقم</button><button class="s" data-act="jopen">فتح تطبيق جيب</button></div>`:`<div class="warn">لم يُضف رقم حساب جيب بعد. تواصلي مع الأدمن لمعرفة رقم التحويل.</div>`}
+ ${num?`<div class="jbox"><span class="jlbl">رقم حساب جيب</span><span class="jn" id="jn">${esc(num)}</span></div>${pi.jeeb_name?`<div class="jnm">باسم: ${esc(pi.jeeb_name)}</div>`:''}<button class="full" data-act="jcopy" style="margin-top:10px">📋 نسخ الرقم</button>`:`<div class="warn">لم يُضف رقم حساب جيب بعد. تواصلي مع الأدمن لمعرفة رقم التحويل.</div>`}
  <div class="ok2" id="jmsg"></div></div>
  <div class="mh">٢) بعد التحويل اكتبي بياناتك ليصلك الكود:</div>
  <label class="f">اسم الطالبة<input id="s-n" autocomplete="name"></label>
  <label class="f">رقم التواصل (واتساب)<input id="s-c" inputmode="tel" autocomplete="tel" style="direction:ltr;text-align:left" placeholder="مثال: 967777123456"></label>
  <label class="f">رقم الحوالة / مرجعها (اختياري)<input id="s-r" style="direction:ltr;text-align:left"></label>
  <div class="err" id="s-e"></div><div class="acts"><button data-act="sreq">إرسال الطلب</button><button class="s" data-act="sclose">إغلاق</button></div>
- <div class="mh" style="margin-top:10px">للمساعدة تواصلي مع الأدمن واتساب: <a href="#" data-act="swa" style="color:var(--g2);font-weight:700"><span dir="ltr">${DEF_WA}</span></a></div>`}
+ <button class="s full" data-act="swa" style="margin-top:12px">💬 للمساعدة: واتساب الأدمن</button>`}
 function subOpen(){const d=$('#sdlg');d.innerHTML=subHTML(false);dOpen(d);loadPay().then(()=>{if(d.open&&$('#s-n')&&!$('#s-n').value&&!$('#s-c').value)d.innerHTML=subHTML(false)})}
 async function jcopy(){const n=jNum();if(!n)return false;const ok=await copyTxt(n);toast(ok?'تم نسخ الرقم ✓':'تعذّر النسخ، انسخيه يدوياً');return ok}
 async function jopen(){const lk=((payInfo&&payInfo.jeeb_link)||'').trim(),m=$('#jmsg');await jcopy();
@@ -659,7 +663,7 @@ function pSubs(){
  const pool=A.users.filter(u=>!u.exp&&!u.name&&u.src==='bulk'),av=pool.filter(u=>!u.dlv),dl=pool.filter(u=>u.dlv);
  const codeRow=u=>`<div class="fi" style="padding:8px 0"><div><span class="codev">${esc(u.pass)}</span> ${u.dlv?'<span class="bd dl">سُلِّم ✓</span>':'<span class="bd nw">متاح</span>'}</div>
   <div style="display:flex;gap:4px;flex-wrap:wrap;justify-content:flex-end"><button class="xs2" data-act="ccode" data-id="${u.id}">نسخ</button><button class="s xs2" data-act="cmsg" data-id="${u.id}">رسالة</button><button class="s xs2" data-act="cwa" data-id="${u.id}">واتساب</button>${u.dlv?`<button class="s xs2" data-act="dlv" data-id="${u.id}" data-f="0">إلغاء التسليم</button>`:`<button class="s xs2" data-act="dlv" data-id="${u.id}" data-f="1">تم التسليم</button>`}</div></div>`;
- return `<div class="card"><h2>طلبات الاشتراك (${nw.length} جديد)</h2><div class="qres"><small>تصل هنا طلبات الطالبات بعد تحويلهن عبر جيب. تحققي من الحوالة في تطبيق جيب ثم اضغطي «موافقة» فيُولَّد كود من 6 خانات جاهز للإرسال.</small></div>
+ return `<div class="card"><div class="hd2"><h2 style="margin:0">طلبات الاشتراك (${nw.length} جديد)</h2><button class="s xs2" data-act="refu">🔄 تحديث</button></div><div class="qres"><small>تصل هنا طلبات الطالبات بعد تحويلهن عبر جيب. تحققي من الحوالة في تطبيق جيب ثم اضغطي «موافقة» فيُولَّد كود من 6 خانات جاهز للإرسال.</small></div>
   ${reqs.length?nw.map(reqRow).join('')+(rest.length?`<details style="margin-top:8px"><summary style="color:var(--mu);font-size:14px">الطلبات السابقة (${rest.length})</summary>${rest.map(reqRow).join('')}</details>`:''):'<div style="color:var(--mu);text-align:center;padding:10px">لا توجد طلبات بعد.</div>'}</div>
  <div class="card"><h2>توليد أكواد دفعة واحدة</h2><div class="qres"><small>تُحفظ الأكواد غير مستخدمة، ولا تبدأ مدة الشهرين إلا عند أول تفعيل من الطالبة. عند نسخ كود يُعلَّم «سُلِّم» حتى لا يُرسل لطالبتين.</small></div>
   <div class="sgrp">${[10,25,50].map(n=>`<button type="button" class="chp${bkN===n?' on':''}" data-act="bq" data-v="${n}">${n}</button>`).join('')}<label class="adjin"><input type="number" id="bk-n" inputmode="numeric" min="1" max="100" value="${bkN}"><span>كوداً</span></label></div>
@@ -669,12 +673,13 @@ function pSubs(){
   ${dl.length?`<details style="margin-top:8px"><summary style="color:var(--mu);font-size:14px">الأكواد المسلَّمة (${dl.length})</summary>${dl.map(codeRow).join('')}</details>`:''}</div>
  <div class="card"><h2>إعدادات الدفع عبر جيب</h2><div class="qres"><small>هذه البيانات تظهر للطالبة في نافذة «اشتراك جديد».</small></div>
   <label class="f">رقم حساب جيب<input id="st-n" inputmode="numeric" style="direction:ltr;text-align:left" value="${esc(pi.jeeb_number||DEF_JEEB)}"></label>
+  <label class="f">رقم واتساب الأدمن (للتواصل مع الطالبات)<input id="st-w" inputmode="numeric" style="direction:ltr;text-align:left" value="${esc(pi.admin_wa||DEF_WA)}" placeholder="مثال: 967779500107"></label>
   <label class="f">اسم صاحب الحساب (اختياري)<input id="st-nm" value="${esc(pi.jeeb_name||'')}"></label>
   <label class="f">مبلغ الاشتراك (اختياري، يظهر للطالبة)<input id="st-p" value="${esc(pi.price||'')}" placeholder="مثال: 3000 ريال"></label>
-  <label class="f">رابط فتح تطبيق جيب (اختياري)<input id="st-l" style="direction:ltr;text-align:left" value="${esc(pi.jeeb_link||'')}" placeholder="رابط التطبيق أو رابط المتجر"></label>
   <label class="f">رابط التطبيق للطالبات (يظهر في رسالة الكود)<input id="st-u" style="direction:ltr;text-align:left" value="${esc(pi.app_url||'')}"></label>
   <button class="full" data-act="stsave">حفظ الإعدادات</button><div class="err" id="st-e"></div></div>`}
 function pAdm(){return pAdm0()+pSubs()+admExtra()+adCard()}
+setInterval(()=>{if(A.sess==='admin'&&ADM_PASS&&page==='adm'&&!document.hidden&&!admBusy&&!(document.activeElement&&/INPUT|TEXTAREA|SELECT/.test(document.activeElement.tagName))){const n=reqs.length;admRefresh().then(()=>{if(reqs.length!==n&&page==='adm')rr()}).catch(()=>{})}},40000);
 function subAct(b){const a=b.dataset.act,id=b.dataset.id,u=id?A.users.find(x=>x.id===id):null;
  if(a==='subopen'){subOpen();return true}
  if(a==='sclose'){dClose($('#sdlg'));return true}
@@ -691,7 +696,7 @@ function subAct(b){const a=b.dataset.act,id=b.dataset.id,u=id?A.users.find(x=>x.
  if(a==='dlv'&&u){markD(u.id,b.dataset.f==='1');return true}
  if(a==='bq'){bkN=+b.dataset.v;rr();return true}
  if(a==='bulk'){const n=Math.max(1,Math.min(100,Math.round(+($('#bk-n').value)||bkN)));bkN=n;admAct(async()=>{const r=await rpc('admin_bulk_create',{p_admin:ADM_PASS,p_count:n,p_months:2});if(r&&r.ok)toast('تم توليد '+r.made+' كوداً ✓');return r});return true}
- if(a==='stsave'){const m={jeeb_number:'#st-n',jeeb_name:'#st-nm',price:'#st-p',jeeb_link:'#st-l',app_url:'#st-u'},e=$('#st-e');b.disabled=true;
+ if(a==='stsave'){const m={jeeb_number:'#st-n',admin_wa:'#st-w',jeeb_name:'#st-nm',price:'#st-p',app_url:'#st-u'},e=$('#st-e');b.disabled=true;
   (async()=>{try{for(const [k,sel] of Object.entries(m)){const r=await rpc('admin_set_setting',{p_admin:ADM_PASS,p_key:k,p_value:$(sel).value});if(!r||!r.ok)throw new Error('x')}await loadPay();toast('تم حفظ الإعدادات ✓')}catch(x){e.style.color='var(--rd)';e.textContent='تعذّر الحفظ. تأكدي من تشغيل ملف SQL الجديد.'}finally{b.disabled=false}})();return true}
  return false}
 document.addEventListener('input',e=>{if(e.target&&e.target.id==='bk-n'){const v=Math.round(+e.target.value);if(v>=1&&v<=100)bkN=v}});
