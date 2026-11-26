@@ -2,7 +2,7 @@
 <html lang="ar" dir="rtl">
 <head>
 <meta charset="utf-8">
-<meta name="viewport" content="width=device-width, initial-scale=1, minimum-scale=1, maximum-scale=1, user-scalable=no, viewport-fit=cover">
+<meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no, viewport-fit=cover">
 <title>مِقدار | MIQDAR – حساب السعرات والماكروز والبدائل الغذائية</title>
 <meta name="description" content="مِقدار | MIQDAR — غذاؤك محسوب، واختياراتك أذكى">
 <meta name="theme-color" content="#44602F">
@@ -112,29 +112,21 @@ h1{color:#6B4F33}
 .ls{width:min(230px,75%);display:block;margin:0 auto}
 .mt{min-width:640px}.mt td{vertical-align:middle}.mt td:first-child{white-space:normal;min-width:140px}.mt small{display:block;color:var(--mu);font-size:11px;font-weight:400}.ac{white-space:nowrap}.mvs{width:96px;padding:4px;margin:0;font-size:12px}
 .tw{overflow-x:auto}.tbl{border-collapse:collapse;width:100%;font-size:13px;min-width:540px}.tbl th,.tbl td{border-bottom:1px solid var(--bd);padding:8px 6px;text-align:center}.tbl th{background:var(--m1);color:var(--g2)}.tbl td:first-child{text-align:right;white-space:nowrap}.tbl td.its{text-align:right;font-size:12px;color:var(--mu);min-width:150px}.tbl .tt td{font-weight:800;background:var(--m2)}.tbl.sum{min-width:0;font-size:12.5px}.tbl.sum th,.tbl.sum td{padding:9px 3px}.tbl.sum td.gn{display:table-cell;text-align:right;white-space:normal;min-width:104px}.tbl.sum td.gn b{display:block;font-size:13px}.tbl.sum td.gn small{display:block;color:var(--mu);font-size:11px;font-weight:400;margin-top:2px}.tbl.sum .chv{float:left;color:var(--g2);font-size:14px;margin-right:4px}.tbl.sum tr.sg{cursor:pointer}.tbl.sum tr.sg.op td{background:var(--m2)}.tbl.sum tr.sx td{background:var(--m2);text-align:right;padding:4px 8px 12px}.schips{display:flex;flex-wrap:wrap;gap:6px}.schip{background:#fff;border:1px solid var(--bd);border-radius:999px;padding:4px 10px;font-size:12px;color:var(--tx)}.nochip,.unas{font-size:12px;color:var(--mu);margin-top:4px}.hint{font-size:12px;color:var(--mu);margin:2px 0 8px}button.xs{font-size:12px;padding:6px 12px;width:auto}
-html{touch-action:pan-y;-webkit-text-size-adjust:100%;text-size-adjust:100%;overflow-y:auto;-webkit-overflow-scrolling:touch;scroll-behavior:auto}
-body{touch-action:pan-y;min-height:100vh;min-height:100dvh}
-#app{touch-action:pan-y;padding-bottom:calc(110px + var(--bdg) + env(safe-area-inset-bottom,0px))!important}
-#app::after{content:"";display:block;height:24px}
-button,a,label,summary,.card,.chp,.csel,.cs-o,#nav button,[data-act]{touch-action:manipulation;-webkit-user-select:none;user-select:none}
-input,textarea,select{touch-action:manipulation;-webkit-user-select:text;user-select:text;font-size:16px}
-.tw,.schips{touch-action:pan-x pan-y}
-button,.chp,.csel,#nav button,.cs-o,.schip,.hero,.card,.kv,.pick{box-sizing:border-box}
-button,.chp,#nav button,.csel svg,.chv,.schip,.cs-o .ck,.ck{flex-shrink:0}
-button{transition:background-color .15s,color .15s,border-color .15s;-webkit-appearance:none;appearance:none}
-button:active{transform:none!important}
-.card,.hero,.kv,.tbl,.csel,.chp{will-change:auto}
-dialog{touch-action:pan-y;overscroll-behavior:contain}
-
-html,body{overflow-x:hidden;max-width:100vw;overscroll-behavior-x:none;overscroll-behavior-y:none;-webkit-text-size-adjust:100%}
-body{position:relative;width:100%}
-#app{overflow-x:hidden;max-width:min(560px,100vw)}
-#app .card,#app .g2>*,#app .kv,#app .hero,#app table.tbl.sum{max-width:100%;box-sizing:border-box}
-#app .card{overflow-wrap:anywhere}
-.tw{max-width:100%;overflow-x:auto;overscroll-behavior-x:contain;-webkit-overflow-scrolling:touch}
-#nav{position:fixed!important;bottom:0;left:0;right:0;transform:translateZ(0)}
+#nav{position:fixed!important;bottom:0;left:0;right:0}
 .cs-ls{padding-bottom:calc(95px + env(safe-area-inset-bottom,0px))!important;overscroll-behavior:contain}
 .cs-sh{max-height:80vh!important}
+html{-webkit-text-size-adjust:100%;text-size-adjust:100%;overflow-x:hidden}
+body{touch-action:manipulation;overscroll-behavior-x:none}
+#app{max-width:560px;padding-bottom:calc(110px + var(--bdg) + env(safe-area-inset-bottom,0px))!important}
+#app>*,.card{max-width:100%}
+.fi>div:first-child,.row>*{min-width:0}.fi b,.fi small{overflow-wrap:anywhere}
+.fi>div:last-child{flex-shrink:0}
+.chips{touch-action:pan-x pan-y;-webkit-overflow-scrolling:touch}
+.tw,.schips{touch-action:pan-x pan-y}
+button,.chp,#nav button{touch-action:manipulation}
+input,textarea{font-size:16px}
+.cs-sh,.cs-ov{max-width:100vw}
+
 
 :root{--bdg:56px}
 #nav{padding-bottom:calc(6px + var(--bdg) + env(safe-area-inset-bottom,0px))}
