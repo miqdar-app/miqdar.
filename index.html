@@ -112,6 +112,39 @@ h1{color:#6B4F33}
 .ls{width:min(230px,75%);display:block;margin:0 auto}
 .mt{min-width:640px}.mt td{vertical-align:middle}.mt td:first-child{white-space:normal;min-width:140px}.mt small{display:block;color:var(--mu);font-size:11px;font-weight:400}.ac{white-space:nowrap}.mvs{width:96px;padding:4px;margin:0;font-size:12px}
 .tw{overflow-x:auto}.tbl{border-collapse:collapse;width:100%;font-size:13px;min-width:540px}.tbl th,.tbl td{border-bottom:1px solid var(--bd);padding:8px 6px;text-align:center}.tbl th{background:var(--m1);color:var(--g2)}.tbl td:first-child{text-align:right;white-space:nowrap}.tbl td.its{text-align:right;font-size:12px;color:var(--mu);min-width:150px}.tbl .tt td{font-weight:800;background:var(--m2)}.tbl.sum{min-width:0;font-size:12.5px}.tbl.sum th,.tbl.sum td{padding:9px 3px}.tbl.sum td.gn{display:table-cell;text-align:right;white-space:normal;min-width:104px}.tbl.sum td.gn b{display:block;font-size:13px}.tbl.sum td.gn small{display:block;color:var(--mu);font-size:11px;font-weight:400;margin-top:2px}.tbl.sum .chv{float:left;color:var(--g2);font-size:14px;margin-right:4px}.tbl.sum tr.sg{cursor:pointer}.tbl.sum tr.sg.op td{background:var(--m2)}.tbl.sum tr.sx td{background:var(--m2);text-align:right;padding:4px 8px 12px}.schips{display:flex;flex-wrap:wrap;gap:6px}.schip{background:#fff;border:1px solid var(--bd);border-radius:999px;padding:4px 10px;font-size:12px;color:var(--tx)}.nochip,.unas{font-size:12px;color:var(--mu);margin-top:4px}.hint{font-size:12px;color:var(--mu);margin:2px 0 8px}button.xs{font-size:12px;padding:6px 12px;width:auto}
+:root{--bdg:56px}
+#nav{padding-bottom:calc(6px + var(--bdg) + env(safe-area-inset-bottom,0px))}
+#app{padding-bottom:calc(96px + var(--bdg) + env(safe-area-inset-bottom,0px))}
+.lbl{display:block;font-size:13px;color:var(--mu);margin-bottom:10px;font-weight:600}
+.gch,.adjr{display:flex;flex-wrap:wrap;gap:8px;margin-top:6px;align-items:center}
+button.chp{background:#FBF6EA;color:#5B5A44;border:1px solid rgba(176,150,100,.38);border-radius:999px;padding:9px 16px;font-size:14px;font-weight:600;box-shadow:none}
+button.chp.on{background:var(--g2);color:#fff;border-color:var(--g2)}
+.adj{background:var(--m2);border:1px solid var(--bd);border-radius:16px;padding:12px;margin:0 0 10px}
+.adjt{font-weight:700;color:var(--g2);font-size:14px}.adj small,.adjn{display:block;color:var(--mu);font-size:12px;margin-top:6px}
+.adjin{display:inline-flex;align-items:center;gap:6px;background:#FFFDF8;border:1px solid var(--bd);border-radius:12px;padding:0 12px}
+.adjin input{box-shadow:none!important;width:72px;border:0!important;background:none!important;margin:0!important;padding:9px 0!important;text-align:center;font-weight:700}
+.adjin span{color:var(--mu);font-size:12px}.adjw{color:var(--rd)!important}
+button.csel{display:flex;align-items:center;justify-content:space-between;gap:8px;width:100%;margin-top:4px;padding:10px;border:1px solid var(--bd);border-radius:12px;background:var(--m2);color:var(--tx);font-weight:500;text-align:right;box-shadow:none}
+.csel svg{width:16px;height:16px;flex:none;fill:none;stroke:var(--g2);stroke-width:2.4;stroke-linecap:round;stroke-linejoin:round}
+.csel .cv{overflow:hidden;text-overflow:ellipsis;white-space:nowrap}
+button.csel.sm{width:104px;margin:0;padding:7px 8px;font-size:12px}
+.pick .csel{margin:0;min-width:0}
+.cs-n{position:absolute!important;opacity:0!important;pointer-events:none!important;width:1px!important;height:1px!important;margin:0!important;padding:0!important;border:0!important}
+.cs-ov{position:fixed;inset:0;z-index:200;background:rgba(60,48,30,.4);display:flex;align-items:flex-end;justify-content:center;opacity:0;transition:opacity .18s}
+.cs-ov.in{opacity:1}
+.cs-sh{width:100%;max-width:560px;max-height:72vh;background:#FFFDF8;border-radius:24px 24px 0 0;border:1px solid var(--bd);box-shadow:0 -10px 30px rgba(110,85,45,.25);display:flex;flex-direction:column;transform:translateY(24px);transition:transform .2s;padding-bottom:env(safe-area-inset-bottom,0px)}
+.cs-ov.in .cs-sh{transform:none}
+.cs-hd{display:flex;justify-content:space-between;align-items:center;padding:14px 16px 8px}.cs-hd b{font-size:16px;color:var(--g2)}
+button.cs-x{background:var(--m1);color:var(--g2);padding:6px 12px;border-radius:999px}
+.cs-ls{overflow:auto;padding:4px 12px 16px;display:grid;gap:8px}
+button.cs-o{display:flex;justify-content:space-between;align-items:center;text-align:right;background:#FBF6EA;color:#43382E;border:1px solid rgba(176,150,100,.38);border-radius:14px;padding:13px 14px;font-weight:600;font-size:15px;line-height:1.5;box-shadow:none}
+button.cs-o.on{background:var(--m1);border-color:var(--g2);color:var(--g2)}
+button.cs-o:disabled{opacity:.45}
+.cs-o .ck{font-style:normal;opacity:0}.cs-o.on .ck{opacity:1}
+.tbl.sum td.kcal{font-weight:700;color:var(--g2)}.tbl.sum tr.tt td{font-size:13.5px;background:#E4ECD6;color:#33502A;border-top:2px solid var(--g2)}
+.tbl.sum tr.tg td{background:#FBF6EA}.tbl.sum tr.df td{font-size:12px;line-height:1.5}
+.tbl.sum th{font-size:12px;padding:8px 2px}.sumnote{font-size:11.5px;color:var(--mu);margin-top:8px}
+
 .bad{color:var(--rd);font-weight:800}.ok{color:var(--g2);font-weight:800}
 
 
@@ -644,11 +677,14 @@ function qzHTML(){
  return `<div class="qz"><h2 id="qzt">استبيان النشاط البدني الذكي</h2>`+QZ.map(([k,t,o])=>q(k,t,o)+(k==='gy'?`<div id="gt" class="${qz.gy>0?'':'hide'}">${q('ty','نوع التمارين',GT)}</div>`:'')).join('')+`<div id="qr"></div></div>`;
 }
 function qzRes(){const e=$('#qr');if(!e||!qz)return;if(!qDone(qz)){e.innerHTML='<div class="qres"><small>أجب عن كل الأسئلة لتظهر نتيجة نشاطك.</small></div>';return}const p=palOf(qz),l=lvl(p),ix=p<1.3?0:p<1.45?1:p<1.6?2:p<1.75?3:4;e.innerHTML=`<div class="qres"><div class="lv">مستوى نشاطك</div><div class="nm">${l[0]}</div><div class="fc">معامل النشاط ${p.toFixed(2)}</div><div class="bar">${[0,1,2,3,4].map(n=>`<i class="${n<=ix?'a':''}"></i>`).join('')}</div><small>${l[1]}</small></div>`}
+const adjDef=g=>g==='loss'?500:g==='gain'?300:0;
+const adjVal=p=>{const v=+p.adj;return v>=200&&v<=750?v:adjDef(p.goal)};
+const adjOf=p=>p.goal==='keep'?0:(p.goal==='loss'?-1:1)*adjVal(p);
 function targets(p){
  if(p.a<18){const k=+p.kc||0,pc=p.pc||{c:55,p:15,f:30};return{child:true,pal:0,bmr:0,tdee:0,k:R(k),pc,p:R(k*pc.p/400),c:R(k*pc.c/400),f:R(k*pc.f/900)}}
  const bmr=p.sex==='m'?66+13.7*p.w+5*p.h-6.8*p.a:655+9.7*p.w+1.85*p.h-4.7*p.a;
  const pal=p.pal||[0,1.2,1.375,1.55,1.725][p.act],tdee=bmr*pal;
- const k=Math.max(1200,tdee+{loss:-500,keep:0,gain:300}[p.goal]);
+ const k=Math.max(1200,tdee+adjOf(p));
  const pr=p.w*{loss:2,keep:1.6,gain:1.8}[p.goal],fa=k*.25/9,ca=Math.max(0,(k-pr*4-fa*9)/4);
  const d={c:R(ca*4/k*100),p:R(pr*4/k*100)};d.f=100-d.c-d.p;const m=p.pc;
  return{pal,bmr:R(bmr),tdee:R(tdee),k:R(k),pc:m||d,p:m?R(k*m.p/400):R(pr),c:m?R(k*m.c/400):R(ca),f:m?R(k*m.f/900):R(fa)};
@@ -855,6 +891,18 @@ function pMeals(){
 }
 document.addEventListener('change',e=>{const t=e.target;if(!t.classList.contains('mvs')||t.value==='')return;const g=t.dataset.g,i=t.dataset.i,to=+t.value;
  if(t.classList.contains('asg')){shift(g,i,-1,to,1e9)}else{shift(g,i,+t.dataset.m,to,1e9)}save();rr()});
+let fg=null,fadj=null;
+function adjHTML(g,v,m){
+ if(g==='keep')return '<div class="adj"><div class="adjt">ثبات الوزن</div><span class="adjn">لا عجز ولا فائض: التعديل 0 سعرة.</span></div>';
+ const lab=g==='loss'?'مقدار العجز اليومي':'مقدار الفائض اليومي';
+ return `<div class="adj"><div class="adjt">${lab}</div><div class="adjr">${[250,300,500].map(n=>`<button type="button" class="chp${v===n?' on':''}" data-act="adjq" data-m="${m}" data-v="${n}">${n}</button>`).join('')}<label class="adjin"><input type="number" inputmode="numeric" min="200" max="750" step="10" id="adj-${m}" data-m="${m}" value="${v}"><span>سعرة</span></label></div><span class="adjn" id="adjw-${m}">اختاري رقماً سريعاً أو اكتبي أي مقدار من 200 إلى 750 سعرة.</span></div>`}
+function adjLive(p){const t=targets(p);return 'الهدف: '+GOAL[p.goal]+' · السعرات المستهدفة '+t.k+' سعرة (إجمالي الحرق '+t.tdee+(p.goal==='loss'?' − ':' + ')+adjVal(p)+')'}
+function adjPrev(){const e=$('#adjprev');if(!e)return;const a=+$('#p-a').value,w=+$('#p-w').value,h=+$('#p-h').value;
+ if(!(a>=18&&w>=8&&h>=70&&qz&&qDone(qz))){e.innerHTML='<small>أكملي البيانات والاستبيان لتظهر السعرات المستهدفة التقريبية.</small>';return}
+ const o={sex:$('#p-sex').value,a,w,h,goal:fg,adj:fadj,pal:palOf(qz)},t=targets(o),ad=adjOf(o);
+ e.innerHTML='<b>السعرات المستهدفة التقريبية: '+t.k+' سعرة</b><small>إجمالي الحرق '+t.tdee+(ad===0?' · بدون تعديل (ثبات)':(ad<0?' − ':' + ')+Math.abs(ad))+(t.tdee+ad<1200?' · وُضع الحد الأدنى 1200 سعرة':'')+'</small>'}
+function adjSync(m){const v=m==='form'?(fadj>0?fadj:adjDef(fg)):adjVal(S.profile);document.querySelectorAll('.adjr [data-act=adjq][data-m='+m+']').forEach(b=>b.classList.toggle('on',+b.dataset.v===v))}
+function adjApply(m,v){if(m==='form'){fadj=v;$('#adjbox').innerHTML=adjHTML(fg,v,'form');adjPrev()}else{S.profile.adj=v;save();rr()}}
 let sumOpen={};
 function pSum(){
  if(!S.profile)return `<h1>الملخص</h1>`+needP();
@@ -862,30 +910,31 @@ function pSum(){
  const allOpen=ks.every(g=>sumOpen[g]);
  const rows=ks.map(g=>{const x=per[g];ns+=x.n;const n=x.items.length,op=!!sumOpen[g],un=x.N-x.sum;
   const cnt=n?n+(n===1?' صنف':' أصناف'):'بدون أصناف';
-  let r=`<tr class="sg${op?' op':''}" data-act="sx" data-g="${g}"><td class="gn"><span class="chv">${op?'▾':'◂'}</span><b>${GR[g].i} ${GR[g].n}</b><small>${cnt}</small></td><td>${x.N}${x.over>0?' <span class="bad" dir="ltr">+'+(+x.over.toFixed(2))+'</span>':''}</td><td>${R(x.k)}</td><td>${R(x.c)}</td><td>${R(x.p)}</td><td>${R(x.f)}</td></tr>`;
+  let r=`<tr class="sg${op?' op':''}" data-act="sx" data-g="${g}"><td class="gn"><span class="chv">${op?'▾':'◂'}</span><b>${GR[g].i} ${GR[g].n}</b><small>${cnt}</small></td><td>${x.N}${x.over>0?' <span class="bad" dir="ltr">+'+(+x.over.toFixed(2))+'</span>':''}</td><td>${R(x.c)}</td><td>${R(x.p)}</td><td>${R(x.f)}</td><td class="kcal">${R(x.k)}</td></tr>`;
   if(op)r+=`<tr class="sx"><td colspan="6">${n?'<div class="schips">'+x.items.map(i=>'<span class="schip">'+esc(i)+'</span>').join('')+'</div>':'<div class="nochip">لم تختاري أصنافاً لهذه المجموعة بعد.</div>'}${un>0?'<div class="unas">غير مخصص: '+(+un.toFixed(2))+' حصة</div>':''}</td></tr>`;
   return r}).join('');
- const df=(r,u)=>{const d=r-u;return `<td class="${d<-.5?'bad':'ok'}">${d<-.5?'+'+R(-d)+' زيادة':R(d)+' متبقي'}</td>`};
- return `<h1>الملخص</h1><div class="card"><div class="hd2"><h2 style="margin:0">جدول الحصص اليومي</h2><button class="s xs" data-act="sxa">${allOpen?'إخفاء الأصناف':'عرض كل الأصناف'}</button></div><div class="hint">اضغطي على اسم المجموعة لعرض أصنافها.</div><div class="tw"><table class="tbl sum"><tr><th>المجموعة</th><th>الحصص</th><th>سعرات</th><th>كارب</th><th>بروتين</th><th>دهون</th></tr>${rows}
- <tr class="tt"><td>المجموع المحسوب</td><td>${+ns.toFixed(2)}</td><td>${R(T.k)}</td><td>${R(T.c)}</td><td>${R(T.p)}</td><td>${R(T.f)}</td></tr>
- <tr><td>الاحتياج المستهدف</td><td>—</td><td>${t.k}</td><td>${t.c}</td><td>${t.p}</td><td>${t.f}</td></tr>
- <tr><td>الفرق</td><td>—</td>${df(t.k,T.k)}${df(t.c,T.c)}${df(t.p,T.p)}${df(t.f,T.f)}</tr></table></div>${Object.values(per).some(x=>x.over>0)?'<div class="warn">بعض المجموعات تتجاوز حصصها المحددة (بالأحمر)؛ الزيادة محسوبة في المجاميع.</div>':''}</div>`;
+ const dv=(r,u,unit)=>{const d=r-u;return `<td class="${d<-.5?'bad':'ok'}">${d<-.5?'زيادة<br>'+R(-d):'متبقي<br>'+R(d)}</td>`};
+ return `<h1>الملخص</h1><div class="card"><div class="hd2"><h2 style="margin:0">جدول الحصص اليومي</h2><button class="s xs" data-act="sxa">${allOpen?'إخفاء الأصناف':'عرض كل الأصناف'}</button></div><div class="hint">اضغطي على اسم المجموعة لعرض أصنافها.</div><div class="tw"><table class="tbl sum"><tr><th>المجموعة</th><th>الحصص</th><th>كارب<br>جم</th><th>بروتين<br>جم</th><th>دهون<br>جم</th><th>سعرات</th></tr>${rows}
+ <tr class="tt"><td>المجموع المحسوب</td><td>${+ns.toFixed(2)}</td><td>${R(T.c)}</td><td>${R(T.p)}</td><td>${R(T.f)}</td><td>${R(T.k)}</td></tr>
+ <tr class="tg"><td>المستهدف</td><td>—</td><td>${t.c}</td><td>${t.p}</td><td>${t.f}</td><td>${t.k}</td></tr>
+ <tr class="df"><td>الفرق</td><td>—</td>${dv(t.c,T.c)}${dv(t.p,T.p)}${dv(t.f,T.f)}${dv(t.k,T.k)}</tr></table></div><div class="sumnote">المجموع محسوب من القيم الدقيقة قبل التقريب، لذلك قد يختلف مجموع الأرقام المعروضة بسعرة واحدة.</div>${Object.values(per).some(x=>x.over>0)?'<div class="warn">بعض المجموعات تتجاوز حصصها المحددة (بالأحمر)؛ الزيادة محسوبة في المجاميع.</div>':''}</div>`;
 }
 function pMe(){
  const p=S.profile;
- if(!p||editing){const v=p||{sex:'m',a:'',w:'',h:'',act:2,goal:'keep'};
+ if(!p||editing){const v=p||{sex:'m',a:'',w:'',h:'',act:2,goal:'keep'};if(fg===null){fg=v.goal||'keep';fadj=v.adj>0?v.adj:null}
   return `<h1>${p?'تعديل البيانات':'حسابي'}</h1><div class="card"><div class="g2">
   <label class="f">الجنس<select id="p-sex"><option value="m"${v.sex==='m'?' selected':''}>ذكر</option><option value="f"${v.sex==='f'?' selected':''}>أنثى</option></select></label>
   <label class="f">العمر (سنة)<input id="p-a" type="number" inputmode="numeric" value="${v.a}"></label>
   <label class="f">الوزن (كجم)<input id="p-w" type="number" inputmode="decimal" value="${v.w}"></label>
   <label class="f">الطول (سم)<input id="p-h" type="number" inputmode="decimal" value="${v.h}"></label></div>
   <div class="qres"><small>ملاحظة: لمن هم أقل من 18 سنة لا يُطبَّق استبيان النشاط ولا BMI، وتُدخل السعرات يدوياً من صفحة حسابي.</small></div>${qzHTML()}
-  <label class="f">الهدف<select id="p-goal">${Object.entries(GOAL).map(([k,n])=>`<option value="${k}"${v.goal===k?' selected':''}>${n}</option>`).join('')}</select></label>
+  <div class="lbl">الهدف<div class="gch">${Object.entries(GOAL).map(([k,n])=>`<button type="button" class="chp${fg===k?' on':''}" data-act="goal" data-v="${k}">${n}</button>`).join('')}</div></div><div id="adjbox">${adjHTML(fg,fadj>0?fadj:adjDef(fg),'form')}</div><div class="qres" id="adjprev"></div>
   <div class="err" id="p-e"></div><div class="acts"><button data-act="savep">حفظ البيانات</button>${p?'<button class="s" data-act="cancel">إلغاء</button>':''}</div></div><button class="r full" data-act="logout">تسجيل الخروج</button>`}
  const t=targets(p);
  return `<h1>حسابي</h1><div class="card"><h2>بياناتك</h2>
  ${[['الجنس',p.sex==='m'?'ذكر':'أنثى'],['العمر',p.a+' سنة'],['الوزن',p.w+' كجم'],['الطول',p.h+' سم'],t.child?['الفئة','طفل / مراهق (أقل من 18 سنة)']:['مستوى النشاط',lvl(t.pal)[0]+' (معامل '+t.pal.toFixed(2)+')'],['الهدف',GOAL[p.goal]]].map(([k,v])=>`<div class="kv"><span>${k}</span><b>${v}</b></div>`).join('')}
  <button class="s full" style="margin-top:10px" data-act="edit">تعديل البيانات</button></div>
+ ${t.child||p.goal==='keep'?'':`<div class="card"><h2>${p.goal==='loss'?'مقدار العجز اليومي':'مقدار الفائض اليومي'}</h2>${adjHTML(p.goal,adjVal(p),'live')}<div class="qres"><small id="adjlive">${adjLive(p)}</small></div></div>`}
  ${t.child?childCard(p,t):`<div class="card"><h2>نتيجة استبيان النشاط البدني</h2><div class="qres"><b>مستوى النشاط: ${lvl(t.pal)[0]}</b> · معامل ${t.pal.toFixed(3).replace(/0+$/,'').replace(/\.$/,'')}<small>${lvl(t.pal)[1]}</small></div><button class="s full" data-act="redo">إعادة الاستبيان</button></div>
  <div class="card"><h2>احتياجك اليومي (Harris-Benedict)</h2><div class="qres"><small>المرجع: معادلة Harris-Benedict المعتمدة في المنهج الجامعي، مع معاملات النشاط القياسية (1.2 / 1.375 / 1.55 / 1.725 / 1.9).</small></div>
  ${[['معدل الحرق الأساسي (BMR)',t.bmr+' سعرة'],['معامل النشاط',t.pal.toFixed(3).replace(/0+$/,'').replace(/\.$/,'')],['إجمالي الحرق اليومي (TDEE)',t.tdee+' سعرة'],['السعرات المستهدفة',t.k+' سعرة'],['البروتين',t.p+' جم'],['الكارب',t.c+' جم'],['الدهون',t.f+' جم']].map(([k,v])=>`<div class="kv"><span>${k}</span><b>${v}</b></div>`).join('')}</div>${bmiCard(p)}`}
@@ -913,6 +962,10 @@ function arm(b,fn){if(b.dataset.a){fn();return}b.dataset.a=1;const o=b.textConte
 document.addEventListener('input',e=>{
  if(e.target.id==='fq'){fq=e.target.value;fList()}
  if(/^m-[cpf]$/.test(e.target.id))mUpd(e.target.id);
+ if(e.target.matches&&e.target.matches('input[id^=adj-]')){const m=e.target.dataset.m,v=Math.round(+e.target.value),w=$('#adjw-'+m),ok=v>=200&&v<=750;
+  if(w)w.classList.toggle('adjw',!ok&&e.target.value!=='');
+  if(w&&e.target.value!=='')w.textContent=ok?'تم اعتماد '+v+' سعرة.':'المقدار يجب أن يكون بين 200 و750 سعرة.';
+  if(ok){if(m==='form'){fadj=v;adjSync('form');adjPrev()}else{S.profile.adj=v;save();adjSync('live');const l=$('#adjlive');if(l)l.textContent=adjLive(S.profile)}}}
 });
 document.addEventListener('click',e=>{
  {const x=e.target.closest('[data-act=adl],[data-act=ads]');if(x){adSave(x.dataset.act==='ads');return}}
@@ -953,14 +1006,16 @@ document.addEventListener('click',e=>{
  else if(a==='add'){if(isAdm())openAdd()}
  else if(a==='fedit'){if(isAdm())openAdd(b.dataset.id)}
  else if(a==='fdel'&&isAdm())arm(b,()=>{A.foods=(A.foods||[]).filter(x=>x.id!==b.dataset.id);(A.hidden=A.hidden||[]).push(b.dataset.id);delete ex().items[b.dataset.id];save();saveA();fList()});
- else if(a==='edit'){editing=true;qz=null;render()}
- else if(a==='cancel'){editing=false;qz=null;render()}
+ else if(a==='edit'){editing=true;qz=null;fg=null;fadj=null;render()}
+ else if(a==='cancel'){editing=false;qz=null;fg=null;fadj=null;render()}
  else if(a==='savep'){
-  const n={sex:$('#p-sex').value,a:+$('#p-a').value,w:+$('#p-w').value,h:+$('#p-h').value,goal:$('#p-goal').value};
+  const n={sex:$('#p-sex').value,a:+$('#p-a').value,w:+$('#p-w').value,h:+$('#p-h').value,goal:fg||'keep'};if(n.goal!=='keep'){const av=fadj>0?fadj:adjDef(n.goal);if(!(av>=200&&av<=750)){$('#p-e').textContent='مقدار العجز أو الفائض يجب أن يكون بين 200 و750 سعرة.';return}n.adj=av}
   if(!(n.a>=2&&n.a<=100&&n.w>=8&&n.h>=70)){$('#p-e').textContent='أدخل العمر والوزن والطول بقيم صحيحة.';return}
   if(n.a>=18&&!qDone(qz)){$('#p-e').textContent='أجب عن كل أسئلة استبيان النشاط (واختر نوع التمارين إن كنت تتمرن).';return}
-  if(qDone(qz)){n.qz=Object.assign({},qz);n.pal=palOf(qz)}if(S.profile&&S.profile.pc)n.pc=S.profile.pc;if(S.profile&&S.profile.kc)n.kc=S.profile.kc;const first=!S.profile;S.profile=n;editing=false;qz=null;save();if(first)page='home';render();scrollTo(0,0)}
- else if(a==='qz'){const k=b.dataset.k,v=+b.dataset.v;qz[k]=v;if(k==='gy'&&v===0)delete qz.ty;b.parentElement.querySelectorAll('button').forEach(x=>x.classList.toggle('on',x===b));if(k==='gy')$('#gt').classList.toggle('hide',v===0);qzRes()}
+  if(qDone(qz)){n.qz=Object.assign({},qz);n.pal=palOf(qz)}if(S.profile&&S.profile.pc)n.pc=S.profile.pc;if(S.profile&&S.profile.kc)n.kc=S.profile.kc;const first=!S.profile;S.profile=n;editing=false;qz=null;fg=null;fadj=null;save();if(first)page='home';render();scrollTo(0,0)}
+ else if(a==='qz'){const k=b.dataset.k,v=+b.dataset.v;qz[k]=v;if(k==='gy'&&v===0)delete qz.ty;setTimeout(adjPrev,0);b.parentElement.querySelectorAll('button').forEach(x=>x.classList.toggle('on',x===b));if(k==='gy')$('#gt').classList.toggle('hide',v===0);qzRes()}
+ else if(a==='goal'){fg=b.dataset.v;if(fg==='keep')fadj=null;else if(!(fadj>0))fadj=adjDef(fg);b.parentElement.querySelectorAll('button').forEach(x=>x.classList.toggle('on',x===b));$('#adjbox').innerHTML=adjHTML(fg,fadj>0?fadj:adjDef(fg),'form');adjPrev()}
+ else if(a==='adjq'){adjApply(b.dataset.m,+b.dataset.v)}
  else if(a==='redo'){qz={};editing=true;render();$('#qzt').scrollIntoView({behavior:'smooth'})}
  else if(a==='login')doLogin();
  else if(a==='recover')doRecover();
@@ -1018,6 +1073,40 @@ function startCloud(){const x=who();if(x&&x.admin)adminSync();else if(x)syncCat(
  setInterval(()=>{if(document.hidden)return;const y=who();if(y&&!y.admin)syncCat()},90000);
  document.addEventListener('visibilitychange',()=>{if(!document.hidden){const y=who();if(y&&!y.admin)syncCat()}})}
 render();startCloud();
+/* ===== custom select (bottom sheet) ===== */
+const CHV='<svg viewBox="0 0 24 24"><path d="M6 9l6 6 6-6"/></svg>';
+function csLabel(sel){const o=sel.options[sel.selectedIndex];return o?o.textContent:''}
+function csEnh(sel){
+ if(sel.classList.contains('hide')||sel.getAttribute('aria-hidden')==='true')return;
+ let b=sel._cs;
+ if(!b||!b.isConnected){
+  b=document.createElement('button');b.type='button';b.className='csel'+(sel.classList.contains('mvs')?' sm':'');
+  b.innerHTML='<span class="cv"></span>'+CHV;sel.classList.add('cs-n');sel.tabIndex=-1;
+  sel.insertAdjacentElement('afterend',b);sel._cs=b;
+  b.addEventListener('click',e=>{e.preventDefault();e.stopPropagation();csOpen(sel)});
+ }
+ const t=csLabel(sel),v=b.firstChild;if(v.textContent!==t)v.textContent=t;
+ b.disabled=sel.disabled;
+}
+function csAll(){document.querySelectorAll('select').forEach(csEnh)}
+function csOpen(sel){
+ csClose();
+ const host=$('#dlg')&&$('#dlg').open?$('#dlg'):document.body;
+ const ttl=(sel.closest('label')&&sel.closest('label').firstChild&&sel.closest('label').firstChild.textContent.trim())||sel.getAttribute('aria-label')||'اختيار';
+ const ov=document.createElement('div');ov.className='cs-ov';ov.id='csov';
+ ov.innerHTML='<div class="cs-sh" role="listbox"><div class="cs-hd"><b>'+esc(ttl)+'</b><button type="button" class="cs-x">إغلاق</button></div><div class="cs-ls"></div></div>';
+ const ls=ov.querySelector('.cs-ls');
+ [...sel.options].forEach((o,i)=>{const x=document.createElement('button');x.type='button';x.className='cs-o'+(i===sel.selectedIndex?' on':'');x.disabled=o.disabled;x.innerHTML='<span>'+esc(o.textContent)+'</span><i class="ck">✓</i>';
+  x.onclick=()=>{csClose();if(sel.selectedIndex!==i){sel.selectedIndex=i;sel.dispatchEvent(new Event('input',{bubbles:true}));sel.dispatchEvent(new Event('change',{bubbles:true}))}csEnh(sel)};ls.appendChild(x)});
+ ov.addEventListener('click',e=>{if(e.target===ov||e.target.classList.contains('cs-x'))csClose()});
+ ov.addEventListener('cancel',csClose);
+ host.appendChild(ov);requestAnimationFrame(()=>{ov.classList.add('in');const on=ls.querySelector('.on');if(on)on.scrollIntoView({block:'center'})});
+}
+function csClose(){const o=$('#csov');if(o)o.remove()}
+document.addEventListener('keydown',e=>{if(e.key==='Escape'&&$('#csov')){e.stopPropagation();e.preventDefault();csClose()}},true);
+new MutationObserver(()=>csAll()).observe(document.body,{childList:true,subtree:true});
+document.addEventListener('change',e=>{if(e.target.tagName==='SELECT')csEnh(e.target)},true);
+csAll();
 </script>
 </body>
 </html>
