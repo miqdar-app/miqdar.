@@ -112,6 +112,17 @@ h1{color:#6B4F33}
 .ls{width:min(230px,75%);display:block;margin:0 auto}
 .mt{min-width:640px}.mt td{vertical-align:middle}.mt td:first-child{white-space:normal;min-width:140px}.mt small{display:block;color:var(--mu);font-size:11px;font-weight:400}.ac{white-space:nowrap}.mvs{width:96px;padding:4px;margin:0;font-size:12px}
 .tw{overflow-x:auto}.tbl{border-collapse:collapse;width:100%;font-size:13px;min-width:540px}.tbl th,.tbl td{border-bottom:1px solid var(--bd);padding:8px 6px;text-align:center}.tbl th{background:var(--m1);color:var(--g2)}.tbl td:first-child{text-align:right;white-space:nowrap}.tbl td.its{text-align:right;font-size:12px;color:var(--mu);min-width:150px}.tbl .tt td{font-weight:800;background:var(--m2)}.tbl.sum{min-width:0;font-size:12.5px}.tbl.sum th,.tbl.sum td{padding:9px 3px}.tbl.sum td.gn{display:table-cell;text-align:right;white-space:normal;min-width:104px}.tbl.sum td.gn b{display:block;font-size:13px}.tbl.sum td.gn small{display:block;color:var(--mu);font-size:11px;font-weight:400;margin-top:2px}.tbl.sum .chv{float:left;color:var(--g2);font-size:14px;margin-right:4px}.tbl.sum tr.sg{cursor:pointer}.tbl.sum tr.sg.op td{background:var(--m2)}.tbl.sum tr.sx td{background:var(--m2);text-align:right;padding:4px 8px 12px}.schips{display:flex;flex-wrap:wrap;gap:6px}.schip{background:#fff;border:1px solid var(--bd);border-radius:999px;padding:4px 10px;font-size:12px;color:var(--tx)}.nochip,.unas{font-size:12px;color:var(--mu);margin-top:4px}.hint{font-size:12px;color:var(--mu);margin:2px 0 8px}button.xs{font-size:12px;padding:6px 12px;width:auto}
+.pay{background:var(--m1);border:1px solid var(--bd);border-radius:16px;padding:12px;margin:8px 0 12px}
+.jn{font-size:26px;font-weight:800;letter-spacing:1px;color:var(--g2);text-align:center;direction:ltr;margin:6px 0;word-break:break-all}
+.jnm{text-align:center;color:var(--mu);font-size:13px;margin-bottom:6px}
+.ok2{color:var(--g2);font-weight:700;font-size:14px;margin-top:8px}
+.codev{font-family:ui-monospace,Menlo,Consolas,monospace;font-weight:800;font-size:17px;letter-spacing:2px;direction:ltr;display:inline-block;color:var(--g2)}
+.bd.dl{background:#E8EDF7;color:#44587F}.bd.nw{background:#FCEFD6;color:#9A6A1E}
+button.xs2{padding:6px 10px;font-size:12px}
+.toast{position:fixed;left:50%;bottom:calc(150px + env(safe-area-inset-bottom,0px));transform:translateX(-50%);background:#3a3a2c;color:#fff;padding:9px 16px;border-radius:999px;font-size:13px;z-index:300;max-width:88vw;text-align:center}
+dialog#sdlg{max-height:92vh;overflow:auto}
+.sgrp{display:flex;gap:6px;flex-wrap:wrap;margin:6px 0;align-items:center}
+
 #nav{position:fixed!important;bottom:0;left:0;right:0}
 .cs-ls{padding-bottom:calc(95px + env(safe-area-inset-bottom,0px))!important;overscroll-behavior:contain}
 .cs-sh{max-height:80vh!important}
@@ -120,6 +131,7 @@ body{touch-action:manipulation;overscroll-behavior-x:none}
 #app{max-width:560px;padding-bottom:calc(110px + var(--bdg) + env(safe-area-inset-bottom,0px))!important}
 #app>*:not(.top):not(.sb),.card{max-width:100%}
 #app .top,#app .sb{max-width:none;width:auto}
+.tw{position:relative}
 .fi{flex-wrap:wrap}.fi>div:first-child{flex:1 1 150px;min-width:0}.fi>div:last-child{flex:0 1 auto;max-width:100%}.fi b,.fi small{overflow-wrap:break-word}
 .chips{touch-action:pan-x pan-y;-webkit-overflow-scrolling:touch}
 .tw,.schips{touch-action:pan-x pan-y}
@@ -145,7 +157,7 @@ button.csel{display:flex;align-items:center;justify-content:space-between;gap:8p
 .csel .cv{overflow:hidden;text-overflow:ellipsis;white-space:nowrap}
 button.csel.sm{width:104px;margin:0;padding:7px 8px;font-size:12px}
 .pick .csel{margin:0;min-width:0}
-.cs-n{position:absolute!important;opacity:0!important;pointer-events:none!important;width:1px!important;height:1px!important;margin:0!important;padding:0!important;border:0!important}
+.cs-n{position:fixed!important;left:0!important;top:0!important;opacity:0!important;pointer-events:none!important;width:1px!important;height:1px!important;margin:0!important;padding:0!important;border:0!important}
 .cs-ov{position:fixed;inset:0;z-index:200;background:rgba(60,48,30,.4);display:flex;align-items:flex-end;justify-content:center;opacity:0;transition:opacity .18s}
 .cs-ov.in{opacity:1}
 .cs-sh{width:100%;max-width:560px;max-height:72vh;background:#FFFDF8;border-radius:24px 24px 0 0;border:1px solid var(--bd);box-shadow:0 -10px 30px rgba(110,85,45,.25);display:flex;flex-direction:column;transform:translateY(24px);transition:transform .2s;padding-bottom:env(safe-area-inset-bottom,0px)}
@@ -311,6 +323,7 @@ h1{color:#3F5A2B}
  <div class="err" id="a-e"></div>
  <div class="acts"><button id="a-ok">حفظ الصنف</button><button class="s" id="a-no">إلغاء</button></div>
 </dialog>
+<dialog id="sdlg"></dialog>
 <script>
 // نسخة الصفحة الأصلية قبل أي رسم: تُستخدم لتوليد ملف كامل محدّث من الإدارة
 const PAGE0='<!DOCTYPE html>\n'+document.documentElement.outerHTML;
@@ -444,7 +457,7 @@ async function pubNow(){if(A.sess!=='admin'||!ADM_PASS)return;const sig=catSig()
   else cloudSet('تعذّر الحفظ في السحابة: '+(ERRM[r&&r.err]||(r&&r.err)||'خطأ'),0)}
  catch(x){cloudSet('تعذّر الاتصال بالسحابة؛ لم يُحفظ آخر تعديل. سيُعاد الحفظ عند التعديل التالي.',0)}}
 const subToU=x=>mkU({id:x.id,name:x.name,phone:x.phone,user:x.code,pass:x.code,active:x.active,dev:x.device_id||'',devAt:x.device_bound_at?Date.parse(x.device_bound_at):0,exp:x.expires_at?Date.parse(x.expires_at):0,months:x.months,mig:true});
-async function admRefresh(){const r=await rpc('admin_list_subs',{p_admin:ADM_PASS});if(r&&r.ok){A.users=r.subs.map(x=>Object.assign(subToU(x),{act:x.activated_at,seen:x.last_seen}));try{lsSet(AK,JSON.stringify(A))}catch(e){}}return r}
+async function admRefresh(){const r=await rpc('admin_list_subs',{p_admin:ADM_PASS});try{const q=await rpc('admin_list_requests',{p_admin:ADM_PASS});if(q&&q.ok){reqs=q.requests||[];reqErr=''}}catch(e){reqErr='sql'}loadPay();if(r&&r.ok){A.users=r.subs.map(x=>Object.assign(subToU(x),{act:x.activated_at,seen:x.last_seen,dlv:!!x.delivered,src:x.source||'manual'}));try{lsSet(AK,JSON.stringify(A))}catch(e){}}return r}
 async function adminSync(){if(!ADM_PASS)return;
  try{const c=await rpc('admin_get_catalog',{p_admin:ADM_PASS});if(!c||!c.ok){cloudSet('تعذّر قراءة السحابة: '+(ERRM[c&&c.err]||''),0);return}
   const had=!!((A.foods||[]).length||(A.hidden||[]).length||((A.cfg.groups||[]).length+(A.cfg.types||[]).length)),ov=cat2ov(c);
@@ -514,6 +527,7 @@ function pLogin(){return `<div class="lgw"><div class="lgc"><svg class="bowl" vi
  <label class="f">اسم المستخدم (للمشرف فقط)<input id="l-u" autocomplete="username" autocapitalize="none"></label>
  <label class="f">كود الاشتراك / كلمة المرور<input id="l-p" type="password" autocomplete="current-password"></label>
  <div class="err" id="l-e"></div><button class="full" data-act="login">دخول</button>
+  <button class="s full" data-act="subopen" style="margin-top:10px">💳 اشتراك جديد</button>
  <details style="margin-top:12px;text-align:right;color:var(--mu);font-size:14px"><summary>تفعيل الحساب بكود الاشتراك</summary><textarea id="l-c" placeholder="الصقي كود التفعيل الخاص بكِ هنا..." style="direction:ltr;font-size:12px"></textarea><button class="s full" data-act="impc">تفعيل الحساب</button></details>
  <div class="tg">غذاؤك محسوب، واختياراتك أذكى</div></div></div>`}
 const fdate=t=>t?new Date(t).toLocaleDateString('ar',{year:'numeric',month:'long',day:'numeric'}):'';
@@ -528,9 +542,9 @@ function pAdm0(){
  <div class="mh">تبدأ المدة من أول تفعيل للكود على جهاز الطالبة، ويُقفل الكود على ذلك الجهاز.</div>
  <div class="err" id="u-e"></div><div class="acts"><button data-act="saveu">${admEdit?'حفظ التعديل':'إضافة الطالبة'}</button>${admEdit?'<button class="s" data-act="cancelu">إلغاء</button>':''}</div></div>
  <div class="card"><h2>الاشتراكات (${A.users.length})</h2><button class="s full" data-act="refu" style="margin-bottom:8px">تحديث القائمة من السحابة</button>
- ${A.users.length?A.users.map(u=>{const now=Date.now(),ex=u.exp&&u.exp<now,st=!u.active?['موقوف','background:var(--rd2);color:#B04A43']:ex?['منتهٍ','background:var(--rd2);color:#B04A43']:['مفعّل',''];
-  return `<div class="fi"><div><b>${esc(u.name)}</b><span class="bd" style="${st[1]}">${st[0]}</span><small>${esc(u.phone)} • الكود: <span dir="ltr" style="font-weight:700">${esc(u.pass)}</span></small><small>${u.exp?(ex?'انتهى في ':'ينتهي في ')+fdate(u.exp)+(ex?'':' (متبقي '+Math.max(0,Math.ceil((u.exp-now)/864e5))+' يوم)'):'لم يُفعَّل بعد — تبدأ المدة ('+(u.months||2)+' شهر) من أول تفعيل'}</small><small>${u.dev?'🔒 مرتبط بجهاز منذ '+fdate(u.devAt):'🔓 غير مرتبط بجهاز'}${u.seen?' • آخر ظهور '+fdate(u.seen):''}</small></div>
- <div style="display:flex;gap:4px;flex-wrap:wrap;justify-content:flex-end"><button class="s" data-act="editu" data-id="${u.id}">تعديل</button>${u.dev?`<button class="s" data-act="unb" data-id="${u.id}">فك ارتباط الجهاز</button>`:''}<button class="s" data-act="renu" data-id="${u.id}">تجديد</button><button class="s" data-act="togu" data-id="${u.id}">${u.active?'إيقاف':'تفعيل'}</button><button class="s" data-act="newc" data-id="${u.id}">كود جديد</button><button class="r" data-act="delu" data-id="${u.id}">حذف</button></div></div>`}).join(''):'<div style="color:var(--mu);text-align:center;padding:10px">لا توجد اشتراكات بعد.</div>'}</div>
+ ${A.users.length?A.users.filter(u=>!(u.src==='bulk'&&!u.exp&&!u.name)).map(u=>{const now=Date.now(),ex=u.exp&&u.exp<now,st=!u.active?['موقوف','background:var(--rd2);color:#B04A43']:ex?['منتهٍ','background:var(--rd2);color:#B04A43']:['مفعّل',''];
+  return `<div class="fi"><div><b>${esc(u.name)||'(بدون اسم)'}</b><span class="bd" style="${st[1]}">${st[0]}</span><small>${esc(u.phone)} • الكود: <span dir="ltr" style="font-weight:700">${esc(u.pass)}</span></small><small>${u.exp?(ex?'انتهى في ':'ينتهي في ')+fdate(u.exp)+(ex?'':' (متبقي '+Math.max(0,Math.ceil((u.exp-now)/864e5))+' يوم)'):'لم يُفعَّل بعد — تبدأ المدة ('+(u.months||2)+' شهر) من أول تفعيل'}</small><small>${u.dev?'🔒 مرتبط بجهاز منذ '+fdate(u.devAt):'🔓 غير مرتبط بجهاز'}${u.seen?' • آخر ظهور '+fdate(u.seen):''}</small></div>
+ <div style="display:flex;gap:4px;flex-wrap:wrap;justify-content:flex-end"><button class="s" data-act="editu" data-id="${u.id}">تعديل</button>${u.dev?`<button class="s" data-act="unb" data-id="${u.id}">فك ارتباط الجهاز</button>`:''}${u.exp?'':`<button class="s" data-act="cmsg" data-id="${u.id}">رسالة الكود</button>`}<button class="s" data-act="renu" data-id="${u.id}">تجديد</button><button class="s" data-act="togu" data-id="${u.id}">${u.active?'إيقاف':'تفعيل'}</button><button class="s" data-act="newc" data-id="${u.id}">كود جديد</button><button class="r" data-act="delu" data-id="${u.id}">حذف</button></div></div>`}).join(''):'<div style="color:var(--mu);text-align:center;padding:10px">لا توجد اشتراكات بعد.</div>'}</div>
  <div class="card"><h2>سجل النشاط</h2><button class="s full" data-act="logs">${admLogs?'تحديث السجل':'عرض آخر النشاطات'}</button>${admLogs?(admLogs.length?`<div style="margin-top:8px;max-height:260px;overflow:auto">${admLogs.map(l=>`<div class="fi" style="padding:6px 0"><div><b>${esc(l.name||'—')}</b><span class="bd">${esc(l.action)}</span><small>${fdate(l.created_at)} ${new Date(l.created_at).toLocaleTimeString('ar',{hour:'2-digit',minute:'2-digit'})}</small></div></div>`).join('')}</div>`:'<div class="mh">لا يوجد نشاط بعد.</div>'):''}</div>`}
 /* بطاقة الإعلان: رسم مباشر على canvas (بدون مكتبات أو صور خارجية) */
 const AD_F="Cairo,'Reem Kufi',Tahoma,'Segoe UI',Arial,sans-serif",AD_PH='[رقم التواصل / حسابكِ]';
@@ -592,7 +606,90 @@ function adCard(){return `<div class="card"><h2>بطاقة إعلان التطب
  <canvas id="adc" style="display:block;width:100%;max-width:340px;margin:10px auto;border-radius:18px;box-shadow:0 8px 22px -12px rgba(110,85,45,.4)"></canvas>
  <button class="full" data-act="adl">تحميل الإعلان كصورة</button><div class="f" style="margin-top:14px">افتحي الصفحات الحقيقية للتطبيق للاطلاع عليها أو لتصويرها</div><div class="opts" style="display:flex;flex-wrap:wrap;gap:6px">${[['home','الرئيسية'],['foods','الأطعمة'],['meals','الوجبات'],['sum','الملخص'],['me','حسابي']].map(a=>`<button type="button" class="s" data-act="nav" data-p="${a[0]}">${a[1]}</button>`).join('')}</div>${navigator.canShare?'<button class="s full" style="margin-top:8px" data-act="ads">مشاركة الصورة</button>':''}</div>`}
 
-function pAdm(){return pAdm0()+admExtra()+adCard()}
+/* ===== الاشتراك: طلب من الطالبة + طلبات/أكواد/إعدادات في لوحة المشرف ===== */
+let reqs=[],reqErr='',payInfo=null,bkN=25;
+try{payInfo=JSON.parse(lsGet('miqdar_pay_v1')||'null')}catch(e){}
+async function loadPay(){try{const r=await rpc('get_pay_info',{});if(r&&r.ok){const ch=JSON.stringify(r)!==JSON.stringify(payInfo);payInfo=r;try{lsSet('miqdar_pay_v1',JSON.stringify(r))}catch(e){}if(ch&&page==='adm'&&!(document.activeElement&&document.activeElement.closest&&document.activeElement.closest('#app')&&/INPUT|TEXTAREA/.test(document.activeElement.tagName)))rr()}}catch(e){}return payInfo}
+function toast(m){const o=document.querySelector('.toast');if(o)o.remove();const t=document.createElement('div');t.className='toast';t.textContent=m;document.body.appendChild(t);setTimeout(()=>t.remove(),2200)}
+async function copyTxt(t){try{if(navigator.clipboard&&window.isSecureContext){await navigator.clipboard.writeText(t);return true}}catch(e){}
+ try{const a=document.createElement('textarea');a.value=t;a.setAttribute('readonly','');a.style.cssText='position:fixed;top:0;left:0;opacity:0';document.body.appendChild(a);a.focus();a.select();a.setSelectionRange(0,t.length);const ok=document.execCommand('copy');a.remove();return ok}catch(e){return false}}
+const appUrl=()=>((payInfo&&payInfo.app_url)||'').trim()||location.origin+location.pathname;
+function codeMsg(code,name){return 'مرحباً '+(name?name+' ':'')+'🌿\nتم قبول اشتراككِ في تطبيق مِقدار | MIQDAR ✅\n\n🔑 كود الاشتراك: '+code+'\n⏳ مدة الاشتراك: شهران (تبدأ من لحظة أول تفعيل للكود، وليس من تاريخ إرساله)\n\nطريقة التفعيل:\n1) افتحي الرابط: '+appUrl()+'\n2) اكتبي الكود في خانة «كود الاشتراك / كلمة المرور» ثم اضغطي «دخول».\n\n⚠️ الكود يعمل على جهاز واحد فقط، فلا تشاركيه مع أحد.'}
+function waLink(msg,phone){const d=String(phone||'').replace(/[^0-9]/g,'');return 'https://wa.me/'+((d.length>=10&&d[0]!=='0')?d:'')+'?text='+encodeURIComponent(msg)}
+const markD=(id,f)=>admAct(()=>rpc('admin_mark_delivered',{p_admin:ADM_PASS,p_id:id,p_flag:f}));
+/* ---- نافذة الاشتراك للطالبة ---- */
+function subHTML(done){const pi=payInfo||{},num=(pi.jeeb_number||'').trim();
+ if(done)return `<h2>تم إرسال طلبك ✅</h2><div class="qres"><small>سنراجع الحوالة ثم يصلك كود الاشتراك على رقم التواصل الذي كتبتِه. بعد وصوله ارجعي لصفحة الدخول واكتبيه.</small></div><div class="acts"><button data-act="sclose">تم</button></div>`;
+ return `<h2>الاشتراك في مِقدار</h2>
+ <div class="pay"><div class="mh">١) حوّلي رسوم الاشتراك${pi.price?' ('+esc(pi.price)+')':''} إلى حساب «جيب»:</div>
+ ${num?`<div class="jn" id="jn">${esc(num)}</div>${pi.jeeb_name?`<div class="jnm">باسم: ${esc(pi.jeeb_name)}</div>`:''}<div class="acts"><button data-act="jcopy">نسخ الرقم</button><button class="s" data-act="jopen">فتح تطبيق جيب</button></div>`:`<div class="warn">لم يُضف رقم حساب جيب بعد. تواصلي مع الأدمن لمعرفة رقم التحويل.</div>`}
+ <div class="ok2" id="jmsg"></div></div>
+ <div class="mh">٢) بعد التحويل اكتبي بياناتك ليصلك الكود:</div>
+ <label class="f">اسم الطالبة<input id="s-n" autocomplete="name"></label>
+ <label class="f">رقم التواصل (واتساب)<input id="s-c" inputmode="tel" autocomplete="tel" style="direction:ltr;text-align:left" placeholder="مثال: 967777123456"></label>
+ <label class="f">رقم الحوالة / مرجعها (اختياري)<input id="s-r" style="direction:ltr;text-align:left"></label>
+ <div class="err" id="s-e"></div><div class="acts"><button data-act="sreq">إرسال الطلب</button><button class="s" data-act="sclose">إغلاق</button></div>`}
+function subOpen(){const d=$('#sdlg');d.innerHTML=subHTML(false);dOpen(d);loadPay().then(()=>{if(d.open&&$('#s-n')&&!$('#s-n').value&&!$('#s-c').value)d.innerHTML=subHTML(false)})}
+async function jcopy(){const n=((payInfo&&payInfo.jeeb_number)||'').trim();if(!n)return false;const ok=await copyTxt(n);toast(ok?'تم نسخ الرقم ✓':'تعذّر النسخ، انسخيه يدوياً');return ok}
+async function jopen(){const lk=((payInfo&&payInfo.jeeb_link)||'').trim(),m=$('#jmsg');await jcopy();
+ if(lk){m.textContent='جارٍ فتح جيب… إن لم يفتح تلقائياً افتحي التطبيق يدوياً والصقي الرقم (تم نسخه).';try{location.href=lk}catch(e){}setTimeout(()=>{if(!document.hidden&&m)m.textContent='لم يفتح التطبيق تلقائياً. افتحي تطبيق «جيب» يدوياً ثم الصقي الرقم المنسوخ في خانة التحويل.'},2200)}
+ else m.textContent='تم نسخ الرقم ✓ افتحي تطبيق «جيب» من جوالك ثم الصقي الرقم في خانة التحويل.'}
+const SERR={name:'اكتبي اسمك (حرفان على الأقل).',contact:'اكتبي رقم تواصل صحيح (6 أرقام على الأقل).',too_many:'أرسلتِ عدة طلبات اليوم. انتظري موافقة الأدمن.',busy:'الخادم مشغول الآن، أعيدي المحاولة بعد قليل.'};
+async function subSend(b){const e=$('#s-e'),n=$('#s-n').value.trim(),c=$('#s-c').value.trim(),r=$('#s-r').value.trim();e.style.color='var(--rd)';
+ if(n.length<2){e.textContent=SERR.name;return}if(c.replace(/[^0-9]/g,'').length<6){e.textContent=SERR.contact;return}
+ b.disabled=true;b.textContent='جارٍ الإرسال…';
+ try{const q=await rpc('submit_request',{p_name:n,p_contact:c,p_ref:r});if(q&&q.ok){$('#sdlg').innerHTML=subHTML(true)}else{e.textContent=SERR[q&&q.err]||'تعذّر إرسال الطلب.'}}
+ catch(x){e.textContent=NETM}finally{b.disabled=false;b.textContent='إرسال الطلب'}}
+/* ---- لوحة المشرف ---- */
+const fshort=t=>t?new Date(t).toLocaleDateString('ar',{month:'short',day:'numeric'}):'';
+function pSubs(){
+ if(reqErr==='sql')return `<div class="card"><h2>الاشتراك والأكواد</h2><div class="warn">لم يُشغَّل ملف قاعدة البيانات الجديد بعد (miqdar-supabase-subscribe.sql). شغّليه مرة واحدة في Supabase ثم أعيدي الدخول لتظهر طلبات الاشتراك وتوليد الأكواد.</div></div>`;
+ const pi=payInfo||{},byId=id=>A.users.find(u=>u.id===id);
+ const nw=reqs.filter(q=>q.status==='new'),rest=reqs.filter(q=>q.status!=='new');
+ const reqRow=q=>{const u=q.sub_id?byId(q.sub_id):null;
+  const st=q.status==='new'?'<span class="bd nw">جديد</span>':q.status==='approved'?'<span class="bd">تمت الموافقة</span>':'<span class="bd" style="background:var(--rd2);color:#B04A43">مرفوض</span>';
+  return `<div class="fi" style="align-items:flex-start"><div><b>${esc(q.name)}</b>${st}<small>📞 <span dir="ltr">${esc(q.contact)}</span>${q.ref?' • مرجع الحوالة: <span dir="ltr">'+esc(q.ref)+'</span>':''}</small><small>${fshort(q.created_at)}</small>${u?`<small>الكود: <span class="codev">${esc(u.pass)}</span> ${u.dlv?'<span class="bd dl">سُلِّم ✓</span>':'<span class="bd nw">لم يُسلَّم</span>'}</small>`:''}</div>
+  <div style="display:flex;gap:4px;flex-wrap:wrap;justify-content:flex-end">${q.status==='new'?`<button data-act="rq-ok" data-id="${q.id}">موافقة وتوليد الكود</button><button class="r" data-act="rq-no" data-id="${q.id}">رفض</button>`:''}
+  ${u?`<button class="s xs2" data-act="ccode" data-id="${u.id}">نسخ الكود</button><button class="s xs2" data-act="cmsg" data-id="${u.id}">نسخ رسالة الكود</button><button class="s xs2" data-act="cwa" data-id="${u.id}" data-ph="${esc(q.contact)}">واتساب</button>`:''}
+  ${q.status!=='new'?`<button class="r xs2" data-act="rq-del" data-id="${q.id}">حذف</button>`:''}</div></div>`};
+ const pool=A.users.filter(u=>!u.exp&&!u.name&&u.src==='bulk'),av=pool.filter(u=>!u.dlv),dl=pool.filter(u=>u.dlv);
+ const codeRow=u=>`<div class="fi" style="padding:8px 0"><div><span class="codev">${esc(u.pass)}</span> ${u.dlv?'<span class="bd dl">سُلِّم ✓</span>':'<span class="bd nw">متاح</span>'}</div>
+  <div style="display:flex;gap:4px;flex-wrap:wrap;justify-content:flex-end"><button class="xs2" data-act="ccode" data-id="${u.id}">نسخ</button><button class="s xs2" data-act="cmsg" data-id="${u.id}">رسالة</button><button class="s xs2" data-act="cwa" data-id="${u.id}">واتساب</button>${u.dlv?`<button class="s xs2" data-act="dlv" data-id="${u.id}" data-f="0">إلغاء التسليم</button>`:`<button class="s xs2" data-act="dlv" data-id="${u.id}" data-f="1">تم التسليم</button>`}</div></div>`;
+ return `<div class="card"><h2>طلبات الاشتراك (${nw.length} جديد)</h2><div class="qres"><small>تصل هنا طلبات الطالبات بعد تحويلهن عبر جيب. تحققي من الحوالة في تطبيق جيب ثم اضغطي «موافقة» فيُولَّد كود من 6 خانات جاهز للإرسال.</small></div>
+  ${reqs.length?nw.map(reqRow).join('')+(rest.length?`<details style="margin-top:8px"><summary style="color:var(--mu);font-size:14px">الطلبات السابقة (${rest.length})</summary>${rest.map(reqRow).join('')}</details>`:''):'<div style="color:var(--mu);text-align:center;padding:10px">لا توجد طلبات بعد.</div>'}</div>
+ <div class="card"><h2>توليد أكواد دفعة واحدة</h2><div class="qres"><small>تُحفظ الأكواد غير مستخدمة، ولا تبدأ مدة الشهرين إلا عند أول تفعيل من الطالبة. عند نسخ كود يُعلَّم «سُلِّم» حتى لا يُرسل لطالبتين.</small></div>
+  <div class="sgrp">${[10,25,50].map(n=>`<button type="button" class="chp${bkN===n?' on':''}" data-act="bq" data-v="${n}">${n}</button>`).join('')}<label class="adjin"><input type="number" id="bk-n" inputmode="numeric" min="1" max="100" value="${bkN}"><span>كوداً</span></label></div>
+  <button class="full" data-act="bulk" style="margin-top:8px">توليد الأكواد</button>
+  <div class="mh" style="margin-top:12px">متاحة: <b>${av.length}</b> • مُسلَّمة غير مفعَّلة: <b>${dl.length}</b></div>
+  ${av.length?av.map(codeRow).join(''):'<div style="color:var(--mu);text-align:center;padding:8px">لا توجد أكواد متاحة. ولّدي دفعة جديدة.</div>'}
+  ${dl.length?`<details style="margin-top:8px"><summary style="color:var(--mu);font-size:14px">الأكواد المسلَّمة (${dl.length})</summary>${dl.map(codeRow).join('')}</details>`:''}</div>
+ <div class="card"><h2>إعدادات الدفع عبر جيب</h2><div class="qres"><small>هذه البيانات تظهر للطالبة في نافذة «اشتراك جديد».</small></div>
+  <label class="f">رقم حساب جيب<input id="st-n" inputmode="numeric" style="direction:ltr;text-align:left" value="${esc(pi.jeeb_number||'')}"></label>
+  <label class="f">اسم صاحب الحساب (اختياري)<input id="st-nm" value="${esc(pi.jeeb_name||'')}"></label>
+  <label class="f">مبلغ الاشتراك (اختياري، يظهر للطالبة)<input id="st-p" value="${esc(pi.price||'')}" placeholder="مثال: 3000 ريال"></label>
+  <label class="f">رابط فتح تطبيق جيب (اختياري)<input id="st-l" style="direction:ltr;text-align:left" value="${esc(pi.jeeb_link||'')}" placeholder="رابط التطبيق أو رابط المتجر"></label>
+  <label class="f">رابط التطبيق للطالبات (يظهر في رسالة الكود)<input id="st-u" style="direction:ltr;text-align:left" value="${esc(pi.app_url||'')}"></label>
+  <button class="full" data-act="stsave">حفظ الإعدادات</button><div class="err" id="st-e"></div></div>`}
+function pAdm(){return pAdm0()+pSubs()+admExtra()+adCard()}
+function subAct(b){const a=b.dataset.act,id=b.dataset.id,u=id?A.users.find(x=>x.id===id):null;
+ if(a==='subopen'){subOpen();return true}
+ if(a==='sclose'){dClose($('#sdlg'));return true}
+ if(a==='jcopy'){jcopy();return true}
+ if(a==='jopen'){jopen();return true}
+ if(a==='sreq'){subSend(b);return true}
+ if(a==='rq-ok'){admAct(async()=>{const r=await rpc('admin_approve_request',{p_admin:ADM_PASS,p_id:id,p_months:2});if(r&&r.ok)toast('تمت الموافقة وتوليد الكود ✓');return r});return true}
+ if(a==='rq-no'){arm(b,()=>admAct(()=>rpc('admin_reject_request',{p_admin:ADM_PASS,p_id:id})));return true}
+ if(a==='rq-del'){arm(b,()=>admAct(()=>rpc('admin_delete_request',{p_admin:ADM_PASS,p_id:id})));return true}
+ if(a==='ccode'&&u){copyTxt(u.pass).then(ok=>{toast(ok?'تم نسخ الكود ✓':'تعذّر النسخ');if(ok&&!u.dlv)markD(u.id,true)});return true}
+ if(a==='cmsg'&&u){copyTxt(codeMsg(u.pass,u.name)).then(ok=>{toast(ok?'تم نسخ رسالة الكود ✓':'تعذّر النسخ');if(ok&&!u.dlv)markD(u.id,true)});return true}
+ if(a==='cwa'&&u){window.open(waLink(codeMsg(u.pass,u.name),b.dataset.ph||u.phone),'_blank');if(!u.dlv)markD(u.id,true);return true}
+ if(a==='dlv'&&u){markD(u.id,b.dataset.f==='1');return true}
+ if(a==='bq'){bkN=+b.dataset.v;rr();return true}
+ if(a==='bulk'){const n=Math.max(1,Math.min(100,Math.round(+($('#bk-n').value)||bkN)));bkN=n;admAct(async()=>{const r=await rpc('admin_bulk_create',{p_admin:ADM_PASS,p_count:n,p_months:2});if(r&&r.ok)toast('تم توليد '+r.made+' كوداً ✓');return r});return true}
+ if(a==='stsave'){const m={jeeb_number:'#st-n',jeeb_name:'#st-nm',price:'#st-p',jeeb_link:'#st-l',app_url:'#st-u'},e=$('#st-e');b.disabled=true;
+  (async()=>{try{for(const [k,sel] of Object.entries(m)){const r=await rpc('admin_set_setting',{p_admin:ADM_PASS,p_key:k,p_value:$(sel).value});if(!r||!r.ok)throw new Error('x')}await loadPay();toast('تم حفظ الإعدادات ✓')}catch(x){e.style.color='var(--rd)';e.textContent='تعذّر الحفظ. تأكدي من تشغيل ملف SQL الجديد.'}finally{b.disabled=false}})();return true}
+ return false}
+document.addEventListener('input',e=>{if(e.target&&e.target.id==='bk-n'){const v=Math.round(+e.target.value);if(v>=1&&v<=100)bkN=v}});
 /* كود التفعيل المختصر: بيانات مصفوفية قصيرة + ضغط LZW خفيف؛ والأكواد الطويلة القديمة ما زالت تُقرأ كما هي */
 const b64u=b=>{let t='';for(let i=0;i<b.length;i+=8192)t+=String.fromCharCode.apply(null,b.subarray(i,i+8192));return btoa(t).replace(/\+/g,'-').replace(/\//g,'_').replace(/=+$/,'')};
 const unb64=t=>{let c=String(t).replace(/-/g,'+').replace(/_/g,'/');while(c.length%4)c+='=';const r=atob(c),b=new Uint8Array(r.length);for(let i=0;i<r.length;i++)b[i]=r.charCodeAt(i);return b};
@@ -988,6 +1085,7 @@ document.addEventListener('click',e=>{
  {const x=e.target.closest('[data-act=sx],[data-act=sxa]');if(x){if(x.dataset.act==='sxa'){const all=Object.keys(GR).every(g=>sumOpen[g]);Object.keys(GR).forEach(g=>sumOpen[g]=!all)}else sumOpen[x.dataset.g]=!sumOpen[x.dataset.g];rr();return}}
  if(!e.target.closest('.cs-w'))document.querySelectorAll('.cs-p').forEach(p=>p.classList.add('hide'));
  const b=e.target.closest('[data-act]');if(!b)return;const a=b.dataset.act;
+ if(subAct(b))return;
  if(a==='cso'){const p=$('#csp-'+b.dataset.g);if(!p)return;const sh=p.classList.contains('hide');document.querySelectorAll('.cs-p').forEach(x=>x.classList.add('hide'));if(sh){p.classList.remove('hide');const qi=p.querySelector('.cs-q');qi.value='';p.querySelectorAll('.cs-i').forEach(x=>x.classList.remove('hide'));p.querySelector('.cs-e').classList.add('hide');const on=p.querySelector('.cs-i.on');if(on)on.scrollIntoView({block:'nearest'});setTimeout(()=>{try{p.scrollIntoView({block:'nearest',behavior:'smooth'})}catch(x){}},30)}return}
  if(a==='csp'){const g=b.dataset.g,id=b.dataset.id;pk[g]=id;const sl=$('#sel-'+g);if(sl)sl.value=id;const f=byId(id),bt=$('#csb-'+g);if(bt&&f)bt.innerHTML=csLab(f)+bt.querySelector('svg').outerHTML;const p=$('#csp-'+g);p.querySelectorAll('.cs-i').forEach(x=>x.classList.toggle('on',x===b));p.classList.add('hide');{const mp=$('#mac-'+g);if(mp&&!mp.classList.contains('hide'))macFill(g)}return}
  if(a==='nav'){page=b.dataset.p;open=null;anim=true;if(page==='me')editing=!S.profile;qz=null;render();scrollTo(0,0)}
@@ -1057,7 +1155,7 @@ document.addEventListener('click',e=>{
    if(r&&!r.ok&&r.err==='code_taken'){const e=$('#u-e');if(e)e.textContent='هذا الكود مستخدم لاشتراك آخر.';return{ok:false,err:'code_taken',silent:true}}
    if(r&&r.ok)admEdit=null;return r})}
 });
-async function admAct(fn){if(admBusy)return;admBusy=true;try{const r=await fn();if(r&&r.ok===false&&!r.silent){cloudSet('تعذّر التنفيذ: '+(ERRM[r.err]||r.err||''),0)}if(!r||r.ok!==false||!r.silent)await admRefresh()}catch(x){cloudSet('تعذّر الاتصال بالسحابة.',0)}finally{admBusy=false;if(page==='adm')render()}}
+async function admAct(fn){if(admBusy)return;admBusy=true;try{const r=await fn();if(r&&r.ok===false&&!r.silent){cloudSet('تعذّر التنفيذ: '+(ERRM[r.err]||r.err||''),0)}if(!r||r.ok!==false||!r.silent)await admRefresh()}catch(x){cloudSet('تعذّر الاتصال بالسحابة.',0)}finally{admBusy=false;if(page==='adm')rr()}}
 function fillTy(){const G=GR[$('#a-g').value];$('#a-tl').classList.toggle('hide',!G.ty);$('#a-ty').innerHTML=G.ty?Object.entries(G.ty).map(([k,a])=>`<option value="${k}">${a[0]}</option>`).join(''):''}
 function openAdd(id){eid=id||null;const f=id?byId(id):null;
  $('#a-g').innerHTML=Object.entries(GR).map(([k,G])=>`<option value="${k}">${G.n}</option>`).join('');
