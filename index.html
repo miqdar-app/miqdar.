@@ -118,7 +118,8 @@ h1{color:#6B4F33}
 html{-webkit-text-size-adjust:100%;text-size-adjust:100%;overflow-x:hidden}
 body{touch-action:manipulation;overscroll-behavior-x:none}
 #app{max-width:560px;padding-bottom:calc(110px + var(--bdg) + env(safe-area-inset-bottom,0px))!important}
-#app>*,.card{max-width:100%}
+#app>*:not(.top):not(.sb),.card{max-width:100%}
+#app .top,#app .sb{max-width:none;width:auto}
 .fi{flex-wrap:wrap}.fi>div:first-child{flex:1 1 150px;min-width:0}.fi>div:last-child{flex:0 1 auto;max-width:100%}.fi b,.fi small{overflow-wrap:break-word}
 .chips{touch-action:pan-x pan-y;-webkit-overflow-scrolling:touch}
 .tw,.schips{touch-action:pan-x pan-y}
