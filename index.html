@@ -607,7 +607,10 @@ function adCard(){return `<div class="card"><h2>بطاقة إعلان التطب
  <button class="full" data-act="adl">تحميل الإعلان كصورة</button><div class="f" style="margin-top:14px">افتحي الصفحات الحقيقية للتطبيق للاطلاع عليها أو لتصويرها</div><div class="opts" style="display:flex;flex-wrap:wrap;gap:6px">${[['home','الرئيسية'],['foods','الأطعمة'],['meals','الوجبات'],['sum','الملخص'],['me','حسابي']].map(a=>`<button type="button" class="s" data-act="nav" data-p="${a[0]}">${a[1]}</button>`).join('')}</div>${navigator.canShare?'<button class="s full" style="margin-top:8px" data-act="ads">مشاركة الصورة</button>':''}</div>`}
 
 /* ===== الاشتراك: طلب من الطالبة + طلبات/أكواد/إعدادات في لوحة المشرف ===== */
+const DEF_JEEB='8018706',DEF_WA='779500107';
 let reqs=[],reqErr='',payInfo=null,bkN=25;
+const jNum=()=>((payInfo&&payInfo.jeeb_number)||'').trim()||DEF_JEEB;
+const waAdmin=()=>window.open('https://wa.me/967'+DEF_WA+'?text='+encodeURIComponent('مرحباً، أريد الاشتراك في تطبيق مِقدار'),'_blank');
 try{payInfo=JSON.parse(lsGet('miqdar_pay_v1')||'null')}catch(e){}
 async function loadPay(){try{const r=await rpc('get_pay_info',{});if(r&&r.ok){const ch=JSON.stringify(r)!==JSON.stringify(payInfo);payInfo=r;try{lsSet('miqdar_pay_v1',JSON.stringify(r))}catch(e){}if(ch&&page==='adm'&&!(document.activeElement&&document.activeElement.closest&&document.activeElement.closest('#app')&&/INPUT|TEXTAREA/.test(document.activeElement.tagName)))rr()}}catch(e){}return payInfo}
 function toast(m){const o=document.querySelector('.toast');if(o)o.remove();const t=document.createElement('div');t.className='toast';t.textContent=m;document.body.appendChild(t);setTimeout(()=>t.remove(),2200)}
@@ -618,8 +621,8 @@ function codeMsg(code,name){return 'مرحباً '+(name?name+' ':'')+'🌿\nت�
 function waLink(msg,phone){const d=String(phone||'').replace(/[^0-9]/g,'');return 'https://wa.me/'+((d.length>=10&&d[0]!=='0')?d:'')+'?text='+encodeURIComponent(msg)}
 const markD=(id,f)=>admAct(()=>rpc('admin_mark_delivered',{p_admin:ADM_PASS,p_id:id,p_flag:f}));
 /* ---- نافذة الاشتراك للطالبة ---- */
-function subHTML(done){const pi=payInfo||{},num=(pi.jeeb_number||'').trim();
- if(done)return `<h2>تم إرسال طلبك ✅</h2><div class="qres"><small>سنراجع الحوالة ثم يصلك كود الاشتراك على رقم التواصل الذي كتبتِه. بعد وصوله ارجعي لصفحة الدخول واكتبيه.</small></div><div class="acts"><button data-act="sclose">تم</button></div>`;
+function subHTML(done){const pi=payInfo||{},num=jNum();
+ if(done)return `<h2>تم إرسال طلبك ✅</h2><div class="qres"><small>سنراجع الحوالة ثم يصلك كود الاشتراك على رقم التواصل الذي كتبتِه. بعد وصوله ارجعي لصفحة الدخول واكتبيه.</small></div><div class="acts"><button data-act="sclose">تم</button><button class="s" data-act="swa">واتساب الأدمن</button></div>`;
  return `<h2>الاشتراك في مِقدار</h2>
  <div class="pay"><div class="mh">١) حوّلي رسوم الاشتراك${pi.price?' ('+esc(pi.price)+')':''} إلى حساب «جيب»:</div>
  ${num?`<div class="jn" id="jn">${esc(num)}</div>${pi.jeeb_name?`<div class="jnm">باسم: ${esc(pi.jeeb_name)}</div>`:''}<div class="acts"><button data-act="jcopy">نسخ الرقم</button><button class="s" data-act="jopen">فتح تطبيق جيب</button></div>`:`<div class="warn">لم يُضف رقم حساب جيب بعد. تواصلي مع الأدمن لمعرفة رقم التحويل.</div>`}
@@ -628,9 +631,10 @@ function subHTML(done){const pi=payInfo||{},num=(pi.jeeb_number||'').trim();
  <label class="f">اسم الطالبة<input id="s-n" autocomplete="name"></label>
  <label class="f">رقم التواصل (واتساب)<input id="s-c" inputmode="tel" autocomplete="tel" style="direction:ltr;text-align:left" placeholder="مثال: 967777123456"></label>
  <label class="f">رقم الحوالة / مرجعها (اختياري)<input id="s-r" style="direction:ltr;text-align:left"></label>
- <div class="err" id="s-e"></div><div class="acts"><button data-act="sreq">إرسال الطلب</button><button class="s" data-act="sclose">إغلاق</button></div>`}
+ <div class="err" id="s-e"></div><div class="acts"><button data-act="sreq">إرسال الطلب</button><button class="s" data-act="sclose">إغلاق</button></div>
+ <div class="mh" style="margin-top:10px">للمساعدة تواصلي مع الأدمن واتساب: <a href="#" data-act="swa" style="color:var(--g2);font-weight:700"><span dir="ltr">${DEF_WA}</span></a></div>`}
 function subOpen(){const d=$('#sdlg');d.innerHTML=subHTML(false);dOpen(d);loadPay().then(()=>{if(d.open&&$('#s-n')&&!$('#s-n').value&&!$('#s-c').value)d.innerHTML=subHTML(false)})}
-async function jcopy(){const n=((payInfo&&payInfo.jeeb_number)||'').trim();if(!n)return false;const ok=await copyTxt(n);toast(ok?'تم نسخ الرقم ✓':'تعذّر النسخ، انسخيه يدوياً');return ok}
+async function jcopy(){const n=jNum();if(!n)return false;const ok=await copyTxt(n);toast(ok?'تم نسخ الرقم ✓':'تعذّر النسخ، انسخيه يدوياً');return ok}
 async function jopen(){const lk=((payInfo&&payInfo.jeeb_link)||'').trim(),m=$('#jmsg');await jcopy();
  if(lk){m.textContent='جارٍ فتح جيب… إن لم يفتح تلقائياً افتحي التطبيق يدوياً والصقي الرقم (تم نسخه).';try{location.href=lk}catch(e){}setTimeout(()=>{if(!document.hidden&&m)m.textContent='لم يفتح التطبيق تلقائياً. افتحي تطبيق «جيب» يدوياً ثم الصقي الرقم المنسوخ في خانة التحويل.'},2200)}
  else m.textContent='تم نسخ الرقم ✓ افتحي تطبيق «جيب» من جوالك ثم الصقي الرقم في خانة التحويل.'}
@@ -664,7 +668,7 @@ function pSubs(){
   ${av.length?av.map(codeRow).join(''):'<div style="color:var(--mu);text-align:center;padding:8px">لا توجد أكواد متاحة. ولّدي دفعة جديدة.</div>'}
   ${dl.length?`<details style="margin-top:8px"><summary style="color:var(--mu);font-size:14px">الأكواد المسلَّمة (${dl.length})</summary>${dl.map(codeRow).join('')}</details>`:''}</div>
  <div class="card"><h2>إعدادات الدفع عبر جيب</h2><div class="qres"><small>هذه البيانات تظهر للطالبة في نافذة «اشتراك جديد».</small></div>
-  <label class="f">رقم حساب جيب<input id="st-n" inputmode="numeric" style="direction:ltr;text-align:left" value="${esc(pi.jeeb_number||'')}"></label>
+  <label class="f">رقم حساب جيب<input id="st-n" inputmode="numeric" style="direction:ltr;text-align:left" value="${esc(pi.jeeb_number||DEF_JEEB)}"></label>
   <label class="f">اسم صاحب الحساب (اختياري)<input id="st-nm" value="${esc(pi.jeeb_name||'')}"></label>
   <label class="f">مبلغ الاشتراك (اختياري، يظهر للطالبة)<input id="st-p" value="${esc(pi.price||'')}" placeholder="مثال: 3000 ريال"></label>
   <label class="f">رابط فتح تطبيق جيب (اختياري)<input id="st-l" style="direction:ltr;text-align:left" value="${esc(pi.jeeb_link||'')}" placeholder="رابط التطبيق أو رابط المتجر"></label>
@@ -674,6 +678,7 @@ function pAdm(){return pAdm0()+pSubs()+admExtra()+adCard()}
 function subAct(b){const a=b.dataset.act,id=b.dataset.id,u=id?A.users.find(x=>x.id===id):null;
  if(a==='subopen'){subOpen();return true}
  if(a==='sclose'){dClose($('#sdlg'));return true}
+ if(a==='swa'){waAdmin();return true}
  if(a==='jcopy'){jcopy();return true}
  if(a==='jopen'){jopen();return true}
  if(a==='sreq'){subSend(b);return true}
