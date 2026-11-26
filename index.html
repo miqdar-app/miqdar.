@@ -300,6 +300,11 @@ h1{color:#3F5A2B}
 .lgw{padding-bottom:calc(90px + env(safe-area-inset-bottom,0px))}
 .alk{background:transparent;border:1px solid rgba(184,147,74,.55);color:#6B5420;border-radius:999px;padding:7px 16px;font-size:13px;font-weight:700;box-shadow:none;width:auto;min-height:0;cursor:pointer}
 .alk:active{background:rgba(184,147,74,.14)}
+.stb{display:flex;align-items:center;justify-content:space-between;gap:10px;background:var(--w);border:1px solid var(--bd);border-radius:18px;padding:10px 12px;margin-bottom:12px}
+.stn{display:flex;align-items:center;gap:10px}.stn small{display:block;color:var(--mu);font-size:12px}
+.sta{width:38px;height:38px;border-radius:50%;background:linear-gradient(180deg,#58773F,#44602F);color:#fff;display:flex;align-items:center;justify-content:center;font-weight:700;font-size:18px}
+.stt{display:grid;grid-auto-flow:column;grid-auto-columns:1fr;gap:6px;margin-bottom:12px}.stt button{background:var(--w);color:var(--g2);border:1px solid var(--bd);border-radius:14px;padding:10px 4px}.stt button.on{background:linear-gradient(180deg,#58773F,#44602F);color:#fff}
+.sac{display:flex;align-items:center;gap:10px}
 </style>
 </head>
 <body>
@@ -436,6 +441,7 @@ const NDEV='هذا الكود مرتبط مسبقاً بجهاز آخر، ولا
 const NA='عذراً، هذا الحساب غير مصرّح له بالدخول';
 const stfSub=()=>!!(ADM_PASS&&ADM_PASS.slice(0,3)==='sa:');
 const isOwner=()=>A.sess==='admin'&&!!ADM_PASS&&!stfSub();
+const staffPages=()=>{const a=[];if(canAny('activate','codes','stats'))a.push('adm');if(can('foods'))a.push('foods');return a.length?a:['adm']};
 const can=k=>{if(A.sess!=='admin'||!ADM_PASS)return false;if(!stfSub())return true;return !!(A.perms&&A.perms[k]===true)};
 const canAny=(...k)=>k.some(can);
 let stfMode=false,saList=[],saEdit=null,saShow=null;
@@ -537,7 +543,7 @@ function pLogin(){return `<div class="lgw"><div class="lgc"><svg class="bowl" vi
  <div class="err" id="l-e"></div><button class="full" data-act="login">دخول</button>
   <button class="s full" data-act="subopen" style="margin-top:10px">💳 اشتراك جديد</button>
  <details style="margin-top:12px;text-align:right;color:var(--mu);font-size:14px"><summary>تفعيل الحساب بكود الاشتراك</summary><textarea id="l-c" placeholder="الصقي كود التفعيل الخاص بكِ هنا..." style="direction:ltr;font-size:12px"></textarea><button class="s full" data-act="impc">تفعيل الحساب</button></details>
- <div class="tg">غذاؤك محسوب، واختياراتك أذكى</div><div style="text-align:center;font-size:11px;color:var(--mu);opacity:.7;margin-top:6px">الإصدار 54 · 26 نوفمبر</div><div class="stl"><button type="button" class="alk" data-act="stfopen">🛡️ دخول المشرفين</button></div></div></div>`}
+ <div class="tg">غذاؤك محسوب، واختياراتك أذكى</div><div style="text-align:center;font-size:11px;color:var(--mu);opacity:.7;margin-top:6px">الإصدار 55 · 26 نوفمبر</div><div class="stl"><button type="button" class="alk" data-act="stfopen">🛡️ دخول المشرفين</button></div></div></div>`}
 function pStaff(){const sv=(pLogin().match(/<svg class="bowl"[\s\S]*?<\/svg>/)||[''])[0];
  return `<div class="lgw"><div class="lgc">${sv}<div class="bw">مِقدار</div><div class="rule"><i></i><span>MIQDAR</span><i></i></div>
  <h1 class="lt">دخول المشرفين</h1><p class="ls2">للمشرف العام والمشرفين المساعدين فقط</p>
@@ -555,12 +561,12 @@ async function stfLogin(){if(admBusy)return;loginMsg='';const e=$('#l-e'),u=($('
  try{let r=null;try{r=await rpc('admin_login',{p_admin:cred})}catch(x){e.style.color='var(--rd)';e.textContent=NETM;return}
   e.style.color='var(--rd)';if(!r||!r.ok){e.textContent=(r&&(r.err==='locked'||r.err==='off'))?ERRM[r.err]:BADM;return}
   ADM_PASS=cred;try{sessionStorage.setItem('miqdar_adm',cred)}catch(x){}
-  A.adm=true;A.sess='admin';A.perms=r.perms||{};A.sname=r.name||'';A.role=r.role;stfMode=false;saveA();S=load();page='home';open=null;editing=false;anim=true;e.textContent='';render();scrollTo(0,0);adminSync()}
+  A.adm=true;A.sess='admin';A.perms=r.perms||{};A.sname=r.name||'';A.role=r.role;stfMode=false;saveA();S=load();page=(r.role==='sub'||stfSub())?staffPages()[0]:'home';open=null;editing=false;anim=true;e.textContent='';render();scrollTo(0,0);adminSync()}
  finally{admBusy=false;const b2=document.querySelector('button[data-act=stflogin]');if(b2)b2.textContent='دخول'}}
 const fdate=t=>t?new Date(t).toLocaleDateString('ar',{year:'numeric',month:'long',day:'numeric'}):'';
 function pAdm0(){
  const e=A.users.find(x=>x.id===admEdit)||{name:'',phone:'',user:'',pass:'',active:true,months:2};
- return `<h1>إدارة الاشتراكات <small style="font-size:11px;color:var(--mu);font-weight:400">(إصدار 54)</small></h1><div class="card"><div class="qres"><small id="cl-st" style="color:${cloudOk===0?'var(--rd)':'var(--g2)'}">${esc(cloudMsg||'☁️ جارٍ الاتصال بالسحابة…')}</small></div></div>
+ return `<h1>إدارة الاشتراكات <small style="font-size:11px;color:var(--mu);font-weight:400">(إصدار 55)</small></h1><div class="card"><div class="qres"><small id="cl-st" style="color:${cloudOk===0?'var(--rd)':'var(--g2)'}">${esc(cloudMsg||'☁️ جارٍ الاتصال بالسحابة…')}</small></div></div>
 ${pWho()}${pStats()}${can('activate')?`<div class="card"><h2>${admEdit?'تعديل الاشتراك':'إضافة طالبة جديدة'}</h2>
  <label class="f">الاسم الكامل<input id="u-n" value="${esc(e.name)}"></label>
  <label class="f">رقم الجوال<input id="u-ph" inputmode="tel" value="${esc(e.phone)}"></label>
@@ -571,7 +577,7 @@ ${pWho()}${pStats()}${can('activate')?`<div class="card"><h2>${admEdit?'تعدي
 `:''}${canAny('activate','codes','stats')?`<div class="card"><h2>الاشتراكات (${A.users.length})</h2><button class="s full" data-act="refu" style="margin-bottom:8px">تحديث القائمة من السحابة</button>
  ${A.users.length?A.users.filter(u=>!(u.src==='bulk'&&!u.exp&&!u.name)).map(u=>{const now=Date.now(),ex=u.exp&&u.exp<now,st=!u.active?['موقوف','background:var(--rd2);color:#B04A43']:ex?['منتهٍ','background:var(--rd2);color:#B04A43']:['مفعّل',''];
   return `<div class="fi"><div><b>${esc(u.name)||'(بدون اسم)'}</b><span class="bd" style="${st[1]}">${st[0]}</span><small>${esc(u.phone)}${canAny('activate','codes')?` • الكود: <span dir="ltr" style="font-weight:700">${esc(u.pass)}</span>`:''}</small><small>${u.exp?(ex?'انتهى في ':'ينتهي في ')+fdate(u.exp)+(ex?'':' (متبقي '+Math.max(0,Math.ceil((u.exp-now)/864e5))+' يوم)'):'لم يُفعَّل بعد — تبدأ المدة ('+(u.months||2)+' شهر) من أول تفعيل'}</small><small>${u.dev?'🔒 مرتبط بجهاز منذ '+fdate(u.devAt):'🔓 غير مرتبط بجهاز'}${u.seen?' • آخر ظهور '+fdate(u.seen):''}</small>${u.by?`<small>✅ بواسطة: <b>${esc(u.by)}</b></small>`:''}</div>
- ${can('activate')?`<div style="display:flex;gap:4px;flex-wrap:wrap;justify-content:flex-end"><button class="s" data-act="editu" data-id="${u.id}">تعديل</button>${u.dev?`<button class="s" data-act="unb" data-id="${u.id}">فك ارتباط الجهاز</button>`:''}${u.exp?'':`<button class="s" data-act="cmsg" data-id="${u.id}">رسالة الكود</button>`}<button class="s" data-act="renu" data-id="${u.id}">تجديد</button><button class="s" data-act="togu" data-id="${u.id}">${u.active?'إيقاف':'تفعيل'}</button><button class="s" data-act="newc" data-id="${u.id}">كود جديد</button>${isOwner()?`<button class="r" data-act="delu" data-id="${u.id}">حذف</button>`:''}</div>`:''}</div>`}).join(''):'<div style="color:var(--mu);text-align:center;padding:10px">لا توجد اشتراكات بعد.</div>'}</div>`:''}
+ ${can('activate')?`<div style="display:flex;gap:4px;flex-wrap:wrap;justify-content:flex-end"><button class="s" data-act="editu" data-id="${u.id}">تعديل</button>${u.dev?`<button class="s" data-act="unb" data-id="${u.id}">فك ارتباط الجهاز</button>`:''}${u.exp?'':`<button class="s" data-act="cwa" data-id="${u.id}">واتساب</button>`}<button class="s" data-act="renu" data-id="${u.id}">تجديد</button><button class="s" data-act="togu" data-id="${u.id}">${u.active?'إيقاف':'تفعيل'}</button><button class="s" data-act="newc" data-id="${u.id}">كود جديد</button>${isOwner()?`<button class="r" data-act="delu" data-id="${u.id}">حذف</button>`:''}</div>`:''}</div>`}).join(''):'<div style="color:var(--mu);text-align:center;padding:10px">لا توجد اشتراكات بعد.</div>'}</div>`:''}
  ${can('stats')?`<div class="card"><h2>سجل النشاط</h2><button class="s full" data-act="logs">${admLogs?'تحديث السجل':'عرض آخر النشاطات'}</button>${admLogs?(admLogs.length?`<div style="margin-top:8px;max-height:260px;overflow:auto">${admLogs.map(l=>`<div class="fi" style="padding:6px 0"><div><b>${esc(l.name||'—')}</b><span class="bd">${esc(l.action)}</span><small>${fdate(l.created_at)} ${new Date(l.created_at).toLocaleTimeString('ar',{hour:'2-digit',minute:'2-digit'})}</small></div></div>`).join('')}</div>`:'<div class="mh">لا يوجد نشاط بعد.</div>'):''}</div>`:''}`}
 /* بطاقة الإعلان: رسم مباشر على canvas (بدون مكتبات أو صور خارجية) */
 const AD_F="Cairo,'Reem Kufi',Tahoma,'Segoe UI',Arial,sans-serif",AD_PH='[رقم التواصل / حسابكِ]';
@@ -683,11 +689,11 @@ function pSubs(){
   const st=q.status==='new'?'<span class="bd nw">جديد</span>':q.status==='approved'?'<span class="bd">تمت الموافقة</span>':'<span class="bd" style="background:var(--rd2);color:#B04A43">مرفوض</span>';
   return `<div class="fi" style="align-items:flex-start"><div><b>${esc(q.name)}</b>${st}<small>📞 <span dir="ltr">${esc(q.contact)}</span>${q.ref?' • مرجع الحوالة: <span dir="ltr">'+esc(q.ref)+'</span>':''}</small><small>${fshort(q.created_at)}</small>${q.processed_by&&q.status!=='new'?`<small>✅ بواسطة: <b>${esc(q.processed_by)}</b></small>`:''}${u?`<small>الكود: <span class="codev">${esc(u.pass)}</span> ${u.dlv?'<span class="bd dl">سُلِّم ✓</span>':'<span class="bd nw">لم يُسلَّم</span>'}</small>`:''}</div>
   <div style="display:flex;gap:4px;flex-wrap:wrap;justify-content:flex-end">${q.status==='new'&&can('activate')?`<button data-act="rq-ok" data-id="${q.id}">موافقة وتوليد الكود</button><button class="r" data-act="rq-no" data-id="${q.id}">رفض</button>`:''}
-  ${u&&canAny('activate','codes')?`<button class="s xs2" data-act="ccode" data-id="${u.id}">نسخ الكود</button><button class="s xs2" data-act="cmsg" data-id="${u.id}">نسخ رسالة الكود</button><button class="s xs2" data-act="cwa" data-id="${u.id}" data-ph="${esc(q.contact)}">واتساب</button>`:''}
+  ${u&&canAny('activate','codes')?`<button class="s xs2" data-act="ccode" data-id="${u.id}">نسخ الكود</button><button class="s xs2" data-act="cwa" data-id="${u.id}" data-ph="${esc(q.contact)}">واتساب</button>`:''}
   ${q.status!=='new'&&can('activate')?`<button class="r xs2" data-act="rq-del" data-id="${q.id}">حذف</button>`:''}</div></div>`};
  const pool=A.users.filter(u=>!u.exp&&!u.name&&u.src==='bulk'),av=pool.filter(u=>!u.dlv),dl=pool.filter(u=>u.dlv);
  const codeRow=u=>`<div class="fi" style="padding:8px 0"><div><span class="codev">${esc(u.pass)}</span> ${u.dlv?'<span class="bd dl">سُلِّم ✓</span>':'<span class="bd nw">متاح</span>'}${u.by?` <small style="color:var(--mu)">بواسطة: ${esc(u.by)}</small>`:''}</div>
-  <div style="display:flex;gap:4px;flex-wrap:wrap;justify-content:flex-end"><button class="xs2" data-act="ccode" data-id="${u.id}">نسخ</button><button class="s xs2" data-act="cmsg" data-id="${u.id}">رسالة</button><button class="s xs2" data-act="cwa" data-id="${u.id}">واتساب</button>${u.dlv?`<button class="s xs2" data-act="dlv" data-id="${u.id}" data-f="0">إلغاء التسليم</button>`:`<button class="s xs2" data-act="dlv" data-id="${u.id}" data-f="1">تم التسليم</button>`}</div></div>`;
+  <div style="display:flex;gap:4px;flex-wrap:wrap;justify-content:flex-end"><button class="xs2" data-act="ccode" data-id="${u.id}">نسخ</button><button class="s xs2" data-act="cwa" data-id="${u.id}">واتساب</button>${u.dlv?`<button class="s xs2" data-act="dlv" data-id="${u.id}" data-f="0">إلغاء التسليم</button>`:`<button class="s xs2" data-act="dlv" data-id="${u.id}" data-f="1">تم التسليم</button>`}</div></div>`;
  return `${canAny('activate','stats')?`<div class="card"><div class="hd2"><h2 style="margin:0">طلبات الاشتراك (${nw.length} جديد)</h2><button class="s xs2" data-act="refu">🔄 تحديث</button></div><div class="qres"><small>تصل هنا طلبات الطالبات بعد تحويلهن عبر جيب. تحققي من الحوالة في تطبيق جيب ثم اضغطي «موافقة» فيُولَّد كود من 6 خانات جاهز للإرسال.</small></div>
   ${reqs.length?nw.map(reqRow).join('')+(rest.length?`<details style="margin-top:8px"><summary style="color:var(--mu);font-size:14px">الطلبات السابقة (${rest.length})</summary>${rest.map(reqRow).join('')}</details>`:''):'<div style="color:var(--mu);text-align:center;padding:10px">لا توجد طلبات بعد.</div>'}</div>`:''}${can('codes')?` <div class="card"><h2>توليد أكواد دفعة واحدة</h2><div class="qres"><small>تُحفظ الأكواد غير مستخدمة، ولا تبدأ مدة الشهرين إلا عند أول تفعيل من الطالبة. عند نسخ كود يُعلَّم «سُلِّم» حتى لا يُرسل لطالبتين.</small></div>
   <div class="sgrp">${[10,25,50].map(n=>`<button type="button" class="chp${bkN===n?' on':''}" data-act="bq" data-v="${n}">${n}</button>`).join('')}<label class="adjin"><input type="number" id="bk-n" inputmode="numeric" min="1" max="100" value="${bkN}"><span>كوداً</span></label></div>
@@ -712,10 +718,11 @@ function pStats(){if(!canAny('stats'))return '';
  const k=(n,l)=>`<div class="kv"><span>${l}</span><b>${n}</b></div>`;
  return `<div class="card"><h2>الإحصائيات (للقراءة فقط)</h2>${k(us.length,'إجمالي الاشتراكات')}${k(act,'مفعّلة وسارية')}${k(nv,'لم تُفعَّل بعد')}${k(ex,'منتهية')}${k(nw,'طلبات جديدة')}${k(av,'أكواد متاحة غير مسلَّمة')}</div>`}
 function pSAdm(){const e=saList.find(x=>x.id===saEdit)||{username:'',permissions:{},is_active:true},lastD=t=>t?fdate(t):'لم يدخل بعد';
- const row=x=>`<div class="fi" style="align-items:flex-start"><div><b>${esc(x.username)}</b>${x.is_active?'':'<span class="bd" style="background:var(--rd2);color:#B04A43">موقوف</span>'}<small>${PERMS.filter(p=>x.permissions&&x.permissions[p[0]]).map(p=>p[2]).join(' • ')||'بلا صلاحيات'}</small><small>آخر دخول: ${lastD(x.last_login)}</small></div>
-  <div style="display:flex;gap:4px;flex-wrap:wrap;justify-content:flex-end"><button class="s xs2" data-act="saedit" data-id="${x.id}">تعديل</button><button class="s xs2" data-act="satog" data-id="${x.id}">${x.is_active?'إيقاف':'تفعيل'}</button><button class="s xs2" data-act="sanew" data-id="${x.id}">كود جديد</button><button class="r xs2" data-act="sadel" data-id="${x.id}">حذف</button></div></div>`;
+const opsOf=x=>{const a=A.users.filter(u=>u.by===x.username).map(u=>({t:u.name?('اشتراك: '+u.name):('كود: '+u.pass)})),b=reqs.filter(q=>q.processed_by===x.username&&q.status!=='new').map(q=>({t:(q.status==='approved'?'قبول طلب: ':'رفض طلب: ')+q.name,d:q.decided_at}));return a.concat(b)};
+ const row=x=>{const ops=opsOf(x);return `<div class="fi" style="align-items:flex-start"><div><div class="sac"><span class="sta">${esc((x.username||'؟').charAt(0).toUpperCase())}</span><div><b style="font-size:17px">${esc(x.username)}</b>${x.is_active?'':' <span class="bd" style="background:var(--rd2);color:#B04A43">موقوف</span>'}</div></div><small>${PERMS.filter(p=>x.permissions&&x.permissions[p[0]]).map(p=>p[2]).join(' • ')||'بلا صلاحيات'}</small><small>آخر دخول: ${lastD(x.last_login)} • نفّذ ${ops.length} عملية</small>${ops.length?`<details style="margin-top:4px"><summary style="color:var(--mu);font-size:13px">سجل عملياته</summary>${ops.slice(0,30).map(o=>`<small>• ${esc(o.t)}${o.d?' — '+fshort(o.d):''}</small>`).join('')}</details>`:''}</div>
+  <div style="display:flex;gap:4px;flex-wrap:wrap;justify-content:flex-end"><button class="s xs2" data-act="saedit" data-id="${x.id}">تعديل</button><button class="s xs2" data-act="satog" data-id="${x.id}">${x.is_active?'إيقاف':'تفعيل'}</button><button class="s xs2" data-act="sanew" data-id="${x.id}">كود جديد</button><button class="r xs2" data-act="sadel" data-id="${x.id}">حذف</button></div></div>`};
  return `<div class="card" id="sa-card"><h2>المشرفون المساعدون (${saList.length})</h2><div class="qres"><small>أضيفي مشرفاً مساعداً باسم مستخدم وكود خاص، وحددي ما يستطيع فعله. يدخل من صفحة الدخول ← «دخول المشرفين». يمكنك تعديل صلاحياته أو إيقافه في أي وقت.</small></div>
- ${saShow?`<div class="ok2" style="display:block;margin:8px 0">✅ تم الحفظ. بيانات الدخول (تظهر الآن فقط ولا يمكن عرض الكود لاحقاً):<br>اسم المستخدم: <b dir="ltr">${esc(saShow.u)}</b> • الكود: <b dir="ltr" class="codev">${esc(saShow.c)}</b><button class="full" data-act="sacopy" style="margin-top:8px">📋 نسخ بيانات الدخول</button></div>`:''}
+ ${saShow?`<div class="ok2" style="display:block;margin:8px 0">✅ تم الحفظ. بيانات الدخول (تظهر الآن فقط ولا يمكن عرض الكود لاحقاً):<br>اسم المستخدم: <b dir="ltr">${esc(saShow.u)}</b> • الكود: <b dir="ltr" class="codev">${esc(saShow.c)}</b><button class="full" data-act="sacopy" style="margin-top:8px">📋 نسخ بيانات الدخول</button><button class="s full" data-act="salink" style="margin-top:6px">🔗 نسخ رابط الدخول المباشر</button></div>`:''}
  <div class="f" style="margin-top:8px"><b>${saEdit?'تعديل مشرف مساعد':'إضافة مشرف مساعد'}</b></div>
  <label class="f">اسم المستخدم<input id="sa-u" autocapitalize="none" spellcheck="false" style="direction:ltr;text-align:left" value="${esc(e.username)}"></label>
  <label class="f">الكود المعيّن (4–24 حرفاً إنجليزياً أو أرقاماً)${saEdit?' — اتركيه فارغاً ليبقى كما هو':''}<input id="sa-c" autocapitalize="characters" spellcheck="false" style="direction:ltr;text-align:left" placeholder="${saEdit?'بدون تغيير':'مثال: K7M2QX'}"></label>
@@ -734,6 +741,7 @@ async function saSave(b){const e=$('#sa-e'),u=$('#sa-u').value.trim(),c=$('#sa-c
   saShow=c?{u:r.sub.username,c}:null;saEdit=null;await admRefresh();rr();toast('تم الحفظ ✓')}
  catch(x){e.textContent=NETM}finally{b.disabled=false}}
 function saAct(b){const a=b.dataset.act,id=b.dataset.id,x=id?saList.find(y=>y.id===id):null;
+ if(a==='salink'){if(saShow){const l=location.origin+location.pathname+'#staff='+encodeURIComponent(saShow.u)+'~'+saShow.c;copyTxt('رابط دخول المشرف المساعد ('+saShow.u+'):\n'+l).then(ok=>toast(ok?'تم نسخ الرابط ✓':'تعذّر النسخ'))}return true}
  if(a==='sagen'){const i=$('#sa-c');if(i)i.value=genSA();return true}
  if(a==='sasave'){saSave(b);return true}
  if(a==='sacancel'){saEdit=null;rr();return true}
@@ -746,7 +754,7 @@ function saAct(b){const a=b.dataset.act,id=b.dataset.id,x=id?saList.find(y=>y.id
 function pAdm(){return pAdm0()+pSubs()+(can('foods')?admExtra():'')+(isOwner()?adCard():'')}
 setInterval(()=>{if(A.sess==='admin'&&ADM_PASS&&page==='adm'&&!document.hidden&&!admBusy&&!(document.activeElement&&/INPUT|TEXTAREA|SELECT/.test(document.activeElement.tagName))){const n=reqs.length;admRefresh().then(()=>{if(reqs.length!==n&&page==='adm')rr()}).catch(()=>{})}},40000);
 function subAct(b){const a=b.dataset.act,id=b.dataset.id,u=id?A.users.find(x=>x.id===id):null;
- if(/^sa(gen|save|cancel|edit|tog|new|del|copy)$/.test(a))return saAct(b);
+ if(/^sa(gen|save|cancel|edit|tog|new|del|copy|link)$/.test(a))return saAct(b);
  if(a==='subopen'){subOpen();return true}
  if(a==='sclose'){dClose($('#sdlg'));return true}
  if(a==='swa'){waAdmin();return true}
@@ -757,7 +765,6 @@ function subAct(b){const a=b.dataset.act,id=b.dataset.id,u=id?A.users.find(x=>x.
  if(a==='rq-no'){arm(b,()=>admAct(()=>rpc('admin_reject_request',{p_admin:ADM_PASS,p_id:id})));return true}
  if(a==='rq-del'){arm(b,()=>admAct(()=>rpc('admin_delete_request',{p_admin:ADM_PASS,p_id:id})));return true}
  if(a==='ccode'&&u){copyTxt(u.pass).then(ok=>{toast(ok?'تم نسخ الكود ✓':'تعذّر النسخ');if(ok&&!u.dlv)markD(u.id,true)});return true}
- if(a==='cmsg'&&u){copyTxt(codeMsg(u.pass,u.name)).then(ok=>{toast(ok?'تم نسخ رسالة الكود ✓':'تعذّر النسخ');if(ok&&!u.dlv)markD(u.id,true)});return true}
  if(a==='cwa'&&u){window.open(waLink(codeMsg(u.pass,u.name),b.dataset.ph||u.phone),'_blank');if(!u.dlv)markD(u.id,true);return true}
  if(a==='dlv'&&u){markD(u.id,b.dataset.f==='1');return true}
  if(a==='bq'){bkN=+b.dataset.v;rr();return true}
@@ -987,7 +994,7 @@ function pFoods(){
  const chips=[['all','الكل'],...Object.entries(GR).map(([k,G])=>[k,G.n])];
  return `<h1>الأطعمة (المرجع الأردني)</h1><input id="fq" placeholder="ابحث عن صنف…" value="${esc(fq)}" style="margin-bottom:10px">
  <div class="chips">${chips.map(([k,n])=>`<button class="${ff===k?'on':''}" data-act="filt" data-k="${k}">${n}</button>`).join('')}</div>
- <div class="card" id="fl"></div>${can('foods')?'<button class="full" data-act="add">+ إضافة صنف جديد</button>':''}`;
+ <div class="card" id="fl"></div>${can('foods')?'<button class="full" data-act="add">+ إضافة صنف جديد</button>':''}${stfSub()&&can('foods')?admExtra():''}`;
 }
 function fList(){
  const q=fq.trim(),l=all().filter(f=>(!q||f.name.includes(q))&&(ff==='all'||f.g===ff));
@@ -1132,14 +1139,19 @@ function pMe(){
  ${isAdm()?'':`<div class="card"><h2>تحديث قائمة الأصناف</h2><div class="qres"><small>إن ظهر لديكِ صنف قديم أو كسر غير صحيح، اضغطي لإعادة تحميل قائمة الأصناف والمجموعات المضمّنة في هذه النسخة. وجباتك وبياناتك وأصنافك الخاصة لا تتأثر.</small></div><button class="s full" data-act="rstcat">إعادة تحميل قائمة الأصناف</button><div class="mh" id="rst-m"></div></div>`}
  <button class="r full" data-act="logout">تسجيل الخروج</button>`;
 }
+function staffBar(sp){const nm=(who()||{}).name||'';
+ const tabs=sp.length>1?`<div class="stt">${sp.map(k=>`<button data-act="nav" data-p="${k}" class="${page===k?'on':''}">${k==='adm'?'🗂️ الإدارة':'🍽️ الأطعمة'}</button>`).join('')}</div>`:'';
+ return `<div class="stb"><div class="stn"><span class="sta">${esc((nm||'؟').trim().charAt(0).toUpperCase())}</span><div><b>${esc(nm)}</b><small>مشرف مساعد</small></div></div><button class="s xs2" data-act="logout">خروج</button></div>${tabs}`}
 function render(){
  const me=who();$('#nav').classList.toggle('hide',!me);
  const wmEl=$('#wm');wmEl.classList.toggle('hide',!me);
  if(!me){const st=A.sess;if(st){A.sess=null;saveA()}$('#app').className='enter';$('#app').innerHTML=stfMode?pStaff():pLogin();if(st||loginMsg){const e=$('#l-e');e.style.color='var(--rd)';e.textContent=loginMsg||('انتهت الجلسة. '+NA)}return}
  wmEl.textContent=wm(me);
  if(page==='adm'&&!me.admin)page='home';
+ const stf=!!(me.admin&&me.sub),sp=stf?staffPages():[];if(stf&&!sp.includes(page)){page=sp[0];open=null;editing=false}
+ $('#nav').classList.toggle('hide',stf);
  $('#nav [data-p=adm]').classList.toggle('hide',!me.admin);
- const ap=$('#app');ap.className=anim?'enter':'';anim=false;ap.innerHTML={home:pHome,foods:pFoods,meals:pMeals,sum:pSum,me:pMe,adm:pAdm}[page]();
+ const ap=$('#app');ap.className=anim?'enter':'';anim=false;ap.innerHTML=(stf?staffBar(sp):'')+{home:pHome,foods:pFoods,meals:pMeals,sum:pSum,me:pMe,adm:pAdm}[page]();
  document.querySelectorAll('#nav button').forEach(b=>b.classList.toggle('on',b.dataset.p===page));
  if(page==='foods')fList();
  if(page==='adm'){const go=()=>adDraw();go();try{document.fonts&&document.fonts.ready.then(go)}catch(e){}}
@@ -1264,6 +1276,8 @@ function startCloud(){const x=who();if(x&&x.admin)adminSync();else if(x)syncCat(
  setInterval(()=>{if(document.hidden)return;const y=who();if(y&&!y.admin)syncCat()},90000);
  document.addEventListener('visibilitychange',()=>{if(!document.hidden){const y=who();if(y&&!y.admin)syncCat()}})}
 render();startCloud();
+(function(){try{const m=/^#staff=(.+)~([A-Za-z0-9]{4,24})$/.exec(location.hash||'');if(!m)return;history.replaceState(null,'',location.pathname+location.search);
+ const u=decodeURIComponent(m[1]);if(A.sess==='admin'&&ADM_PASS)return;stfMode=true;render();const a=$('#st-user'),b=$('#st-code');if(a&&b){a.value=u;b.value=m[2];stfLogin()}}catch(e){}})();
 /* ===== custom select (bottom sheet) ===== */
 const CHV='<svg viewBox="0 0 24 24"><path d="M6 9l6 6 6-6"/></svg>';
 function csLabel(sel){const o=sel.options[sel.selectedIndex];return o?o.textContent:''}
