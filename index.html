@@ -531,11 +531,11 @@ function pLogin(){return `<div class="lgw"><div class="lgc"><svg class="bowl" vi
  <div class="err" id="l-e"></div><button class="full" data-act="login">دخول</button>
   <button class="s full" data-act="subopen" style="margin-top:10px">💳 اشتراك جديد</button>
  <details style="margin-top:12px;text-align:right;color:var(--mu);font-size:14px"><summary>تفعيل الحساب بكود الاشتراك</summary><textarea id="l-c" placeholder="الصقي كود التفعيل الخاص بكِ هنا..." style="direction:ltr;font-size:12px"></textarea><button class="s full" data-act="impc">تفعيل الحساب</button></details>
- <div class="tg">غذاؤك محسوب، واختياراتك أذكى</div></div></div>`}
+ <div class="tg">غذاؤك محسوب، واختياراتك أذكى</div><div style="text-align:center;font-size:11px;color:var(--mu);opacity:.7;margin-top:6px">الإصدار 53 · 26 نوفمبر</div></div></div>`}
 const fdate=t=>t?new Date(t).toLocaleDateString('ar',{year:'numeric',month:'long',day:'numeric'}):'';
 function pAdm0(){
  const e=A.users.find(x=>x.id===admEdit)||{name:'',phone:'',user:'',pass:'',active:true,months:2};
- return `<h1>إدارة الاشتراكات</h1><div class="card"><div class="qres"><small id="cl-st" style="color:${cloudOk===0?'var(--rd)':'var(--g2)'}">${esc(cloudMsg||'☁️ جارٍ الاتصال بالسحابة…')}</small></div></div>
+ return `<h1>إدارة الاشتراكات <small style="font-size:11px;color:var(--mu);font-weight:400">(إصدار 53)</small></h1><div class="card"><div class="qres"><small id="cl-st" style="color:${cloudOk===0?'var(--rd)':'var(--g2)'}">${esc(cloudMsg||'☁️ جارٍ الاتصال بالسحابة…')}</small></div></div>
  <div class="card"><h2>${admEdit?'تعديل الاشتراك':'إضافة طالبة جديدة'}</h2>
  <label class="f">الاسم الكامل<input id="u-n" value="${esc(e.name)}"></label>
  <label class="f">رقم الجوال<input id="u-ph" inputmode="tel" value="${esc(e.phone)}"></label>
