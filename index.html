@@ -550,7 +550,7 @@ function pLogin(){return `<div class="lgw"><div class="lgc"><svg class="bowl" vi
  <div class="err" id="l-e"></div><button class="full" data-act="login">دخول</button>
   <button class="s full" data-act="subopen" style="margin-top:10px">💳 اشتراك جديد</button>
  <details style="margin-top:12px;text-align:right;color:var(--mu);font-size:14px"><summary>تفعيل الحساب بكود الاشتراك</summary><textarea id="l-c" placeholder="الصقي كود التفعيل الخاص بكِ هنا..." style="direction:ltr;font-size:12px"></textarea><button class="s full" data-act="impc">تفعيل الحساب</button></details>
- <div class="tg">غذاؤك محسوب، واختياراتك أذكى</div><div style="text-align:center;font-size:11px;color:var(--mu);opacity:.7;margin-top:6px">الإصدار 59 · 27 نوفمبر</div><div class="stl"><button type="button" class="alk" data-act="stfopen">🛡️ دخول المشرفين</button></div></div></div>`}
+ <div class="tg">غذاؤك محسوب، واختياراتك أذكى</div><div style="text-align:center;font-size:11px;color:var(--mu);opacity:.7;margin-top:6px">الإصدار 60 · 27 نوفمبر</div><div class="stl"><button type="button" class="alk" data-act="stfopen">🛡️ دخول المشرفين</button></div></div></div>`}
 function pStaff(){const sv=(pLogin().match(/<svg class="bowl"[\s\S]*?<\/svg>/)||[''])[0];
  return `<div class="lgw"><div class="lgc">${sv}<div class="bw">مِقدار</div><div class="rule"><i></i><span>MIQDAR</span><i></i></div>
  <h1 class="lt">دخول المشرفين</h1><p class="ls2">للمشرف العام والمشرفين المساعدين فقط</p>
@@ -659,7 +659,8 @@ function toast(m){const o=document.querySelector('.toast');if(o)o.remove();const
 async function copyTxt(t){try{if(navigator.clipboard&&window.isSecureContext){await navigator.clipboard.writeText(t);return true}}catch(e){}
  try{const a=document.createElement('textarea');a.value=t;a.setAttribute('readonly','');a.style.cssText='position:fixed;top:0;left:0;opacity:0';document.body.appendChild(a);a.focus();a.select();a.setSelectionRange(0,t.length);const ok=document.execCommand('copy');a.remove();return ok}catch(e){return false}}
 const appUrl=()=>((payInfo&&payInfo.app_url)||'').trim()||location.origin+location.pathname;
-function codeMsg(code,name,trial){return 'مرحباً '+(name?name+' ':'')+'🌿\nتم قبول اشتراككِ في تطبيق مِقدار | MIQDAR ✅\n\n🔑 كود الاشتراك: '+code+'\n⏳ مدة الاشتراك: '+(trial?'يومان (تجربة مجانية)':'شهران')+' (تبدأ من لحظة أول تفعيل للكود، وليس من تاريخ إرساله)\n\nطريقة التفعيل:\n1) افتحي الرابط: '+appUrl()+'\n2) اكتبي الكود في خانة «كود الاشتراك / كلمة المرور» ثم اضغطي «دخول».\n\n⚠️ الكود يعمل على جهازين كحد أقصى، فلا تشاركيه مع أحد.'}
+const mLbl=m=>m===1?'شهر':m===2?'شهران':m<=10?m+' أشهر':m+' شهراً';
+function codeMsg(code,name,trial,months){return 'مرحباً '+(name?name+' ':'')+'🌿\nتم قبول اشتراككِ في تطبيق مِقدار | MIQDAR ✅\n\n🔑 كود الاشتراك: '+code+'\n⏳ مدة الاشتراك: '+(trial?'يومان (تجربة مجانية)':mLbl(+months||2))+' (تبدأ من لحظة أول تفعيل للكود، وليس من تاريخ إرساله)\n\nطريقة التفعيل:\n1) افتحي الرابط: '+appUrl()+'\n2) اكتبي الكود في خانة «كود الاشتراك / كلمة المرور» ثم اضغطي «دخول».\n\n⚠️ الكود يعمل على جهازين كحد أقصى، فلا تشاركيه مع أحد.'}
 function waNorm(ph){let d=String(ph||'').replace(/[^0-9]/g,'');if(d.startsWith('00'))d=d.slice(2);if(/^0[0-9]{8,9}$/.test(d))d='967'+d.slice(1);else if(/^7[0-9]{8}$/.test(d))d='967'+d;return d.length>=10?d:''}
 function waLink(msg,phone){return 'https://wa.me/'+waNorm(phone)+'?text='+encodeURIComponent(msg)}
 const markD=(id,f)=>admAct(()=>rpc('admin_mark_delivered',{p_admin:ADM_PASS,p_id:id,p_flag:f}));
@@ -705,7 +706,7 @@ function pSubs(){
  return `${canAny('activate','stats')?`\u0001req\u0002<div class="card"><div class="hd2"><h2 style="margin:0">طلبات الاشتراك (${nw.length} جديد)</h2><button class="s xs2" data-act="refu">🔄 تحديث</button></div><div class="qres"><small>تصل هنا طلبات الطالبات بعد تحويلهن عبر جيب. تحققي من الحوالة في تطبيق جيب ثم اضغطي «موافقة» فيُولَّد كود من 6 خانات جاهز للإرسال.</small></div>
   ${reqs.length?nw.map(reqRow).join('')+(rest.length?`<details style="margin-top:8px"><summary style="color:var(--mu);font-size:14px">الطلبات السابقة (${rest.length})</summary>${rest.map(reqRow).join('')}</details>`:''):'<div style="color:var(--mu);text-align:center;padding:10px">لا توجد طلبات بعد.</div>'}</div>`:''}${can('codes')?` \u0001codes\u0002${pmCard()}<div class="card"><h2>توليد أكواد دفعة واحدة</h2><div class="qres"><small>تُحفظ الأكواد غير مستخدمة، ولا تبدأ مدة الشهرين إلا عند أول تفعيل من الطالبة. عند نسخ كود يُعلَّم «سُلِّم» حتى لا يُرسل لطالبتين.</small></div>
   <div class="sgrp">${[10,25,50].map(n=>`<button type="button" class="chp${bkN===n?' on':''}" data-act="bq" data-v="${n}">${n}</button>`).join('')}<label class="adjin"><input type="number" id="bk-n" inputmode="numeric" min="1" max="100" value="${bkN}"><span>كوداً</span></label></div>
-  <label class="f" style="margin-top:8px">نوع الأكواد<select id="bk-m"><option value="2"${bkM?' selected':''}>اشتراك عادي (شهران)</option><option value="0"${bkM===0?' selected':''}>تجربة (يومان)</option></select></label>
+  <label class="f" style="margin-top:8px">نوع الأكواد<select id="bk-m"><option value="0"${bkM===0?' selected':''}>تجربة (يومان)</option>${[1,2,3,6,12].map(m=>`<option value="${m}"${bkM===m?' selected':''}>اشتراك ${mLbl(m)}</option>`).join('')}</select></label>
   <button class="full" data-act="bulk" style="margin-top:8px">توليد الأكواد</button>
   <div class="mh" style="margin-top:12px">متاحة: <b>${av.length}</b> • مُسلَّمة غير مفعَّلة: <b>${dl.length}</b></div>
   ${isOwner()&&av.length?`<button class="r full" data-act="delav" style="margin:8px 0">حذف كل الأكواد المتاحة (${av.length})</button>`:''}
@@ -811,7 +812,7 @@ function subAct(b){const a=b.dataset.act,id=b.dataset.id,u=id?A.users.find(x=>x.
  if(a==='sreq'){subSend(b);return true}
  if(a==='rq-ok'){const q=reqs.find(z=>z.id===id)||{},w=window.open('about:blank','_blank');
   admAct(async()=>{const r=await rpc('admin_approve_request',{p_admin:ADM_PASS,p_id:id,p_months:2});
-   if(r&&r.ok&&r.sub){toast('تمت الموافقة ✓ — جارٍ فتح واتساب بالرسالة الجاهزة');const url=waLink(codeMsg(r.sub.code,q.name||r.sub.name),q.contact||r.sub.phone);
+   if(r&&r.ok&&r.sub){toast('تمت الموافقة ✓ — جارٍ فتح واتساب بالرسالة الجاهزة');const url=waLink(codeMsg(r.sub.code,q.name||r.sub.name,!!r.sub.trial_days,r.sub.months),q.contact||r.sub.phone);
     try{await rpc('admin_mark_delivered',{p_admin:ADM_PASS,p_id:r.sub.id,p_flag:true})}catch(e){}
     if(w){try{w.location.href=url}catch(e){window.open(url,'_blank')}}else{toast('تمت الموافقة ✓ — اضغطي زر «واتساب» بجانب الطلب لإرسال الكود')}}
    else if(w){try{w.close()}catch(e){}}
@@ -819,11 +820,11 @@ function subAct(b){const a=b.dataset.act,id=b.dataset.id,u=id?A.users.find(x=>x.
  if(a==='rq-no'){arm(b,()=>admAct(()=>rpc('admin_reject_request',{p_admin:ADM_PASS,p_id:id})));return true}
  if(a==='rq-del'){arm(b,()=>admAct(()=>rpc('admin_delete_request',{p_admin:ADM_PASS,p_id:id})));return true}
  if(a==='ccode'&&u){copyTxt(u.pass).then(ok=>{toast(ok?'تم نسخ الكود ✓':'تعذّر النسخ');if(ok&&!u.dlv)markD(u.id,true)});return true}
- if(a==='cwa'&&u){window.open(waLink(codeMsg(u.pass,u.name,u.td),b.dataset.ph||u.phone),'_blank');if(!u.dlv)markD(u.id,true);return true}
+ if(a==='cwa'&&u){window.open(waLink(codeMsg(u.pass,u.name,u.td,u.months),b.dataset.ph||u.phone),'_blank');if(!u.dlv)markD(u.id,true);return true}
  if(a==='dlv'&&u){markD(u.id,b.dataset.f==='1');return true}
  if(a==='bq'){bkN=+b.dataset.v;{const v=parseInt(($('#bk-m')||{}).value,10);if(!isNaN(v))bkM=v}rr();return true}
  if(a==='cwb'){waRow=waRow===id?null:id;rr();const i=$('#wap');if(i)i.focus();return true}
- if(a==='cwago'&&u){const ph=($('#wap')||{}).value||'';window.open(waLink(codeMsg(u.pass,'',u.td),ph),'_blank');waRow=null;if(!u.dlv)markD(u.id,true);else rr();return true}
+ if(a==='cwago'&&u){const ph=($('#wap')||{}).value||'';window.open(waLink(codeMsg(u.pass,'',u.td,u.months),ph),'_blank');waRow=null;if(!u.dlv)markD(u.id,true);else rr();return true}
  if(a==='delav'){arm(b,()=>{const ids=A.users.filter(z=>!z.exp&&!z.name&&z.src==='bulk'&&!z.dlv).map(z=>z.id);if(!ids.length)return;
    admAct(async()=>{let r=null;try{r=await rpc('admin_delete_codes',{p_admin:ADM_PASS,p_ids:ids})}catch(e){}
     if(!r||!r.ok){for(const d of ids){await rpc('admin_delete_sub',{p_admin:ADM_PASS,p_id:d})}r={ok:true}}
@@ -1314,7 +1315,7 @@ document.addEventListener('click',e=>{
   const id=admEdit||null,w=(!id&&n.phone)?window.open('about:blank','_blank'):null;
   admAct(async()=>{const r=await rpc('admin_save_sub',{p_admin:ADM_PASS,p_id:id,p_name:n.name,p_phone:n.phone,p_code:n.pass||null,p_active:n.active,p_months:n.months});
    if(r&&!r.ok&&r.err==='code_taken'){const e=$('#u-e');if(e)e.textContent='هذا الكود مستخدم لاشتراك آخر.';return{ok:false,err:'code_taken',silent:true}}
-   if(r&&r.ok){admEdit=null;if(w&&r.sub&&r.sub.code){const url=waLink(codeMsg(r.sub.code,n.name,n.months===0),n.phone);try{await rpc('admin_mark_delivered',{p_admin:ADM_PASS,p_id:r.sub.id,p_flag:true})}catch(e){}try{w.location.href=url}catch(e){window.open(url,'_blank')}toast('تمت الإضافة ✓ — جارٍ فتح واتساب بالرسالة الجاهزة')}else if(w){try{w.close()}catch(e){}}}
+   if(r&&r.ok){admEdit=null;if(w&&r.sub&&r.sub.code){const url=waLink(codeMsg(r.sub.code,n.name,n.months===0,n.months),n.phone);try{await rpc('admin_mark_delivered',{p_admin:ADM_PASS,p_id:r.sub.id,p_flag:true})}catch(e){}try{w.location.href=url}catch(e){window.open(url,'_blank')}toast('تمت الإضافة ✓ — جارٍ فتح واتساب بالرسالة الجاهزة')}else if(w){try{w.close()}catch(e){}}}
    else if(w){try{w.close()}catch(e){}}
    return r})}
 });
