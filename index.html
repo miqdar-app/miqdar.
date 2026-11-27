@@ -311,6 +311,11 @@ h1{color:#3F5A2B}
 .pmform{display:block;margin:8px 0 12px;padding:14px;border:1px solid var(--bd);border-radius:18px;background:var(--m2)}.pmform>b{display:block;margin-bottom:6px;font-size:17px}.pmform .f{display:block;margin-top:10px}.pmform .f input,.pmform .f select{width:100%;box-sizing:border-box}.pmform .sgrp{margin:10px 0 0}.pmform input[type=date]{font:inherit;font-size:16px;padding:12px 14px;min-height:50px;border:1px solid var(--bd);border-radius:14px;background:#FBF6EA;color:var(--tx);direction:ltr;text-align:right}
 .wabox{display:flex;gap:6px;align-items:center;padding:6px 0 10px}.wabox input{flex:1;min-width:0}.wabox button{flex:0 0 auto}
 
+.tyl{display:flex;justify-content:space-between;align-items:center;gap:8px;padding:7px 0;border-bottom:1px dashed rgba(176,150,100,.3);font-size:13px;line-height:1.6}
+.tyl:last-child{border-bottom:0}
+.tya{display:flex;gap:6px;flex:none}
+.del.ed{color:var(--g2);font-size:13px;font-weight:700;border:1px solid var(--g2);border-radius:999px;padding:4px 10px}
+.tya .del{font-size:13px}
 .mpk{margin:-2px 0 12px}
 .mpk .mrow{display:flex;gap:8px}
 .mpk .msel{flex:1;display:flex;align-items:center;justify-content:space-between;gap:6px;background:#F6EEDF;border:1px solid rgba(176,150,100,.38);border-radius:12px;padding:11px 12px;font:inherit;font-size:14px;font-weight:600;color:#5B5A44;cursor:pointer;box-shadow:none;text-align:right;touch-action:manipulation}
@@ -392,7 +397,8 @@ const EXTRA_GROUPS={groups:[],types:[]};
 /* ====== نهاية كتلة النسخ ====== */
 const EXTRA=EXTRA_FOODS.map((f,i)=>Object.assign({t:''},f,{id:f.id||'x'+i}));
 function applyCfg(c){(c.groups||[]).forEach(x=>{if(!GR[x.key])GR[x.key]={n:x.n,i:x.i||'🍽️',k:+x.k||0,c:+x.c||0,p:+x.p||0,f:+x.f||0};if(x.rg)GR[x.key].rg=x.rg});
- (c.types||[]).forEach(t=>{const G=GR[t.g];if(!G)return;if(!G.ty)G.ty={base:['عام',G.k,G.c,G.p,G.f,G.rg]};G.ty[t.key]=[t.n,+t.k||0,+t.c||0,+t.p||0,+t.f||0,t.rg]})}
+ (c.types||[]).forEach(t=>{const G=GR[t.g];if(!G)return;if(t.del){if(G.ty){delete G.ty[t.key];if(!Object.keys(G.ty).length)delete G.ty}return}if(!G.ty)G.ty={base:['عام',G.k,G.c,G.p,G.f,G.rg]};G.ty[t.key]=[t.n,+t.k||0,+t.c||0,+t.p||0,+t.f||0,t.rg]})}
+const g0b=(g,k)=>{try{const b=JSON.parse(GR0)[g];return !!(b&&b.ty&&b.ty[k])}catch(e){return false}};
 function rebuildGR(){const b=JSON.parse(GR0);Object.keys(GR).forEach(k=>delete GR[k]);Object.assign(GR,b);applyCfg(EXTRA_GROUPS);applyCfg(A.cfg)}
 // مجموعات البدائل الغذائية (قيم الحصة الواحدة): [الاسم، سعرات، كارب، بروتين، دهون]
 const GR={
@@ -476,6 +482,7 @@ function cat2ov(cat){const gs=(cat&&cat.groups)||[],fs=(cat&&cat.foods)||[];if(!
  const g0=JSON.parse(GR0),base=new Map(BASE.concat(EXTRA).map(f=>[f.id,f])),cfg={groups:[],types:[]},foods=[],seen=new Set();
  gs.forEach(g=>{const b=g0[g.key],rgc=g.rg&&typeof g.rg==='object'?g.rg:null;
   if(!b||JSON.stringify(rgc)!==JSON.stringify(b.rg||null)){const o={key:g.key,n:g.name,i:g.icon,k:+g.kcal||0,c:+g.carb||0,p:+g.prot||0,f:+g.fat||0};if(rgc)o.rg=rgc;cfg.groups.push(o)}
+  if(b&&b.ty)Object.keys(b.ty).forEach(bk=>{if(bk!=='base'&&!(g.types&&g.types[bk]))cfg.types.push({g:g.key,key:bk,del:true})});
   Object.entries(g.types||{}).forEach(([tk,a])=>{const bt=b&&b.ty&&b.ty[tk];if(bt&&JSON.stringify(trimA(bt))===JSON.stringify(trimA(a)))return;const t={g:g.key,key:tk,n:a[0],k:a[1],c:a[2],p:a[3],f:a[4]};if(a[5])t.rg=a[5];cfg.types.push(t)})});
  fs.forEach(f=>{if(!f||!f.id)return;seen.add(f.id);const o={id:f.id,g:f.grp,t:f.typ||'',name:f.name,d:f.descr||''};if(f.mac)o.mac=f.mac;if(f.rng)o.rng=f.rng;const b=base.get(f.id);if(b&&sameF(b,o))return;o.custom=true;foods.push(o)});
  return{foods,hidden:[...base.keys()].filter(id=>!seen.has(id)),cfg}}
@@ -903,7 +910,7 @@ function expText(){const J=v=>JSON.stringify(v).replace(/</g,'\\u003c'),u=A.user
  const fl=(A.foods||[]).filter(f=>f.custom);
  return 'const CATALOG_VER='+(A.pubver||0)+';\nconst DEFAULT_USERS=[\n'+u.map(x=>'  '+J(x)).join(',\n')+'\n];\nconst EXTRA_FOODS=[\n'+fl.map(f=>'  '+J(Object.assign({id:f.id,g:f.g,t:f.t,name:f.name,d:f.d},f.mac?{mac:f.mac}:{},f.rng?{rng:f.rng}:{}))).join(',\n')+'\n];\nconst HIDDEN_FOODS='+J(A.hidden||[])+';\nconst EXTRA_GROUPS='+J(A.cfg)+';'}
 function admExtra(){
- const gs=Object.keys(GR),cg=(A.cfg.groups||[]).map(x=>x.key),ct=(A.cfg.types||[]).map(x=>x.g+'|'+x.key);
+ const g0=JSON.parse(GR0),gs=Object.keys(GR),cg=(A.cfg.groups||[]).map(x=>x.key),ct=(A.cfg.types||[]).map(x=>x.g+'|'+x.key);
  const rgf=p=>`<label class="rtg"><input type="checkbox" id="${p}-rt" data-rtp="${p}"> <span>نطاق تقديري (من – إلى)</span></label><div class="arng hide" id="${p}-rg"><div class="mh">اتركي الكارب في الخانات أعلاه ثابتاً، وحددي هنا المدى المتغير. اتركي أي نطاق فارغاً لتثبيت قيمته.</div>
   <div class="rrow"><b>السعرات</b><label>من<input id="${p}-kn" type="number" inputmode="decimal" min="0" step="1"></label><label>إلى<input id="${p}-kx" type="number" inputmode="decimal" min="0" step="1"></label></div>
   <div class="rrow"><b>بروتين (جم)</b><label>من<input id="${p}-pn" type="number" inputmode="decimal" min="0" step="0.5"></label><label>إلى<input id="${p}-px" type="number" inputmode="decimal" min="0" step="0.5"></label></div>
@@ -911,7 +918,7 @@ function admExtra(){
   <label class="f" style="margin-top:8px">القيمة الافتراضية<select id="${p}-rd"><option value="mid">المنتصف</option><option value="min">الحد الأدنى</option></select></label></div>`;
  const n4=p=>`<div class="g4"><input id="${p}-k" type="number" inputmode="decimal" placeholder="سعرات"><input id="${p}-c" type="number" inputmode="decimal" placeholder="كارب"><input id="${p}-p" type="number" inputmode="decimal" placeholder="بروتين"><input id="${p}-f" type="number" inputmode="decimal" placeholder="دهون"></div>`+rgf(p);
  return `\u0001foods\u0002<div class="card"><h2>المجموعات والأنواع (للأدمن)</h2><div class="qres"><small>معيار الحصة الواحدة وقيمها يحددها الأدمن فقط؛ تتحكم الطالبة بعدد الحصص فقط.</small></div>
- ${gs.map(g=>{const G=GR[g];return `<div class="it"><div><b>${G.i} ${esc(G.n)}</b><small>${G.ty?Object.entries(G.ty).map(([k,a])=>esc(a[0])+(ct.includes(g+'|'+k)?` <button class="del" data-act="delt" data-g="${g}" data-t="${k}">×</button>`:'')).join(' · '):'الحصة: '+G.c+' كارب • '+G.p+' بروتين • '+G.f+' دهون ('+G.k+' سعرة)'+(G.rg?'<br>نطاق تقديري: '+esc(gRtxt({r:G.rg,b:{c:G.c}})):'')}</small></div>${cg.includes(g)?`<button class="del" data-act="delg" data-g="${g}">×</button>`:''}</div>`}).join('')}
+ ${gs.map(g=>{const G=GR[g];return `<div class="it"><div><b>${G.i} ${esc(G.n)}</b><small>${G.ty?Object.entries(G.ty).map(([k,a])=>`<div class="tyl"><span><b>${esc(a[0])}</b>${k==='base'?'':' — '+a[2]+' كارب ▪ '+a[3]+' بروتين ▪ '+a[4]+' دهون ('+a[1]+' سعرة)'+(a[5]?' · نطاق تقديري':'')}</span><span class="tya">${k==='base'?'':`<button class="del ed" data-act="edt" data-g="${g}" data-t="${k}">✎ تعديل</button>`}${k==='base'?'':(ct.includes(g+'|'+k)&&g0[g]&&g0[g].ty&&g0[g].ty[k]?`<button class="del" data-act="delt" data-g="${g}" data-t="${k}">↺ الأصل</button>`:'')+`<button class="del" data-act="delt" data-m="del" data-g="${g}" data-t="${k}">×</button>`}</span></div>`).join('')+(A.cfg.types||[]).filter(x=>x.g===g&&x.del).map(x=>`<div class="tyl"><span style="color:var(--mu)">محذوف: ${esc(((g0[g]&&g0[g].ty&&g0[g].ty[x.key])||[x.key])[0])}</span><span class="tya"><button class="del ed" data-act="delt" data-g="${g}" data-t="${x.key}">↺ استرجاع</button></span></div>`).join(''):'الحصة: '+G.c+' كارب • '+G.p+' بروتين • '+G.f+' دهون ('+G.k+' سعرة)'+(G.rg?'<br>نطاق تقديري: '+esc(gRtxt({r:G.rg,b:{c:G.c}})):'')}</small></div>${cg.includes(g)?`<button class="del" data-act="delg" data-g="${g}">×</button>`:''}</div>`}).join('')}
  <div class="f" style="margin-top:12px">إضافة مجموعة جديدة (قيم الحصة الواحدة)</div><div class="g2"><input id="ng-n" placeholder="اسم المجموعة"><input id="ng-i" placeholder="أيقونة (إيموجي)"></div>${n4('ng')}<button class="s full" style="margin-top:8px" data-act="addg">+ إضافة المجموعة</button>
  <div class="f" style="margin-top:14px">إضافة نوع فرعي داخل مجموعة</div><div class="g2"><select id="nt-g">${gs.map(g=>`<option value="${g}">${esc(GR[g].n)}</option>`).join('')}</select><input id="nt-n" placeholder="اسم النوع"></div>${n4('nt')}<div style="font-size:12px;color:var(--mu);margin:4px 0 8px">اتركي القيم فارغة لاستخدام قيم المجموعة.</div><button class="s full" data-act="addt">+ إضافة النوع</button>
  <div class="err" id="cfg-e"></div></div>
@@ -1270,9 +1277,10 @@ document.addEventListener('click',e=>{
  else if(a==='catc'){showCode=showCode==='cat'?null:'cat';if(showCode==='cat'){A.pubver=Date.now();A.catver=A.pubver;A.adm=true;saveA()}rr()}
  else if(a==='savekc'){S.profile.kc=Math.max(0,parseInt($('#kc').value)||0);save();rr()}
  else if(a==='addg'){const v=x=>Math.max(0,+$('#ng-'+x).value||0),n=$('#ng-n').value.trim();if(!n){$('#cfg-e').textContent='اكتبي اسم المجموعة.';return}const go={key:'g'+Date.now().toString(36),n,i:$('#ng-i').value.trim()||'🍽️',k:v('k'),c:v('c'),p:v('p'),f:v('f')};if($('#ng-rt').checked){const rg=rgReadG('ng');if(rg.e){$('#cfg-e').textContent=rg.e;return}go.rg=rg.r;if(!go.k&&rg.r.k)go.k=+((rg.r.k[0]+rg.r.k[1])/2).toFixed(1)}(A.cfg.groups=A.cfg.groups||[]).push(go);saveA();rebuildGR();rr()}
- else if(a==='addt'){const g=$('#nt-g').value,n=$('#nt-n').value.trim();if(!n){$('#cfg-e').textContent='اكتبي اسم النوع.';return}const r=gv(g,''),val=x=>{const q=$('#nt-'+x).value;return q===''?r[x]:Math.max(0,+q||0)};const to={g,key:'t'+Date.now().toString(36),n,k:val('k'),c:val('c'),p:val('p'),f:val('f')};if($('#nt-rt').checked){const rg=rgReadG('nt');if(rg.e){$('#cfg-e').textContent=rg.e;return}to.rg=rg.r;if(rg.r.k&&!$('#nt-k').value)to.k=+((rg.r.k[0]+rg.r.k[1])/2).toFixed(1)}(A.cfg.types=A.cfg.types||[]).push(to);saveA();rebuildGR();rr()}
+ else if(a==='addt'){const g=$('#nt-g').value,n=$('#nt-n').value.trim();if(!n){$('#cfg-e').textContent='اكتبي اسم النوع.';return}const r=gv(g,''),val=x=>{const q=$('#nt-'+x).value;return q===''?r[x]:Math.max(0,+q||0)};const ed=window.ntEdit&&window.ntEdit.g===g?window.ntEdit:null;const to={g,key:ed?ed.key:'t'+Date.now().toString(36),n,k:val('k'),c:val('c'),p:val('p'),f:val('f')};if($('#nt-rt').checked){const rg=rgReadG('nt');if(rg.e){$('#cfg-e').textContent=rg.e;return}to.rg=rg.r;if(rg.r.k&&!$('#nt-k').value)to.k=+((rg.r.k[0]+rg.r.k[1])/2).toFixed(1)}if(ed&&!to.rg&&ed.rg&&!$('#nt-rt').checked)to.rg=ed.rg;A.cfg.types=(A.cfg.types||[]).filter(x=>!(x.g===to.g&&x.key===to.key));A.cfg.types.push(to);window.ntEdit=null;saveA();rebuildGR();rr()}
  else if(a==='delg')arm(b,()=>{const g=b.dataset.g;A.cfg.groups=A.cfg.groups.filter(x=>x.key!==g);A.cfg.types=A.cfg.types.filter(x=>x.g!==g);saveA();rebuildGR();rr()});
- else if(a==='delt')arm(b,()=>{A.cfg.types=A.cfg.types.filter(x=>!(x.g===b.dataset.g&&x.key===b.dataset.t));saveA();rebuildGR();rr()});
+ else if(a==='edt'){const g=b.dataset.g,k=b.dataset.t,G=GR[g],t=G&&G.ty&&G.ty[k];if(t){window.ntEdit={g,key:k,rg:t[5]||null};$('#nt-g').value=g;$('#nt-n').value=t[0];$('#nt-k').value=t[1];$('#nt-c').value=t[2];$('#nt-p').value=t[3];$('#nt-f').value=t[4];const ab=document.querySelector('[data-act=addt]');if(ab)ab.textContent='💾 حفظ تعديل النوع';try{toast('عدّلي القيم ثم اضغطي «حفظ تعديل النوع»')}catch(e){}try{$('#nt-n').scrollIntoView({block:'center',behavior:'smooth'})}catch(e){}}}
+if(a==='delt')arm(b,()=>{const g=b.dataset.g,k=b.dataset.t,G=GR[g];if(b.dataset.m==='del'&&G&&G.ty&&Object.keys(G.ty).filter(x=>x!=='base').length<=1){try{toast('لا يمكن حذف آخر نوع في المجموعة')}catch(e){}return}A.cfg.types=(A.cfg.types||[]).filter(x=>!(x.g===g&&x.key===k));if(b.dataset.m==='del'&&g0b(g,k))A.cfg.types.push({g,key:k,del:true});saveA();rebuildGR();rr()});
  else if(a==='mp'){shift(b.dataset.g,b.dataset.i,-1,+b.dataset.m,1);save();rr()}
  else if(a==='mm'){shift(b.dataset.g,b.dataset.i,+b.dataset.m,-1,1);save();rr()}
  else if(a==='md'){shift(b.dataset.g,b.dataset.i,+b.dataset.m,-1,1e9);save();rr()}
