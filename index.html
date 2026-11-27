@@ -310,6 +310,12 @@ h1{color:#3F5A2B}
 .atabs button.on{background:linear-gradient(180deg,#58773F,#44602F);color:#fff;border-color:transparent}
 .pmform{display:block;margin:8px 0 12px;padding:14px;border:1px solid var(--bd);border-radius:18px;background:var(--m2)}.pmform>b{display:block;margin-bottom:6px;font-size:17px}.pmform .f{display:block;margin-top:10px}.pmform .f input,.pmform .f select{width:100%;box-sizing:border-box}.pmform .sgrp{margin:10px 0 0}.pmform input[type=date]{font:inherit;font-size:16px;padding:12px 14px;min-height:50px;border:1px solid var(--bd);border-radius:14px;background:#FBF6EA;color:var(--tx);direction:ltr;text-align:right}
 .wabox{display:flex;gap:6px;align-items:center;padding:6px 0 10px}.wabox input{flex:1;min-width:0}.wabox button{flex:0 0 auto}
+
+.mpk{background:#FBF6EA;border:1px solid rgba(176,150,100,.32);border-radius:16px;padding:12px 12px 8px;margin:-2px 0 12px}
+.mpk .mpl{font-size:12px;color:var(--mu);font-weight:600;margin-bottom:6px;line-height:1.5}
+.mpk .mpl2{font-size:12px;color:#8A6420;font-weight:700;margin:8px 0 2px}
+.mpk .sgrp{margin:4px 0 6px;gap:6px}
+.mpk .chp{padding:7px 12px;font-size:13px;line-height:1.3;cursor:pointer}
 </style>
 </head>
 <body>
@@ -329,6 +335,7 @@ h1{color:#3F5A2B}
  <h2 id="a-t2">إضافة صنف جديد</h2>
  <label class="f">اسم الصنف<input id="a-n" placeholder="مثال: خبز صاج"></label>
  <label class="f">معيار الحصة الواحدة (يحدده الأدمن فقط)<input id="a-d" placeholder="مثال: ½ كوب / 30 جم"></label>
+ <div class="mpk" id="a-pick"><div class="mpl">اختاري المعيار بدل الكتابة: كوب أو ملعقة، مع الغرامات إن أردتِ</div><div class="mpl2">الأكواب والملاعق</div><div class="sgrp" data-g="u"></div><div class="mpl2">الغرامات</div><div class="sgrp" data-g="g"></div></div>
  <div class="g2"><label class="f">المجموعة<select id="a-g"></select></label><label class="f" id="a-tl">النوع<select id="a-ty"></select></label></div>
  <label class="rtg"><input type="checkbox" id="a-rt"> <span>قيمة متغيرة (نطاق من – إلى)</span></label>
  <div class="arng hide" id="a-rg"><div class="mh">للأصناف ذات القيم غير الثابتة: يُحدَّد النطاق هنا، ثم تضبط المستخدمة القيمة الدقيقة داخله من الصفحة الرئيسية.</div>
@@ -1326,7 +1333,7 @@ function fillTy(){const G=GR[$('#a-g').value];$('#a-tl').classList.toggle('hide'
 function openAdd(id){eid=id||null;const f=id?byId(id):null;
  $('#a-g').innerHTML=Object.entries(GR).map(([k,G])=>`<option value="${k}">${G.n}</option>`).join('');
  $('#a-g').value=f?f.g:(ff!=='all'?ff:'starch');fillTy();if(f&&f.t)$('#a-ty').value=f.t;
- $('#a-n').value=f?f.name:'';$('#a-d').value=f?f.d:'';['c','p','f'].forEach(k=>{$('#a-m'+k).value=f&&f.mac?fm(f.mac[k]):''});amCalc();rgFill(f);$('#a-e').textContent='';$('#a-t2').textContent=f?'تعديل الصنف':'إضافة صنف جديد';dOpen($('#dlg'))}
+ $('#a-n').value=f?f.name:'';$('#a-d').value=f?f.d:'';['c','p','f'].forEach(k=>{$('#a-m'+k).value=f&&f.mac?fm(f.mac[k]):''});amCalc();rgFill(f);$('#a-e').textContent='';$('#a-t2').textContent=f?'تعديل الصنف':'إضافة صنف جديد';try{pkSync()}catch(e){}dOpen($('#dlg'))}
 function rgFill(f){const r=f&&f.rng,on=!!(r&&r.k);$('#a-rt').checked=on;[['a-kn','k',0],['a-kx','k',1],['a-pn','p',0],['a-px','p',1],['a-fn','f',0],['a-fx','f',1]].forEach(a=>{$('#'+a[0]).value=on&&r[a[1]]?r[a[1]][a[2]]:''});$('#a-rd').value=on&&r.def==='min'?'min':'mid';rgShow()}
 function rgShow(){const on=$('#a-rt').checked;$('#a-rg').classList.toggle('hide',!on);$('#a-fx2').classList.toggle('hide',on)}
 $('#a-rt').addEventListener('change',rgShow);
@@ -1389,6 +1396,29 @@ document.addEventListener('keydown',e=>{if(e.key==='Escape'&&$('#csov')){e.stopP
 new MutationObserver(()=>csAll()).observe(document.body,{childList:true,subtree:true});
 document.addEventListener('change',e=>{if(e.target.tagName==='SELECT')csEnh(e.target)},true);
 csAll();
+</script>
+<script>
+/* v62: منع قائمة الاقتراحات السوداء من المتصفح (السجل/الإكمال التلقائي) في كل خانات الإدخال */
+(function(){const fix=r=>{(r.querySelectorAll?r.querySelectorAll('input:not([type=checkbox]):not([type=radio]):not([type=password]),textarea'):[]).forEach(i=>{if(!i.hasAttribute('autocomplete')||i.getAttribute('autocomplete')==='on'){i.setAttribute('autocomplete','off')}i.setAttribute('autocorrect','off');i.setAttribute('spellcheck','false');if(i.id==='a-n'||i.id==='a-d'){i.setAttribute('autocapitalize','off')}})};
+fix(document);new MutationObserver(m=>m.forEach(x=>x.addedNodes.forEach(n=>{if(n.nodeType===1)fix(n)}))).observe(document.documentElement,{childList:true,subtree:true})})();
+</script>
+<script>
+/* v62: اختيار معيار الحصة (أكواب/ملاعق + غرامات) بدل الكتابة */
+(function(){
+const U=['⅛ كوب','¼ كوب','⅓ كوب','½ كوب','⅔ كوب','¾ كوب','1 كوب','1½ كوب','2 كوب','1 ملعقة صغيرة','1 ملعقة كبيرة','2 ملعقة كبيرة','3 ملاعق كبيرة'];
+const G=['5 جم','10 جم','15 جم','20 جم','25 جم','30 جم','40 جم','45 جم','50 جم','60 جم','75 جم','80 جم','90 جم','100 جم','120 جم','150 جم'];
+const box=document.getElementById('a-pick'),inp=document.getElementById('a-d');if(!box||!inp)return;
+const ug=box.querySelector('[data-g=u]'),gg=box.querySelector('[data-g=g]');
+const mk=(arr)=>arr.map(v=>'<button type="button" class="chp" data-v="'+v+'">'+v+'</button>').join('');
+ug.innerHTML=mk(U);gg.innerHTML=mk(G);
+window.pkSync=function(){const parts=inp.value.split('/').map(x=>x.trim().replace(/\s+/g,' ')).filter(Boolean);
+ box.querySelectorAll('.chp').forEach(b=>b.classList.toggle('on',parts.includes(b.dataset.v)))};
+box.addEventListener('click',e=>{const b=e.target.closest('.chp');if(!b)return;e.preventDefault();e.stopPropagation();
+ const grp=b.parentNode;const was=b.classList.contains('on');grp.querySelectorAll('.chp').forEach(x=>x.classList.remove('on'));if(!was)b.classList.add('on');
+ const u=ug.querySelector('.on'),g=gg.querySelector('.on');
+ inp.value=[u&&u.dataset.v,g&&g.dataset.v].filter(Boolean).join(' / ');inp.dispatchEvent(new Event('input',{bubbles:true}))});
+inp.addEventListener('input',()=>window.pkSync());
+})();
 </script>
 </body>
 </html>
