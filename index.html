@@ -1311,17 +1311,33 @@ function measDays(r){const rows=((r&&r.rows)||[]).filter(e=>+e.waist_cm>0).map(e
 function measHtml(r){const L=measDays(r);if(!L.length)return '<div class="qres"><small>لا توجد قياسات مسجّلة لهذه المشتركة بعد.</small></div>';
  const f=L[0],l=L[L.length-1],hh=l.h||f.h||0,sx=l.sx||f.sx||'f',multi=L.length>1,dd=multi?+(l.wc-f.wc).toFixed(1):null;
  return `<div class="wcc"><div class="mx"><div><b dir="ltr">${f.wc}</b><span>${multi?'أول قياس':'قياس البداية'}</span><small>${hDate(f.t)}${f.n>1?' • عُدّل في نفس اليوم':''}</small></div>${multi?`<div><b dir="ltr">${l.wc}</b><span>آخر قياس</span><small>${hDate(l.t)}${l.n>1?' • عُدّل في نفس اليوم':''}</small></div>`:''}</div>${multi?`<div class="dl"><span>الفرق منذ أول قياس</span><b class="${dd>0?'up':dd<0?'dn':''}"><span dir="ltr">${(dd>0?'+':dd<0?'−':'')+Math.abs(dd)}</span> سم</b></div>`:'<div class="mh" style="font-size:12.5px;margin-top:8px">قياس واحد حتى الآن — لا يظهر فرق قبل تسجيل قياس لاحق.</div>'}${multi?wcChart(L):''}<h3>التقييم</h3><div class="lg"><span>التقييم (WHO)</span><b>${wcLv(sx,l.wc)[0]}</b></div>${hh?`<div class="lg"><span>نسبة الخصر ÷ الطول</span><b dir="ltr">${(l.wc/hh).toFixed(2)}</b></div>`:''}<h3>السجل</h3>${L.slice().reverse().map(e=>`<div class="lg"><span>${hDate(e.t)}${e.w?` <i>• ${e.w} كجم</i>`:''}</span><b><span dir="ltr">${e.wc}</span> سم</b></div>`).join('')}</div>`}
-function ulogHtml(u,r){const now=Date.now(),ex=u.exp&&u.exp<now,tr=u.td&&u.td!==7,
+function ulogHtml(u,r,cs){const now=Date.now(),ex=u.exp&&u.exp<now,tr=u.td&&u.td!==7,
   stt=!u.active?'موقوف':!u.exp?'لم يُفعَّل بعد':ex?'منتهٍ':'مفعّل',typ=tr?'يومان تجربة':u.td===7?'اشتراك أسبوع':'اشتراك '+mLbl(u.months||2),ev=[];
  if(u.devAt)ev.push({t:u.devAt,a:'تفعيل الكود وربط أول جهاز'});
  if(u.exp)ev.push({t:u.exp,a:ex?'انتهى الاشتراك':'ينتهي الاشتراك'});
  if(u.seen)ev.push({t:typeof u.seen==='number'?u.seen:Date.parse(u.seen),a:'آخر ظهور'});
- const act=r&&r.ok!==false?measDays(r).map(e=>({t:e.t,a:'تسجيل قياس الخصر',b:e.wc+' سم'+(e.n>1?' • تحديث في نفس اليوم':'')})):[];
- const all=ev.concat(act).filter(e=>e.t>0).sort((a,b)=>b.t-a.t);
+ const L=ev.filter(e=>e.t>0).sort((a,b)=>b.t-a.t);
+ let cb;
+ if(!cs||cs.ok===false)cb='<div class="warn">تعذّر جلب الحالات. تأكدي من تشغيل ملف v63.sql في Supabase.</div>';
+ else if(!(cs.cases||[]).length)cb='<div class="qres"><small>لا توجد سجلات إضافية بعد — لم تُضِف هذه المشتركة أي حالة.</small></div>';
+ else cb=cs.cases.map(o=>ucaseHtml(o)).join('');
  return '<h2>سجل '+esc(u.name||'المشتركة')+'</h2><div class="qres"><small><b>حالة الاشتراك:</b> '+stt+' • '+typ+(u.exp?' • '+(ex?'انتهى في ':'ينتهي في ')+fdate(u.exp):'')+'</small></div>'+
- (all.length?all.map(e=>'<div class="lg"><span>'+hDate(e.t)+'</span><b>'+e.a+'</b>'+(e.b?'<small>'+esc(e.b)+'</small>':'')+'</div>').join(''):'')+
- (act.length?'':'<div class="qres"><small>لا توجد سجلات إضافية بعد.</small></div>')+
- '<div class="acts"><button class="s" data-act="meas" data-id="'+esc(u.id)+'">عرض القياسات</button><button class="s" data-act="sclose">إغلاق</button></div>'}
+ '<h3 style="font-size:14px;margin:14px 0 6px;color:var(--g2)">الحالات'+(cs&&cs.cases?' ('+cs.cases.length+')':'')+'</h3>'+cb+
+ (L.length?'<h3 style="font-size:14px;margin:14px 0 6px;color:var(--g2)">نشاط الحساب</h3>'+L.map(e=>'<div class="lg"><span>'+hDate(e.t)+'</span><b>'+e.a+'</b></div>').join(''):'')+
+ '<div class="acts"><button class="s" data-act="meas" data-id="'+esc(u.id)+'">القياسات</button><button class="s" data-act="sclose">إغلاق</button></div>'}
+function ucaseHtml(o){const f=(o.followups||[]).map(x=>({no:+x.no,t:x.at?Date.parse(x.at):0,w:x.w!=null?+x.w:0,wc:x.wc!=null?+x.wc:0,note:x.note||'',k:x.k||0})),
+  c={sex:o.sex||'f',a:+o.age,h:+o.height,pal:+o.pal,w0:+o.w0,wt:+o.wt,months:+o.months,fu:f},last=f.filter(x=>x.w).pop(),w=last?last.w:c.w0;
+ let pl=null;try{pl=cPlan(c,w,f.length)}catch(e){}
+ const done=f.length,tot=c.months,rem=+(c.wt-w).toFixed(1),ch=+(w-c.w0).toFixed(1),sg=v=>(v>0?'+':v<0?'−':'')+Math.abs(v);
+ return `<div class="qres" style="margin:8px 0"><b>${esc(o.name||'حالة')}</b><br><small>${o.sex==='m'?'ذكر':'أنثى'} • ${c.a} سنة • ${c.h} سم${o.start?' • بدأت '+hDate(Date.parse(o.start)):''}</small>
+ <div class="lg"><span>الوزن: البداية ← الهدف</span><b><span dir="ltr">${c.w0} ← ${c.wt}</span> كجم</b></div>
+ <div class="lg"><span>الوزن الحالي</span><b><span dir="ltr">${w}</span> كجم${last?` <i>(<span dir="ltr">${sg(ch)}</span>)</i>`:''}</b></div>
+ <div class="lg"><span>المتبقي للهدف</span><b><span dir="ltr">${Math.abs(rem)}</span> كجم</b></div>
+ <div class="lg"><span>مدة الخطة / الزيارات</span><b>${tot} أشهر • ${done} زيارة</b></div>
+ ${o.wc0?`<div class="lg"><span>محيط الخصر عند البداية</span><b><span dir="ltr">${o.wc0}</span> سم</b></div>`:''}
+ ${pl?`<div class="lg"><span>السعرات المقترحة</span><b><span dir="ltr">${pl.k}</span> سعرة</b></div><div class="lg"><span>كارب / بروتين / دهون</span><b><span dir="ltr">${pl.c} / ${pl.p} / ${pl.f}</span> غم</b></div>`:''}
+ ${f.length?`<h3 style="font-size:13px;margin:10px 0 2px;color:var(--g2)">الزيارات</h3>`+f.map(x=>`<div class="lg"><span>#${x.no}${x.t?' • '+hDate(x.t):''}</span><b>${x.w?`<span dir="ltr">${x.w}</span> كجم`:''}${x.wc?` • <span dir="ltr">${x.wc}</span> سم`:''}</b>${x.note?`<small>${esc(x.note)}</small>`:''}</div>`).join(''):'<div class="mh" style="font-size:12.5px;margin-top:6px">لا توجد زيارات متابعة بعد.</div>'}
+ </div>`}
 function wcChart(L){if(L.length<2)return'';const W=300,H=90,p=10,v=L.map(e=>e.wc),mn=Math.min(...v)-1,mx=Math.max(...v)+1,t0=L[0].t,t1=L[L.length-1].t||1,X=t=>p+(t1===t0?0:(t-t0)/(t1-t0))*(W-2*p),Y=x=>H-p-(x-mn)/(mx-mn||1)*(H-2*p),pts=L.map(e=>X(e.t).toFixed(1)+','+Y(e.wc).toFixed(1));
  return `<svg class="ch" viewBox="0 0 ${W} ${H}" preserveAspectRatio="none" aria-hidden="true"><polyline points="${pts.join(' ')}" fill="none" stroke="#5E7A3E" stroke-width="2.4" stroke-linejoin="round" stroke-linecap="round" vector-effect="non-scaling-stroke"/>${L.map(e=>`<circle cx="${X(e.t).toFixed(1)}" cy="${Y(e.wc).toFixed(1)}" r="3.4" fill="#44602F"/>`).join('')}</svg>`}
 function waistCard(p){
@@ -1533,7 +1549,7 @@ if(a==='delt')arm(b,()=>{const g=b.dataset.g,k=b.dataset.t,G=GR[g];if(b.dataset.
  else if(a==='wcadd'){const v=+($('#wc-in')||{}).value;if(!wcAdd(v,S.profile&&S.profile.w)){const e=$('#wc-e');if(e)e.textContent='أدخلي قيمة بين 40 و250 سم.';return}rr()}
 
  else if(a==='ulog'){const id=b.dataset.id,u=A.users.find(x=>x.id===id);if(!u)return;const d=$('#sdlg');d.innerHTML='<h2>سجل '+esc(u.name||'المشتركة')+'</h2><div class="qres"><small>جارٍ التحميل…</small></div><div class="acts"><button class="s" data-act="sclose">إغلاق</button></div>';dOpen(d);
-  rpc('admin_list_measurements',{p_admin:ADM_PASS,p_sub_id:id}).catch(()=>null).then(r=>{d.innerHTML=ulogHtml(u,r)})}
+  rpc('admin_list_cases',{p_admin:ADM_PASS,p_sub_id:id}).catch(()=>null).then(r=>{d.innerHTML=ulogHtml(u,r,r)})}
  else if(a==='meas'){const id=b.dataset.id,u=A.users.find(x=>x.id===id);if(!u)return;const d=$('#sdlg');d.innerHTML='<h2>قياسات '+esc(u.name||'المشتركة')+'</h2><div class="qres"><small>جارٍ التحميل…</small></div><div class="acts"><button class="s" data-act="sclose">إغلاق</button></div>';dOpen(d);
   rpc('admin_list_measurements',{p_admin:ADM_PASS,p_sub_id:id}).then(r=>{const body=!r||r.ok===false?'<div class="warn">تعذّر جلب القياسات. تأكدي من تشغيل ملف v61.sql في Supabase.</div>':measHtml(r);
    d.innerHTML='<h2>قياسات '+esc(u.name||'المشتركة')+'</h2>'+body+'<div class="acts"><button class="s" data-act="ulog" data-id="'+esc(id)+'">رجوع للسجل</button><button class="s" data-act="sclose">إغلاق</button></div>'}).catch(()=>{d.innerHTML='<h2>قياسات</h2><div class="warn">تعذّر الاتصال بالسحابة.</div><div class="acts"><button class="s" data-act="sclose">إغلاق</button></div>'})}
