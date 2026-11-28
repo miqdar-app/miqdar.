@@ -393,7 +393,7 @@ h1{color:#3F5A2B}
  <h2 id="a-t2">إضافة صنف جديد</h2>
  <label class="f">اسم الصنف<input id="a-n" placeholder="مثال: خبز صاج"></label>
  <label class="f">معيار الحصة الواحدة (يحدده الأدمن فقط)<input id="a-d" placeholder="مثال: ½ كوب / 30 غم"></label>
- <div class="mpk" id="a-pick"><div class="mrow"><button type="button" class="msel" data-t="u"><span>اختاري كوباً أو ملعقة</span><i>▾</i></button><button type="button" class="msel" data-t="g"><span>اختاري الغرامات</span><i>▾</i></button></div><div class="mbox" data-g="u"></div><div class="mbox" data-g="g"></div></div>
+ <div class="f" id="a-vn" style="display:none;background:#eaf0e1;border-radius:12px;padding:10px 12px;margin:6px 0"></div><div class="mpk" id="a-pick"><div class="mrow"><button type="button" class="msel" data-t="u"><span>اختاري كوباً أو ملعقة</span><i>▾</i></button><button type="button" class="msel" data-t="g"><span>اختاري الغرامات</span><i>▾</i></button></div><div class="mbox" data-g="u"></div><div class="mbox" data-g="g"></div></div>
  <div class="g2"><label class="f">المجموعة<select id="a-g"></select></label><label class="f" id="a-tl">النوع<select id="a-ty"></select></label></div>
  <label class="rtg"><input type="checkbox" id="a-rt"> <span>قيمة متغيرة (نطاق من – إلى)</span></label>
  <div class="arng hide" id="a-rg"><div class="mh">للأصناف ذات القيم غير الثابتة: يُحدَّد النطاق هنا، ثم تضبط المستخدمة القيمة الدقيقة داخله من الصفحة الرئيسية.</div>
@@ -457,8 +457,13 @@ const GR={
  milk:{n:'الحليب',i:'🥛',ty:{skim:['خالي الدسم',80,12,8,0],low:['قليل الدسم',125,12,8,5],full:['كامل الدسم',150,12,8,8]}},
  meat:{n:'اللحوم وبدائلها',i:'🍗',ty:{lean:['قليلة الدهون',55,0,7,3],med:['متوسطة الدهون',75,0,7,5],high:['عالية الدهون',100,0,7,8]}},
  fat:{n:'الدهون',i:'🫒',k:45,c:0,p:0,f:5},
- free:{n:'الأطعمة الحرة',i:'🍃',k:0,c:0,p:0,f:0}
+ free:{n:'الأطعمة الحرة',i:'🍃',k:0,c:0,p:0,f:0},
+ main:{n:'الأطباق الرئيسية',i:'🍲',k:300,c:35,p:15,f:12,ty:{mn:['المنسف',300,35,15,12],rc:['أطباق الرز',300,35,15,12],mh:['المحاشي',300,35,15,12],gr:['أطباق الحبوب الرئيسية',300,35,15,12],ch:['صواني الدجاج',300,35,15,12],lb:['أطباق اللبن',300,35,15,12],bq:['أطباق البقلاء',300,35,15,12]}},
+ sweet:{n:'الحلويات',i:'🍰',k:200,c:30,p:3,f:8,ty:{se:['حلويات شرقية',200,30,3,8],sw:['حلويات غربية',200,30,3,8],sp:['معجنات حلوة',200,30,3,8]}},
+ appt:{n:'المقبلات',i:'🥙',k:100,c:10,p:4,f:5,ty:{ac:['مقبلات باردة',100,10,4,5],ah:['مقبلات ساخنة',100,10,4,5],am:['معجنات مالحة',100,10,4,5]}}
 };
+const COMPG=['main','sweet','appt'];let compOpen=true;
+function homeGroups(per){const ks=Object.keys(GR),cg=ks.filter(g=>COMPG.indexOf(g)>=0),on=ks.filter(g=>COMPG.indexOf(g)<0).map(g=>gcard(g,per[g])).join('');if(!cg.length)return on;const used=cg.reduce((a,g)=>a+(per[g]?per[g].sum||0:0),0);return on+`<div class="gc" style="border:2px solid var(--g1,#4f6b3a);padding:0 10px 4px;background:#f6f3e8"><button class="gh" data-act="comp" style="padding:14px 6px"><span class="ic">🍽️</span><span class="gn"><b>الأطعمة المركبة</b><div class="pls"><small>الأطباق الرئيسية • الحلويات • المقبلات</small></div></span><span class="gt"><b>${compOpen?'▾':'◂'}</b></span></button>${compOpen?cg.map(g=>gcard(g,per[g])).join(''):''}</div>`}
 const VEGD='½ كوب مطبوخ / 1 كوب نيء';
 const BASE=[
 ['starch','','ربع رغيف خبز عربي','¼ رغيف'],['starch','','شريحة خبز توست','1 شريحة'],['starch','','أرز مطبوخ','⅓ كوب'],['starch','','شوفان مطبوخ','½ كوب'],
@@ -1109,7 +1114,7 @@ function pHome(){
  [['البروتين',t.p,T.p],['الكارب',t.c,T.c],['الدهون',t.f,T.f]].forEach(([n,r,u])=>{if(u-r>.5)w.push(`${n} بمقدار ${R(u-r)} غم`)});
  return `<div class="sb"><div class="sbi"><div class="sk${o?' o':''}"><small>${o?'تجاوز السعرات':'السعرات المتبقية'}</small><b>${R(Math.abs(rem))}</b><small>مطلوب ${t.k} · مستهلك ${R(T.k)}</small></div><div class="rings cmp">${ring('كارب',t.c,T.c)}${ring('بروتين',t.p,T.p)}${ring('دهون',t.f,T.f)}</div></div></div>
  ${w.length?`<div class="warn" style="margin:0 0 10px">تنبيه لطيف: تجاوزت الحد في ${w.join('، ')}.</div>`:''}
- ${autoBox(t,T,per)}<h2>مجموعات البدائل الغذائية</h2>${Object.keys(GR).map(g=>gcard(g,per[g])).join('')}
+ ${autoBox(t,T,per)}<h2>مجموعات البدائل الغذائية</h2>${homeGroups(per)}
  <button class="full" data-act="newcase" style="margin-bottom:8px">＋ حالة جديدة (تصفير الجدول والبيانات)</button>
  <button class="r full" data-act="reset">بدء يوم جديد (تصفير الوجبات)</button>`;
 }
@@ -1181,7 +1186,7 @@ function gcard(g,x){
   h+=`<div class="std">الحصة الواحدة: ${std(q.t)}</div><div class="it"><div><b>عدد حصص المجموعة</b><small>تحددينه أنتِ، والأصناف أدناه تُحسب ضمنه</small></div><div class="q"><button data-act="qm" data-g="${g}">−</button><b class="qn">${q.n}</b><button data-act="qp" data-g="${g}">+</button></div></div>`;
   Object.entries(ex().items).forEach(([id,n])=>{const f=byId(id);if(!f||(f.g!==g&&!(isC(f)&&pIn(f,g)>0)))return;if(f.g!==g){const pn=pIn(f,g)*n;h+=`<div class="it"><div><b>${esc(fd(f.name))}</b> <span class="bd">من تركيب حصص</span><small>${nf(pn)} حصة من هذه المجموعة ضمن تركيب الصنف، تُخصم من رصيدها وسعراتها محسوبة في «${esc(GR[f.g].n)}» (للتعديل: من هناك)</small></div></div>`;return}const v=iv(f);
    h+=`<div class="it"><div><b>${esc(fd(f.name))}</b>${isC(f)?' <span class="bd">تركيب حصص</span>':f.mac?' <span class="bd">ماكروز معدّلة</span>':''}<small>الحصة الواحدة = ${esc(fd(f.d))}${f.t?' · '+tn(g,f.t):''}${isC(f)?'<br>التركيب: '+esc(cLabel(f,n))+(n!==1?' (لـ '+nf(n)+' حصة)':''):''}<br><b class="tq">المقدار الكلي: ${esc(tot(f.d,n))}</b> — ${R(v.k*n)} سعرة${f.mac?'<br>كارب '+fm(v.c*n)+' • بروتين '+fm(v.p*n)+' • دهون '+fm(v.f*n)+' غم':''}</small></div><div class="q"><button data-act="im" data-id="${id}">−</button><b class="qn">${n}</b><button data-act="ip" data-id="${id}">+</button><button class="del" data-act="irm" data-id="${id}" aria-label="حذف">×</button></div></div>${f.rng?`<div class="vr"><div class="vrl">${esc(rgTxt(f,n))}</div><input type="range" class="vrs" min="0" max="100" step="1" value="${Math.round(rgT(f)*100)}" data-id="${id}" aria-label="ضبط القيمة داخل النطاق"><div class="vrv" id="rv-${id}">القيمة المحددة: <b>${R(v.k)}</b> سعرة للحصة — <b>${R(v.k*n)}</b> سعرة لـ ${nf(n)} حصة</div></div>`:''}`});
-  h+=x.over>0?`<div class="warn">الأصناف المختارة (${+x.sum.toFixed(2)} حصة) تتجاوز حصص المجموعة المحددة (${x.N}). لم يتغيّر العدد المحدد، والزيادة محسوبة في السعرات؛ زيدي حصص المجموعة أو قلّلي الأصناف.</div>`:`<div class="std">موزّع على أصناف: ${+x.sum.toFixed(2)} من ${x.N} — غير مخصص: ${+(x.N-x.sum).toFixed(2)}${x.N-x.sum>0&&G.ty?' (يُحسب بنوع '+tn(g,q.t)+')':''}</div>`;
+  h+=x.over>0?`<div class="warn">الأصناف المختارة (${+x.sum.toFixed(2)} حصة) تتجاوز حصص المجموعة المحددة (${x.N}). لم يتغيّر العدد المحدد، والزيادة محسوبة في السعرات؛ زيدي حصص المجموعة أو قلّلي الأصناف.</div>`:`<div class="std">موزّع على أصناف: ${+x.sum.toFixed(2)} من ${x.N} — غير مخصص: ${+(x.N-x.sum).toFixed(2)}${x.N-x.sum>0&&G.ty?' (يُحسب بنوع '+tn(g,q.t)+')':''}${g==='veg'&&x.N>0?'<br><b class="tq">المقدار الكلي للمجموعة: '+vegSz({d:q.t==='vr'?'1 كوب':'½ كوب'},x.N)+'</b>':''}</div>`;
   h+=`<div class="pick">${csPick(g,q,G)}<select id="sn-${g}">${[.5,1,1.5,2,3].map(n=>`<option${n===1?' selected':''}>${n}</option>`).join('')}</select><button data-act="iadd" data-g="${g}">إضافة</button>${macPanel(g,q,G)}${csPanel(g,q,G)}</div>`;
   h+='</div>';
  }
@@ -1291,7 +1296,7 @@ function pMeals(){
  ${over?'<div class="warn" style="margin-bottom:10px">بعض الأصناف تتجاوز حصص مجموعتها المحددة؛ الزيادة محسوبة في المجاميع.</div>':''}`
  +undist(D,per)+MEALS.map(([k,n,ic],i)=>{const m=D[i];let rows='';
   Object.entries(m.g).forEach(([g,x])=>{
-   x.items.forEach(y=>rows+=mrow(g,y.f.id,(VEGS[y.f.id]&&g==='veg')?vegLbl(y.f.id):y.f.name,(g==='free'&&!isC(y.f))?'('+fd(y.f.d)+' • '+nf(y.n)+' حصة) — '+R(iv(y.f).k*y.n)+' سعرة • '+fm(iv(y.f).c*y.n)+' كارب غم • '+fm(iv(y.f).p*y.n)+' بروتين غم • '+fm(iv(y.f).f*y.n)+' دهون غم':((VEGS[y.f.id]||isVv(y.f))&&g==='veg')?'('+fd(y.f.d)+' • '+nf(y.n)+' حصة) — '+R(iv(y.f).k*y.n)+' سعرة • '+fm(iv(y.f).c*y.n)+' كارب غم • '+fm(iv(y.f).p*y.n)+' بروتين غم • '+fm(iv(y.f).f*y.n)+' دهون غم':isC(y.f)?'التركيب: '+cLabel(y.f,y.n):tot(y.f.d,y.n)+' (الحصة = '+fd(y.f.d)+')'+(y.f.t?' · '+tn(g,y.f.t):''),y.n,iv(y.f),i,(D.un[g+'|'+y.f.id]||{half:0}).half));
+   x.items.forEach(y=>rows+=mrow(g,y.f.id,(VEGS[y.f.id]&&g==='veg')?vegLbl(y.f.id):y.f.name,(g==='free'&&!isC(y.f))?'('+fd(y.f.d)+' • '+nf(y.n)+' حصة) — '+R(iv(y.f).k*y.n)+' سعرة • '+fm(iv(y.f).c*y.n)+' كارب غم • '+fm(iv(y.f).p*y.n)+' بروتين غم • '+fm(iv(y.f).f*y.n)+' دهون غم':((VEGS[y.f.id]||isVv(y.f))&&g==='veg')?'('+vegSz(y.f,y.n)+' • '+nf(y.n)+' حصة) — '+R(iv(y.f).k*y.n)+' سعرة • '+fm(iv(y.f).c*y.n)+' كارب غم • '+fm(iv(y.f).p*y.n)+' بروتين غم • '+fm(iv(y.f).f*y.n)+' دهون غم':isC(y.f)?'التركيب: '+cLabel(y.f,y.n):tot(y.f.d,y.n)+' (الحصة = '+fd(y.f.d)+')'+(y.f.t?' · '+tn(g,y.f.t):''),y.n,iv(y.f),i,(D.un[g+'|'+y.f.id]||{half:0}).half));
    if(x.rest>0)rows+=mrow(g,'_','حصة '+GR[g].n+' بدون صنف محدد',GR[g].ty?tn(g,x.t):'',x.rest,gvA(g,x.t,Math.max(0,per[g].N-per[g].sum)),i,(D.un[g+'|_']||{half:0}).half)});
   return `<div class="card"><div class="hd2"><b style="font-size:17px">${ic} ${n}</b><span class="mk">${R(m.k)} سعرة${tk?' · '+R(m.k/tk*100)+'%':''}</span></div>
   <div class="mm"><span>كارب <b>${R(m.c)}</b></span><span>بروتين <b>${R(m.p)}</b></span><span>دهون <b>${R(m.f)}</b></span><span>حصص <b>${+m.n.toFixed(2)}</b></span></div>
@@ -1608,6 +1613,7 @@ if(a==='delt')arm(b,()=>{const g=b.dataset.g,k=b.dataset.t,G=GR[g];if(b.dataset.
  else if(a==='autoh'){ex().sug=false;save();rr()}
  else if(a==='mact'){const g=b.dataset.g,p=$('#mac-'+g);if(!p)return;p.classList.toggle('hide');if(!p.classList.contains('hide'))macFill(g)}
  else if(a==='mdel'){S.mine=(S.mine||[]).filter(x=>x.id!==b.dataset.id);delete ex().items[b.dataset.id];save();fList()}
+ else if(a==='comp'){compOpen=!compOpen;rr()}
  else if(a==='iadd'){const g=b.dataset.g,s=$('#sel-'+g);if(s&&s.value){let sid=s.value;if(g==='veg'){const f0=byId(sid);if(f0&&f0.d===VEGD)sid=mkVeg(f0)}const n=+$('#sn-'+g).value||1,r=macAdd(g,sid,n);if(r===null)return;if(r===false){if(String(sid).indexOf('gen|')===0){const q0=qg(g);q0.n=+(q0.n+n).toFixed(2);save()}else addItem(sid,n)}save();rr()}}
  else if(a==='fadd'){addItem(b.dataset.id,1);fList()}
  else if(a==='filt'){ff=b.dataset.k;render()}
@@ -1655,11 +1661,12 @@ if(a==='delt')arm(b,()=>{const g=b.dataset.g,k=b.dataset.t,G=GR[g];if(b.dataset.
    return r})}
 });
 async function admAct(fn){if(admBusy)return;admBusy=true;try{const r=await fn();if(r&&r.ok===false&&!r.silent){cloudSet('تعذّر التنفيذ: '+(ERRM[r.err]||r.err||''),0)}if(!r||r.ok!==false||!r.silent)await admRefresh()}catch(x){cloudSet('تعذّر الاتصال بالسحابة.',0)}finally{admBusy=false;if(page==='adm')rr()}}
-function fillTy(){const G=GR[$('#a-g').value];$('#a-tl').classList.toggle('hide',!G.ty);$('#a-ty').innerHTML=G.ty?Object.entries(G.ty).map(([k,a])=>`<option value="${k}">${a[0]}</option>`).join(''):''}
+function vegLock(){const g=$('#a-g').value,f0=eid?byId(eid):null,on=g==='veg'&&!(f0&&f0.d===VEGD),lb=$('#a-d').closest('label');lb.style.display=on?'none':'';$('#a-pick').style.display=on?'none':'';const n=$('#a-vn');n.style.display=on?'':'none';if(on){const t=$('#a-ty').value,m=t==='vr'?'1 كوب':'½ كوب';$('#a-d').value=m;n.innerHTML='معيار الحصة يتحدد حسب النوع المختار: <b>'+m+'</b>'}}
+function fillTy(){const G=GR[$('#a-g').value];$('#a-tl').classList.toggle('hide',!G.ty);$('#a-ty').innerHTML=G.ty?Object.entries(G.ty).map(([k,a])=>`<option value="${k}">${a[0]}</option>`).join(''):'';try{vegLock()}catch(e){}}
 function openAdd(id){eid=id||null;const f=id?byId(id):null;
  $('#a-g').innerHTML=Object.entries(GR).map(([k,G])=>`<option value="${k}">${G.n}</option>`).join('');
  $('#a-g').value=f?f.g:(ff!=='all'?ff:'starch');fillTy();if(f&&f.t)$('#a-ty').value=f.t;
- $('#a-n').value=f?f.name:'';$('#a-d').value=f?gm(f.d):'';['c','p','f'].forEach(k=>{$('#a-m'+k).value=f&&f.mac?fm(f.mac[k]):''});amCalc();rgFill(f);cmpFill(f);$('#a-e').textContent='';$('#a-t2').textContent=f?'تعديل الصنف':'إضافة صنف جديد';try{pkSync()}catch(e){}dOpen($('#dlg'))}
+ $('#a-n').value=f?f.name:'';$('#a-d').value=f?gm(f.d):'';['c','p','f'].forEach(k=>{$('#a-m'+k).value=f&&f.mac?fm(f.mac[k]):''});amCalc();rgFill(f);cmpFill(f);$('#a-e').textContent='';$('#a-t2').textContent=f?'تعديل الصنف':'إضافة صنف جديد';try{pkSync()}catch(e){}try{vegLock()}catch(e){}dOpen($('#dlg'))}
 function rgFill(f){const r=f&&f.rng,on=!!(r&&r.k);$('#a-rt').checked=on;[['a-kn','k',0],['a-kx','k',1],['a-pn','p',0],['a-px','p',1],['a-fn','f',0],['a-fx','f',1]].forEach(a=>{$('#'+a[0]).value=on&&r[a[1]]?r[a[1]][a[2]]:''});$('#a-rd').value=on&&r.def==='min'?'min':'mid';rgShow()}
 function rgShow(){const on=$('#a-rt').checked;$('#a-rg').classList.toggle('hide',!on);$('#a-fx2').classList.toggle('hide',on)}
 $('#a-rt').addEventListener('change',rgShow);
@@ -1696,7 +1703,7 @@ function cmpFill(f){cmpS={};const xs=isC(f)?cX(f):[];cmpRows();xs.forEach(([g,t,
 document.addEventListener('click',e=>{const b=e.target.closest('#a-mode button');if(b){e.preventDefault();cmpMd(b.dataset.m);return}
  const d=e.target.closest('#a-crows button[data-k]');if(d){e.preventDefault();const k=d.dataset.k,v=Math.max(0,Math.min(20,+((+cmpS[k]||0)+(+d.dataset.d)).toFixed(2)));if(v>0)cmpS[k]=v;else delete cmpS[k];cmpDraw()}});
 ['a-xc','a-xp','a-xf'].forEach(i=>$('#'+i).addEventListener('input',cmpPrev));
-$('#a-g').onchange=fillTy;$('#a-no').onclick=()=>dClose($('#dlg'));
+$('#a-g').onchange=fillTy;$('#a-ty').onchange=vegLock;$('#a-no').onclick=()=>dClose($('#dlg'));
 $('#a-ok').onclick=()=>{if(!can('foods')){dClose($('#dlg'));return}
  const n=$('#a-n').value.trim(),d=$('#a-d').value.trim(),g=$('#a-g').value;
  if(!n||!d){$('#a-e').textContent='اكتب اسم الصنف ووصف الحصة.';return}
