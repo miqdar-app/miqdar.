@@ -1061,6 +1061,7 @@ function pHome(){
  return `<div class="sb"><div class="sbi"><div class="sk${o?' o':''}"><small>${o?'تجاوز السعرات':'السعرات المتبقية'}</small><b>${R(Math.abs(rem))}</b><small>مطلوب ${t.k} · مستهلك ${R(T.k)}</small></div><div class="rings cmp">${ring('كارب',t.c,T.c)}${ring('بروتين',t.p,T.p)}${ring('دهون',t.f,T.f)}</div></div></div>
  ${w.length?`<div class="warn" style="margin:0 0 10px">تنبيه لطيف: تجاوزت الحد في ${w.join('، ')}.</div>`:''}
  ${autoBox(t,T,per)}<h2>مجموعات البدائل الغذائية</h2>${Object.keys(GR).map(g=>gcard(g,per[g])).join('')}
+ <button class="full" data-act="newcase" style="margin-bottom:8px">＋ حالة جديدة (تصفير الجدول والبيانات)</button>
  <button class="r full" data-act="reset">بدء يوم جديد (تصفير الوجبات)</button>`;
 }
 const fm=v=>+(+v).toFixed(1);
@@ -1298,6 +1299,7 @@ function pMe(){
  ${mCard(t)}
  ${histCard()}${isAdm()?'':(()=>{const x=who();return x&&x.exp?`<div class="card"><h2>اشتراكك</h2><div class="kv"><span>ينتهي في</span><b>${fdate(x.exp)}</b></div><div class="kv"><span>المتبقي</span><b>${Math.max(0,Math.ceil((x.exp-Date.now())/864e5))} يوم</b></div></div>`:''})()}
  ${isAdm()?'':`<div class="card"><h2>تحديث قائمة الأصناف</h2><div class="qres"><small>إن ظهر لديكِ صنف قديم أو كسر غير صحيح، اضغطي لإعادة تحميل قائمة الأصناف والمجموعات المضمّنة في هذه النسخة. وجباتك وبياناتك وأصنافك الخاصة لا تتأثر.</small></div><button class="s full" data-act="rstcat">إعادة تحميل قائمة الأصناف</button><div class="mh" id="rst-m"></div></div>`}
+<button class="full" data-act="newcase">＋ حالة جديدة (تصفير الجدول والبيانات)</button><div class="mh" style="font-size:12px;color:var(--mu);margin:6px 0 12px;text-align:center">تُحفظ الحالة الحالية تلقائياً في السجل ثم تبدأين ببيانات فارغة.</div>
  <button class="r full" data-act="logout">تسجيل الخروج</button>`;
 }
 function staffBar(sp){const nm=(who()||{}).name||'';
@@ -1354,9 +1356,11 @@ if(a==='delt')arm(b,()=>{const g=b.dataset.g,k=b.dataset.t,G=GR[g];if(b.dataset.
  else if(a==='mm'){shift(b.dataset.g,b.dataset.i,+b.dataset.m,-1,1);save();rr()}
  else if(a==='md'){shift(b.dataset.g,b.dataset.i,+b.dataset.m,-1,1e9);save();rr()}
  else if(a==='hsave'){const {T}=totals();if(!(T.k>0)){try{toast('لا يوجد شيء لحفظه بعد')}catch(e){}return}
-  const nm=(($('#h-n')||{}).value||'').trim()||('حالة '+hDate(Date.now())),r={id:'h'+Date.now().toString(36),name:nm,at:Date.now(),k:R(T.k),c:R(T.c),p:R(T.p),f:R(T.f),d:{ex:hCopy(S.ex),mv:hCopy(S.mv)}};
+  const nm=(($('#h-n')||{}).value||'').trim()||('حالة '+hDate(Date.now())),r={id:'h'+Date.now().toString(36),name:nm,at:Date.now(),k:R(T.k),c:R(T.c),p:R(T.p),f:R(T.f),d:{ex:hCopy(S.ex),mv:hCopy(S.mv),pr:hCopy(S.profile)}};
   S.hist=[r].concat(S.hist||[]).slice(0,60);save();const i=$('#h-n');if(i)i.value='';try{toast('تم الحفظ في السجل')}catch(e){}}
- else if(a==='hopen')arm(b,()=>{const r=(S.hist||[]).find(x=>x.id===b.dataset.id);if(!r)return;S.ex=hCopy(r.d.ex);if(!S.ex.items)S.ex.items={};if(!S.ex.q)S.ex.q={};S.mv=hCopy(r.d.mv);save();page='home';anim=true;render();scrollTo(0,0)})
+ else if(a==='hopen')arm(b,()=>{const r=(S.hist||[]).find(x=>x.id===b.dataset.id);if(!r)return;S.ex=hCopy(r.d.ex);if(!S.ex.items)S.ex.items={};if(!S.ex.q)S.ex.q={};S.mv=hCopy(r.d.mv);if(r.d.pr&&r.d.pr.sex){S.profile=hCopy(r.d.pr);editing=false;qz=null;fg=null;fadj=null}save();page='home';anim=true;render();scrollTo(0,0)})
+ else if(a==='newcase')arm(b,()=>{const {T}=totals();if(T.k>0&&S.profile){S.hist=[{id:'h'+Date.now().toString(36),name:'حالة '+hDate(Date.now())+' (حُفظت تلقائياً)',at:Date.now(),k:R(T.k),c:R(T.c),p:R(T.p),f:R(T.f),d:{ex:hCopy(S.ex),mv:hCopy(S.mv),pr:hCopy(S.profile)}}].concat(S.hist||[]).slice(0,60)}
+  S.ex={items:{},q:{}};S.mv={};S.profile=null;editing=true;qz=null;fg=null;fadj=null;save();page='me';anim=true;render();scrollTo(0,0)})
  else if(a==='hdel')arm(b,()=>{S.hist=(S.hist||[]).filter(x=>x.id!==b.dataset.id);save();rr()})
  else if(a==='mauto'){S.mv={};save();rr()}
  else if(a==='tog'){op[b.dataset.g]=!op[b.dataset.g];lastTog=op[b.dataset.g]?b.dataset.g:null;rr()}
