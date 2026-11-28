@@ -83,7 +83,7 @@ dialog::backdrop{background:rgba(60,45,30,.45)}
 .acts{display:flex;gap:8px;margin-top:8px}.acts button{flex:1}
 .mls{display:flex;gap:6px;flex-wrap:wrap;margin-bottom:10px}.mls label{background:var(--m1);border-radius:10px;padding:6px 10px;font-size:13px;color:var(--g2);font-weight:600;display:flex;gap:6px;align-items:center}
 .mls input{accent-color:var(--g2);margin:0}
-.opts{display:flex;flex-wrap:wrap;gap:6px;margin-bottom:12px}.opts button{background:var(--m2);color:var(--g2);border:1px solid var(--bd);padding:8px 12px;font-size:14px}.opts button.on{background:var(--g2);color:#fff;border-color:var(--g2)}
+.opts{display:flex;flex-wrap:wrap;gap:6px;margin-bottom:12px}.opts.opg{display:flex;flex-wrap:nowrap;overflow-x:auto;gap:6px;margin-bottom:4px;padding-bottom:6px;scrollbar-width:none;-webkit-overflow-scrolling:touch}.opts.opg::-webkit-scrollbar{display:none}.opts.opg button{flex:none;white-space:nowrap;padding:7px 14px;font-size:13px;font-weight:700;border-radius:999px;box-shadow:none}.opgh{font-size:11.5px;color:var(--mu);margin:0 0 10px}.opts button{background:var(--m2);color:var(--g2);border:1px solid var(--bd);padding:8px 12px;font-size:14px}.opts button.on{background:var(--g2);color:#fff;border-color:var(--g2)}
 .qres{background:var(--m1);border:1px solid var(--bd);border-radius:14px;padding:10px 12px;margin:4px 0 12px;color:var(--g2)}.qres small{display:block;color:var(--mu);font-size:13px}
 #wm{position:sticky;top:env(safe-area-inset-top,0px);z-index:22;height:32px;line-height:32px;text-align:center;background:var(--m1);border-bottom:1px solid var(--bd);color:var(--g2);font-size:13px;font-weight:700;padding:0 10px;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
 textarea{min-height:76px;margin:6px 0;resize:vertical}
@@ -1200,7 +1200,7 @@ function gcard(g,x){
  if(op[g]){
   h+=`<div class="gb${lastTog===g?' opn':''}">`;
   if(g==='free')h+=hintBox('free',`<b>الأطعمة الحرة:</b> أقل من 20 سعرة أو ≤ 5 غم كارب للحصة — يُفضّل ألا تتجاوز 3 حصص يومياً موزعة خلال اليوم للأطعمة ذات الحصة المحددة، وغير محددة للخالية من الطاقة.<br>قيمها صفرية افتراضياً (0 سعرة • 0 كارب • 0 بروتين • 0 دهون) ولا تُخصم من حصص المجموعات الأخرى. لإدخال قيمة فعلية لصنف معيّن في حالة خاصة استخدمي «إضافة صنف جديد» ثم اختاري الإدخال اليدوي.`);
-  if(G.ty)h+=`<div class="f" style="margin-top:10px">نوع الحصص غير المخصصة لأصناف</div><div class="opts">${Object.entries(G.ty).map(([k,a])=>`<button class="${q.t===k?'on':''}" data-act="gty" data-g="${g}" data-t="${k}">${a[0]}</button>`).join('')}</div>`;
+  if(G.ty)h+=`<div class="f" style="margin-top:10px">نوع الحصص غير المخصصة لأصناف</div><div class="opts${Object.keys(G.ty).length>4?' opg':''}">${Object.entries(G.ty).map(([k,a])=>`<button class="${q.t===k?'on':''}" data-act="gty" data-g="${g}" data-t="${k}">${a[0]}</button>`).join('')}</div>${Object.keys(G.ty).length>4?'<div class="opgh">اسحبي لرؤية بقية الأنواع ←</div>':''}`;
   {const gi=gInfo(g,q.t);if(gi.r){const tt=gT(gi.key,gi.r),v=gvT(gi,tt);h+=`<div class="vr"><div class="vrl"><span>نطاق تقديري للحصة</span><b>${esc(gRtxt(gi))}</b></div><input type="range" class="vrs" min="0" max="100" step="1" value="${Math.round(tt*100)}" data-key="${esc(gi.key)}" aria-label="ضبط القيمة داخل النطاق"><div class="vrv" id="gv-${esc(gi.key)}">${vChips(v)}</div>${hintBox('rg-'+gi.key,`للحصص العامة غير المخصصة لأصناف فقط — الافتراضي: ${gi.r.def==='min'?'الحد الأدنى':'المنتصف'}`)}${gpUi(g,gi,x)}</div>`}}
   h+=(GR[g].nv?'<div class="std">القيم تُحسب حسب كل صنف يُضاف</div>':`<div class="std">الحصة الواحدة: ${std(q.t)}</div>`)+`<div class="it"><div><b>عدد حصص المجموعة</b><small>تحددينه أنتِ، والأصناف أدناه تُحسب ضمنه</small></div><div class="q"><button data-act="qm" data-g="${g}">−</button><b class="qn">${q.n}</b><button data-act="qp" data-g="${g}">+</button></div></div>`;
   Object.entries(ex().items).forEach(([id,n])=>{const f=byId(id);if(!f||(f.g!==g&&!(isC(f)&&pIn(f,g)>0)))return;if(f.g!==g){const pn=pIn(f,g)*n;h+=`<div class="it"><div><b>${esc(fd(f.name))}</b> <span class="bd">من تركيب حصص</span><small>${nf(pn)} حصة من هذه المجموعة ضمن تركيب الصنف، تُخصم من رصيدها وسعراتها محسوبة في «${esc(GR[f.g].n)}» (للتعديل: من هناك)</small></div></div>`;return}const v=iv(f);
@@ -1795,6 +1795,8 @@ function csOpen(sel){
 function csClose(){const o=$('#csov');if(o)o.remove()}
 document.addEventListener('keydown',e=>{if(e.key==='Escape'&&$('#csov')){e.stopPropagation();e.preventDefault();csClose()}},true);
 new MutationObserver(()=>csAll()).observe(document.body,{childList:true,subtree:true});
+function opgFix(){document.querySelectorAll('.opg').forEach(c=>{if(c._fx)return;c._fx=1;const b=c.querySelector('button.on');if(!b)return;const r=b.getBoundingClientRect(),cr=c.getBoundingClientRect();c.scrollLeft+=(r.left+r.width/2)-(cr.left+cr.width/2)})}
+new MutationObserver(()=>opgFix()).observe(document.body,{childList:true,subtree:true});
 document.addEventListener('change',e=>{if(e.target.tagName==='SELECT')csEnh(e.target)},true);
 csAll();
 </script>
