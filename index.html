@@ -1254,6 +1254,13 @@ function adjPrev(){const e=$('#adjprev');if(!e)return;const a=+$('#p-a').value,w
 function adjSync(m){const v=m==='form'?(fadj>0?fadj:adjDef(fg)):adjVal(S.profile);document.querySelectorAll('.adjr [data-act=adjq][data-m='+m+']').forEach(b=>b.classList.toggle('on',+b.dataset.v===v))}
 function adjApply(m,v){if(m==='form'){fadj=v;$('#adjbox').innerHTML=adjHTML(fg,v,'form');adjPrev()}else{S.profile.adj=v;save();rr()}}
 let sumOpen={};
+
+/* v69: السجل — حفظ الجدول اليومي (الحصص والأصناف وتوزيع الوجبات) والرجوع إليه */
+const hDate=t=>{const d=new Date(t),z=n=>String(n).padStart(2,'0');return z(d.getDate())+'/'+z(d.getMonth()+1)+'/'+d.getFullYear()};
+const hCopy=o=>JSON.parse(JSON.stringify(o||{}));
+function histSaveCard(){return `<div class="card"><h2>حفظ في السجل 🗂️</h2><div class="qres"><small>احفظي جدولك الحالي (الحصص والأصناف وتوزيع الوجبات) لترجعي له لاحقاً من «حسابي ← السجل».</small></div><label class="f" style="margin-top:8px">اسم الحالة (اختياري)<input id="h-n" maxlength="40" placeholder="مثال: حالة السيدة أمل — إنقاص وزن"></label><button class="full" data-act="hsave">حفظ في السجل</button></div>`}
+function histCard(){const L=(S.hist||[]);
+ return `<div class="card"><h2>السجل 🗂️</h2>${L.length?L.map(r=>`<div class="it"><div><b>${esc(r.name)}</b><small>${hDate(r.at)} • ${r.k} سعرة • كارب ${r.c} • بروتين ${r.p} • دهون ${r.f} غم</small></div><div style="display:flex;gap:4px;align-items:center"><button class="s" data-act="hopen" data-id="${r.id}">فتح</button><button class="del" data-act="hdel" data-id="${r.id}" aria-label="حذف">×</button></div></div>`).join('')+'<div class="mh" style="font-size:12px;color:var(--mu);margin-top:8px">«فتح» يستبدل جدولك الحالي بالمحفوظ، فاحفظي الحالي أولاً إن أردتِ.</div>':'<div class="qres"><small>لا توجد حالات محفوظة بعد. من صفحة «الملخص» اضغطي «حفظ في السجل».</small></div>'}</div>`}
 function pSum(){
  if(!S.profile)return `<h1>الملخص</h1>`+needP();
  const t=targets(S.profile),{T,per}=totals();let ns=0;const ks=Object.keys(GR);
@@ -1267,7 +1274,7 @@ function pSum(){
  return `<h1>الملخص</h1><div class="card"><div class="hd2"><h2 style="margin:0">جدول الحصص اليومي</h2><button class="s xs" data-act="sxa">${allOpen?'إخفاء الأصناف':'عرض كل الأصناف'}</button></div><div class="hint">اضغطي على اسم المجموعة لعرض أصنافها.</div><div class="tw"><table class="tbl sum"><tr><th>المجموعة</th><th>الحصص</th><th>كارب<br>غم</th><th>بروتين<br>غم</th><th>دهون<br>غم</th><th>سعرات</th></tr>${rows}
  <tr class="tt"><td>المجموع المحسوب</td><td>${+ns.toFixed(2)}</td><td>${R(T.c)}</td><td>${R(T.p)}</td><td>${R(T.f)}</td><td>${R(T.k)}</td></tr>
  <tr class="tg"><td>المستهدف</td><td>—</td><td>${t.c}</td><td>${t.p}</td><td>${t.f}</td><td>${t.k}</td></tr>
- <tr class="df"><td>الفرق</td><td>—</td>${dv(t.c,T.c)}${dv(t.p,T.p)}${dv(t.f,T.f)}${dv(t.k,T.k)}</tr></table></div><div class="sumnote">المجموع محسوب من القيم الدقيقة قبل التقريب، لذلك قد يختلف مجموع الأرقام المعروضة بسعرة واحدة.</div>${Object.values(per).some(x=>x.over>0)?'<div class="warn">بعض المجموعات تتجاوز حصصها المحددة (بالأحمر)؛ الزيادة محسوبة في المجاميع.</div>':''}</div>`;
+ <tr class="df"><td>الفرق</td><td>—</td>${dv(t.c,T.c)}${dv(t.p,T.p)}${dv(t.f,T.f)}${dv(t.k,T.k)}</tr></table></div><div class="sumnote">المجموع محسوب من القيم الدقيقة قبل التقريب، لذلك قد يختلف مجموع الأرقام المعروضة بسعرة واحدة.</div>${Object.values(per).some(x=>x.over>0)?'<div class="warn">بعض المجموعات تتجاوز حصصها المحددة (بالأحمر)؛ الزيادة محسوبة في المجاميع.</div>':''}</div>${histSaveCard()}`;
 }
 function pMe(){
  const p=S.profile;
@@ -1289,7 +1296,7 @@ function pMe(){
  <div class="card"><h2>احتياجك اليومي (Harris-Benedict)</h2><div class="qres"><small>المرجع: معادلة Harris-Benedict المعتمدة في المنهج الجامعي، مع معاملات النشاط القياسية (1.2 / 1.375 / 1.55 / 1.725 / 1.9).</small></div>
  ${[['معدل الحرق الأساسي (BMR)',t.bmr+' سعرة'],['معامل النشاط',t.pal.toFixed(3).replace(/0+$/,'').replace(/\.$/,'')],['إجمالي الحرق اليومي (TDEE)',t.tdee+' سعرة'],['السعرات المستهدفة',t.k+' سعرة'],['البروتين',t.p+' غم'],['الكارب',t.c+' غم'],['الدهون',t.f+' غم']].map(([k,v])=>`<div class="kv"><span>${k}</span><b>${v}</b></div>`).join('')}</div>${bmiCard(p)}`}
  ${mCard(t)}
- ${isAdm()?'':(()=>{const x=who();return x&&x.exp?`<div class="card"><h2>اشتراكك</h2><div class="kv"><span>ينتهي في</span><b>${fdate(x.exp)}</b></div><div class="kv"><span>المتبقي</span><b>${Math.max(0,Math.ceil((x.exp-Date.now())/864e5))} يوم</b></div></div>`:''})()}
+ ${histCard()}${isAdm()?'':(()=>{const x=who();return x&&x.exp?`<div class="card"><h2>اشتراكك</h2><div class="kv"><span>ينتهي في</span><b>${fdate(x.exp)}</b></div><div class="kv"><span>المتبقي</span><b>${Math.max(0,Math.ceil((x.exp-Date.now())/864e5))} يوم</b></div></div>`:''})()}
  ${isAdm()?'':`<div class="card"><h2>تحديث قائمة الأصناف</h2><div class="qres"><small>إن ظهر لديكِ صنف قديم أو كسر غير صحيح، اضغطي لإعادة تحميل قائمة الأصناف والمجموعات المضمّنة في هذه النسخة. وجباتك وبياناتك وأصنافك الخاصة لا تتأثر.</small></div><button class="s full" data-act="rstcat">إعادة تحميل قائمة الأصناف</button><div class="mh" id="rst-m"></div></div>`}
  <button class="r full" data-act="logout">تسجيل الخروج</button>`;
 }
@@ -1346,6 +1353,11 @@ if(a==='delt')arm(b,()=>{const g=b.dataset.g,k=b.dataset.t,G=GR[g];if(b.dataset.
  else if(a==='mp'){shift(b.dataset.g,b.dataset.i,-1,+b.dataset.m,1);save();rr()}
  else if(a==='mm'){shift(b.dataset.g,b.dataset.i,+b.dataset.m,-1,1);save();rr()}
  else if(a==='md'){shift(b.dataset.g,b.dataset.i,+b.dataset.m,-1,1e9);save();rr()}
+ else if(a==='hsave'){const {T}=totals();if(!(T.k>0)){try{toast('لا يوجد شيء لحفظه بعد')}catch(e){}return}
+  const nm=(($('#h-n')||{}).value||'').trim()||('حالة '+hDate(Date.now())),r={id:'h'+Date.now().toString(36),name:nm,at:Date.now(),k:R(T.k),c:R(T.c),p:R(T.p),f:R(T.f),d:{ex:hCopy(S.ex),mv:hCopy(S.mv)}};
+  S.hist=[r].concat(S.hist||[]).slice(0,60);save();const i=$('#h-n');if(i)i.value='';try{toast('تم الحفظ في السجل')}catch(e){}}
+ else if(a==='hopen')arm(b,()=>{const r=(S.hist||[]).find(x=>x.id===b.dataset.id);if(!r)return;S.ex=hCopy(r.d.ex);if(!S.ex.items)S.ex.items={};if(!S.ex.q)S.ex.q={};S.mv=hCopy(r.d.mv);save();page='home';anim=true;render();scrollTo(0,0)})
+ else if(a==='hdel')arm(b,()=>{S.hist=(S.hist||[]).filter(x=>x.id!==b.dataset.id);save();rr()})
  else if(a==='mauto'){S.mv={};save();rr()}
  else if(a==='tog'){op[b.dataset.g]=!op[b.dataset.g];lastTog=op[b.dataset.g]?b.dataset.g:null;rr()}
  else if(a==='gty'){qg(b.dataset.g).t=b.dataset.t;save();rr()}
