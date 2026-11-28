@@ -338,7 +338,7 @@ h1{color:#3F5A2B}
 .xcr{display:flex;align-items:center;justify-content:space-between;gap:8px;padding:7px 0;border-bottom:1px dashed rgba(176,150,100,.35)}
 .xcr .xcn{flex:1;min-width:0;font-size:13.5px;font-weight:700;color:#3a3828;line-height:1.5}.xcr .xcn b{display:inline-block;min-width:42px;text-align:center;background:#EEF1E0;color:#44602F;border-radius:8px;padding:1px 6px;margin-left:6px;font-size:13px}.xcr .xcn small{display:block;font-weight:500;font-size:11.5px;color:var(--mu)}
 .xcr .xcq{display:flex;align-items:center;gap:6px}.xcr .xcq button{width:34px;height:34px;padding:0;font-size:18px;line-height:1;border-radius:10px;background:linear-gradient(180deg,#FFFDF8,#F5ECDA);color:var(--g2);border:1px solid var(--bd);box-shadow:none}.xcr .xcq .cv{min-width:34px;text-align:center;font-size:15px}.xcr.on .xcv{color:#44602F}
-.cadj{margin-top:10px}.cadj .f{font-size:12.5px;font-weight:700;color:#44602F;margin-bottom:4px}
+.oxl{margin:-2px 0 8px}.oxb{background:none;border:0;padding:2px 0;font:inherit;font-size:12.5px;font-weight:700;color:#5E7E3F;cursor:pointer;text-decoration:underline dotted}.oex{display:flex;flex-wrap:wrap;align-items:center;gap:8px;margin:-2px 0 10px;padding:8px 10px;background:#F1F5E8;border:1px dashed #B9CBA0;border-radius:12px;font-size:12.5px;color:#44602F;font-weight:700}.oex span{width:100%}.oex label{display:flex;flex-direction:column;align-items:stretch;gap:4px;flex:1;min-width:70px}.oex input{width:100%;min-width:48px;padding:6px 6px;border:1px solid #CFD8BF;border-radius:9px;font:inherit;text-align:center;background:#fff}.oex em{font-style:normal;font-weight:400;opacity:.75}.cadj{margin-top:10px}.cadj .f{font-size:12.5px;font-weight:700;color:#44602F;margin-bottom:4px}
 
 .wat .wh{display:flex;align-items:center;gap:10px;margin-bottom:6px}.wat .wh h2{margin:0}.wat .wh small{color:var(--mu);font-size:12.5px}
 .wat .wi{width:40px;height:40px;border-radius:14px;background:linear-gradient(180deg,#E3F1F8,#CFE5F1);display:flex;align-items:center;justify-content:center;flex:none}.wat .wi svg{width:22px;height:22px;fill:#3E8DB5}
@@ -949,14 +949,14 @@ function lzUnpack(p){const wd=p[0],n=Math.floor((p.length-1)*8/wd),cs=[];let bit
  if(!cs.length)return new Uint8Array(0);const d=[];for(let i=0;i<256;i++)d[i]=[i];let w=d[cs[0]];if(!w)throw 0;const out=w.slice();
  for(let j=1;j<cs.length;j++){const c=cs[j];let e;if(d[c])e=d[c];else if(c===d.length)e=w.concat(w[0]);else throw 0;for(let q=0;q<e.length;q++)out.push(e[q]);d.push(w.concat(e[0]));w=e}return Uint8Array.from(out)}
 const ra7=r=>[r.k?r.k[0]:-1,r.k?r.k[1]:-1,r.p?r.p[0]:-1,r.p?r.p[1]:-1,r.f?r.f[0]:-1,r.f?r.f[1]:-1,r.def==='min'?1:0];
-const packF=l=>(l||[]).filter(f=>f.custom).map(f=>{const a=[f.id,f.g,f.t||'',f.name,f.d];if(f.mac||f.rng)a.push(f.mac?(Array.isArray(f.mac.x)?[f.mac.c,f.mac.p,f.mac.f,f.mac.x,f.mac.adj||0]:[f.mac.c,f.mac.p,f.mac.f]):0);if(f.rng&&f.rng.k)a.push([f.rng.k[0],f.rng.k[1],f.rng.p?f.rng.p[0]:-1,f.rng.p?f.rng.p[1]:-1,f.rng.f?f.rng.f[0]:-1,f.rng.f?f.rng.f[1]:-1,f.rng.def==='min'?1:0]);return a});
+const packF=l=>(l||[]).filter(f=>f.custom).map(f=>{const a=[f.id,f.g,f.t||'',f.name,f.d];if(f.mac||f.rng)a.push(f.mac?(Array.isArray(f.mac.x)?[f.mac.c,f.mac.p,f.mac.f,f.mac.x,f.mac.adj||0,f.mac.xa||0]:[f.mac.c,f.mac.p,f.mac.f]):0);if(f.rng&&f.rng.k)a.push([f.rng.k[0],f.rng.k[1],f.rng.p?f.rng.p[0]:-1,f.rng.p?f.rng.p[1]:-1,f.rng.f?f.rng.f[0]:-1,f.rng.f?f.rng.f[1]:-1,f.rng.def==='min'?1:0]);return a});
 const packC=c=>{c=c||{};return[(c.groups||[]).map(g=>[g.key,g.n,g.i||'',g.k,g.c,g.p,g.f].concat(g.rg?[ra7(g.rg)]:[])),(c.types||[]).map(t=>[t.g,t.key,t.n,t.k,t.c,t.p,t.f].concat(t.rg?[ra7(t.rg)]:[]))]};
 function encAcc(u){const o={v:3,u:[[u.name,u.phone,u.user,u.pass,u.active?0:1].concat(u.dev?[u.dev,u.devAt||0]:[])]},fs=packF(A.foods),pc=packC(A.cfg);
  if(fs.length)o.f=fs;if(pc[0].length||pc[1].length)o.c=pc;if((A.hidden||[]).length)o.h=A.hidden;
  const raw=new TextEncoder().encode(JSON.stringify(o)),a='M1.'+b64u(raw),z='M2.'+b64u(lzPack(raw));return z.length<a.length?z:a}
 // كود تحديث الأصناف والمجموعات (يستبدل القائمة القديمة على جهاز الطالبة دون لمس بياناتها ووجباتها)
 function encCat(){const o={v:4,ver:A.pubver||Date.now(),f:packF(A.foods),h:A.hidden||[],c:packC(A.cfg)},raw=new TextEncoder().encode(JSON.stringify(o)),a='M3.'+b64u(raw),z='M4.'+b64u(lzPack(raw));return z.length<a.length?z:a}
-const unF=l=>(l||[]).map(a=>{const x={id:a[0],g:a[1],t:a[2],name:a[3],d:a[4],custom:true};if(a[5]){x.mac={c:a[5][0],p:a[5][1],f:a[5][2]};if(Array.isArray(a[5][3])){x.mac.x=a[5][3];if(a[5][4])x.mac.adj=a[5][4]}}if(a[6]){const q=a[6];x.rng={k:[q[0],q[1]],def:q[6]?'min':'mid'};if(q[2]>=0)x.rng.p=[q[2],q[3]];if(q[4]>=0)x.rng.f=[q[4],q[5]]}return x});
+const unF=l=>(l||[]).map(a=>{const x={id:a[0],g:a[1],t:a[2],name:a[3],d:a[4],custom:true};if(a[5]){x.mac={c:a[5][0],p:a[5][1],f:a[5][2]};if(Array.isArray(a[5][3])){x.mac.x=a[5][3];if(a[5][4])x.mac.adj=a[5][4];if(a[5][5])x.mac.xa=a[5][5]}}if(a[6]){const q=a[6];x.rng={k:[q[0],q[1]],def:q[6]?'min':'mid'};if(q[2]>=0)x.rng.p=[q[2],q[3]];if(q[4]>=0)x.rng.f=[q[4],q[5]]}return x});
 const unC=c=>{const rd=q=>{const r={def:q[6]?'min':'mid'};if(q[0]>=0)r.k=[q[0],q[1]];if(q[2]>=0)r.p=[q[2],q[3]];if(q[4]>=0)r.f=[q[4],q[5]];return r};return{groups:(c[0]||[]).map(a=>{const x={key:a[0],n:a[1],i:a[2],k:a[3],c:a[4],p:a[5],f:a[6]};if(a[7])x.rg=rd(a[7]);return x}),types:(c[1]||[]).map(a=>{const x={g:a[0],key:a[1],n:a[2],k:a[3],c:a[4],p:a[5],f:a[6]};if(a[7])x.rg=rd(a[7]);return x})}};
 function decAcc(t){let c=String(t||'').replace(/[\s\u200b-\u200f\u202a-\u202e\u2066-\u2069\ufeff"'`]/g,'');
  const m=/^M([1-4])\.(.+)$/.exec(c);
@@ -1713,7 +1713,7 @@ function amCalc(){const v=amVals(),e=$('#a-mk');if(v.every(x=>x===null)||v.some(
 ['a-mc','a-mp','a-mf'].forEach(i=>$('#'+i).addEventListener('input',amCalc));
 
 /* v63: واجهة تركيب الحصص في نموذج الصنف */
-let cmpS={},cmpMode='cmp';
+let cmpS={},cmpMode='cmp',cmpXA={},cmpXO={};
 const cmpMg={};
 function cmpRows(){const L=[];Object.keys(cmpMg).forEach(k=>delete cmpMg[k]);[['starch'],['veg'],['fruit'],['milk'],['meat'],['fat']].forEach(([g])=>{if(!GR[g])return;const G=GR[g];if(g==='starch'){L.push([g,'']);return}if(G.ty){const ks=Object.keys(G.ty).filter(k=>k!=='base');if(g==='meat')ks.unshift('vl');
   /* أنواع بقيم متطابقة تُدمج في صف واحد باسم المجموعة؛ المختلفة (مثل الحليب واللحوم) تبقى منفصلة */
@@ -1723,17 +1723,23 @@ function cmpRows(){const L=[];Object.keys(cmpMg).forEach(k=>delete cmpMg[k]);[['
 const cmpKey=(g,t)=>cmpMg[g+'|'+t]?g+'|'+cmpMg[g+'|'+t]:g+'|'+t;
 function cmpName(g,t,mg){if(g==='oth')return'كارب أخرى (سكريات/حلويات/غيرها)';if(g==='meat'&&t==='vl')return'اللحوم — قليلة جداً الدهون';return GR[g].n+(!mg&&t&&GR[g].ty&&GR[g].ty[t]?' — '+GR[g].ty[t][0]:'')}
 function cmpShort(g,t,mg){if(g==='oth')return'ك. أخرى';if(g==='meat')return cCode(g,t);if(g==='milk')return 'ح · '+(GR.milk.ty&&GR.milk.ty[t]?GR.milk.ty[t][0]:'');return cCode(g,t)+' '+GR[g].n}
+function xaRow(k){const a=cmpXA[k]||{},has=a.c||a.p||a.f;if(!cmpXO[k]&&!has)return `<div class="oxl"><button type="button" class="oxb" data-xo="${k}">+ جرامات إضافية لهذا المكوّن</button></div>`;
+ const fl=(f,n)=>`<label>${n}<input type="number" inputmode="decimal" step="0.5" min="0" placeholder="0" data-xk="${k}" data-xf="${f}" value="${a[f]?a[f]:''}"></label>`;
+ return `<div class="oex"><span>جرامات إضافية (غم) تُضاف على هذا المكوّن:</span>${fl('c','كارب')}${fl('p','بروتين')}${fl('f','دهون')}</div>`}
 function cmpDraw(){const e=$('#a-crows');if(!e)return;const rows=cmpRows(),on=rows.filter(([g,t])=>(+cmpS[g+'|'+t]||0)>0);
- const row=([g,t,mg])=>{const k=g+'|'+t,n=+cmpS[k]||0,v=cV(g,t);return `<div class="xcr on"><div class="xcn"><b>${esc(g==='milk'?'ح':cCode(g,t))}</b>${esc(cmpName(g,t,mg))}<small>${R(v.k)} سعرة • ${fm(v.c)} ك • ${fm(v.p)} ب • ${fm(v.f)} د (للحصة)</small></div><div class="xcq"><button type="button" data-d="-.5" data-k="${k}" aria-label="إنقاص نصف حصة">−</button><b class="xcv" dir="ltr">${nf(n)}</b><button type="button" data-d=".5" data-k="${k}" aria-label="زيادة نصف حصة">+</button></div></div>`};
+ const row=([g,t,mg])=>{const k=g+'|'+t,n=+cmpS[k]||0,v=cV(g,t);return `<div class="xcr on"><div class="xcn"><b>${esc(g==='milk'?'ح':cCode(g,t))}</b>${esc(cmpName(g,t,mg))}<small>${R(v.k)} سعرة • ${fm(v.c)} ك • ${fm(v.p)} ب • ${fm(v.f)} د (للحصة)</small></div><div class="xcq"><button type="button" data-d="-.5" data-k="${k}" aria-label="إنقاص نصف حصة">−</button><b class="xcv" dir="ltr">${nf(n)}</b><button type="button" data-d=".5" data-k="${k}" aria-label="زيادة نصف حصة">+</button></div></div>${xaRow(k)}`};
  e.innerHTML=(on.length?on.map(row).join(''):'<div class="mh" style="margin:4px 0 8px">لم تُضف مكوّنات بعد. اختاري من الأزرار أدناه.</div>')+'<div class="cadj" style="margin-top:6px"><div class="f">إضافة حصة من:</div><div class="xch">'+rows.map(([g,t,mg])=>`<button type="button" class="xchip${(+cmpS[g+'|'+t]||0)>0?' on':''}" data-k="${g}|${t}" data-d="1">+ ${esc(cmpShort(g,t,mg))}</button>`).join('')+'</div></div>';cmpPrev()}
-function cmpAdj(){const n=i=>{const v=$('#'+i).value;return v===''||isNaN(+v)?0:+v};return{c:n('a-xc'),p:n('a-xp'),f:n('a-xf')}}
+function cmpXs(){const o={};Object.keys(cmpXA).forEach(k=>{if(!(+cmpS[k]>0))return;const a=cmpXA[k],r={c:+a.c||0,p:+a.p||0,f:+a.f||0};if(r.c||r.p||r.f)o[k]=r});return o}
+function cmpAdj(){const n=i=>{const v=$('#'+i).value;return v===''||isNaN(+v)?0:+v};const t={c:n('a-xc'),p:n('a-xp'),f:n('a-xf')};Object.values(cmpXs()).forEach(r=>{t.c+=r.c;t.p+=r.p;t.f+=r.f});return{c:+t.c.toFixed(2),p:+t.p.toFixed(2),f:+t.f.toFixed(2)}}
 function cmpX(){return cmpRows().map(([g,t])=>[g,t,+cmpS[g+'|'+t]||0]).filter(a=>a[2]>0)}
-function cmpPrev(){const e=$('#a-cpv');if(!e)return;const x=cmpX(),a=cmpAdj();if(!x.length&&!a.c&&!a.p&&!a.f){e.textContent='';return}const f={mac:{x,adj:a}},v=cIv(f);e.innerHTML='<b>'+R(v.k)+' سعرة</b> للحصة الواحدة • كارب <b>'+fm(v.c)+'</b> • بروتين <b>'+fm(v.p)+'</b> • دهون <b>'+fm(v.f)+'</b> غم<br>التركيب: '+esc(cLabel(f))}
+function cmpPrev(){const e=$('#a-cpv');if(!e)return;const x=cmpX(),a=cmpAdj();if(!x.length&&!a.c&&!a.p&&!a.f){e.textContent='';return}const f={mac:{x,adj:a}},v=cIv(f);e.innerHTML='<b>'+fm(v.k)+' سعرة</b> للحصة الواحدة • كارب <b>'+fm(v.c)+'</b> • بروتين <b>'+fm(v.p)+'</b> • دهون <b>'+fm(v.f)+'</b> غم<br>التركيب: '+esc(cLabel(f))}
 function cmpMd(m){cmpMode=m;document.querySelectorAll('#a-mode button').forEach(b=>b.classList.toggle('on',b.dataset.m===m));$('#a-cmp').classList.toggle('hide',m!=='cmp');$('#a-man').classList.toggle('hide',m!=='man')}
-function cmpFill(f){cmpS={};const xs=isC(f)?cX(f):[];cmpRows();xs.forEach(([g,t,n])=>{const k=cmpKey(g,t);cmpS[k]=(+cmpS[k]||0)+(+n)});const a=isC(f)?cAdj(f):{c:0,p:0,f:0};['c','p','f'].forEach(k=>{$('#a-x'+k).value=a[k]?a[k]:''});cmpMd(f&&f.mac&&!isC(f)?'man':'cmp');cmpDraw()}
+function cmpFill(f){cmpS={};const xs=isC(f)?cX(f):[];cmpRows();xs.forEach(([g,t,n])=>{const k=cmpKey(g,t);cmpS[k]=(+cmpS[k]||0)+(+n)});cmpXA={};cmpXO={};const a=isC(f)?Object.assign({},cAdj(f)):{c:0,p:0,f:0};if(isC(f)&&f.mac.xa)Object.keys(f.mac.xa).forEach(k=>{const r=f.mac.xa[k];cmpXA[k]={c:+r.c||0,p:+r.p||0,f:+r.f||0};['c','p','f'].forEach(q=>{a[q]=+(a[q]-cmpXA[k][q]).toFixed(2)})});['c','p','f'].forEach(k=>{$('#a-x'+k).value=a[k]>0?a[k]:''});cmpMd(f&&f.mac&&!isC(f)?'man':'cmp');cmpDraw()}
 document.addEventListener('click',e=>{const b=e.target.closest('#a-mode button');if(b){e.preventDefault();cmpMd(b.dataset.m);return}
  const d=e.target.closest('#a-crows button[data-k]');if(d){e.preventDefault();const k=d.dataset.k,v=Math.max(0,Math.min(20,+((+cmpS[k]||0)+(+d.dataset.d)).toFixed(2)));if(v>0)cmpS[k]=v;else delete cmpS[k];cmpDraw()}});
 ['a-xc','a-xp','a-xf'].forEach(i=>$('#'+i).addEventListener('input',cmpPrev));
+document.addEventListener('input',e=>{const t=e.target.closest&&e.target.closest('.oex input[data-xk]');if(t){const k=t.dataset.xk;(cmpXA[k]=cmpXA[k]||{})[t.dataset.xf]=t.value===''||isNaN(+t.value)?0:Math.max(0,+t.value);cmpPrev()}});
+document.addEventListener('click',e=>{const b=e.target.closest('#a-crows .oxb');if(b){e.preventDefault();cmpXO[b.dataset.xo]=1;cmpDraw()}});
 $('#a-g').onchange=fillTy;$('#a-ty').onchange=vegLock;$('#a-no').onclick=()=>dClose($('#dlg'));
 $('#a-ok').onclick=()=>{if(!can('foods')){dClose($('#dlg'));return}
  const n=$('#a-n').value.trim(),d=$('#a-d').value.trim(),g=$('#a-g').value;
@@ -1742,7 +1748,7 @@ $('#a-ok').onclick=()=>{if(!can('foods')){dClose($('#dlg'));return}
   if(dup){$('#a-e').textContent='هذا الصنف موجود مسبقاً بنفس المجموعة ونفس حجم الحصة: «'+dup.name+'» ('+gm(dup.d)+'). لا حاجة لإضافته مرة ثانية.';try{toast('الصنف موجود مسبقاً')}catch(e){}return}}
  const o={id:eid||'c'+Date.now(),g,t:GR[g].ty&&!vLk()?$('#a-ty').value:'',name:n,d,custom:true},mv=amVals();
 if($('#a-rt').checked){const rg=rgRead();if(rg.e){$('#a-e').textContent=rg.e;return}o.rng=rg.r}
- else if(cmpMode==='cmp'){const x=cmpX(),a=cmpAdj();if(x.length||a.c||a.p||a.f){const v=cIv({mac:{x,adj:a}}),m={c:v.c,p:v.p,f:v.f,x:x.map(r=>r.slice())};if(a.c||a.p||a.f)m.adj={c:+a.c.toFixed(2),p:+a.p.toFixed(2),f:+a.f.toFixed(2)};o.mac=m}}
+ else if(cmpMode==='cmp'){const x=cmpX(),a=cmpAdj();if(x.length||a.c||a.p||a.f){const v=cIv({mac:{x,adj:a}}),m={c:v.c,p:v.p,f:v.f,x:x.map(r=>r.slice())};if(a.c||a.p||a.f)m.adj={c:+a.c.toFixed(2),p:+a.p.toFixed(2),f:+a.f.toFixed(2)};{const xs=cmpXs();if(Object.keys(xs).length)m.xa=xs}o.mac=m}}
  else if(mv.some(x=>x!==null)){if(mv.some(x=>x!==null&&!(x>=0))){$('#a-e').textContent='أدخلي قيماً صحيحة (0 أو أكبر) للكارب والبروتين والدهون.';return}o.mac={c:+(mv[0]||0).toFixed(2),p:+(mv[1]||0).toFixed(2),f:+(mv[2]||0).toFixed(2)}}
  A.foods=(A.foods||[]).filter(x=>x.id!==o.id);A.foods.push(o);A.hidden=(A.hidden||[]).filter(x=>x!==o.id);saveA();dClose($('#dlg'));render();
 };
