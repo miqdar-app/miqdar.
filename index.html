@@ -339,6 +339,7 @@ h1{color:#3F5A2B}
 .wat .wcups{display:flex;flex-wrap:wrap;justify-content:center;gap:4px;margin:10px 0}.wcup{width:26px;height:32px}.wcup path:first-child{fill:#EAF3F8;stroke:#9CC4DA;stroke-width:1.4}.wcup .wl{fill:#9CC4DA;opacity:.55}.wcup.on path:first-child{fill:#DDEEF7;stroke:#3E8DB5}.wcup.on .wl{fill:#3E8DB5;opacity:1}
 .wat .wr{display:flex;gap:10px}.wat .wr>div{flex:1;background:#F1F7FA;border:1px solid #D5E7F0;border-radius:14px;padding:9px 6px;text-align:center}.wat .wr b{display:block;font-size:17px;color:#2F7BA3}.wat .wr span{font-size:12px;color:var(--mu)}
 .wat .wf{font-size:12px;color:var(--mu);margin-top:10px;line-height:1.8}
+.xch{display:flex;flex-wrap:wrap;gap:6px}.xchip{background:linear-gradient(180deg,#FFFDF8,#F5ECDA);color:var(--g2);border:1px solid var(--bd);border-radius:999px;padding:6px 11px;font-size:12.5px;font-weight:600;box-shadow:none}.xchip.on{border-color:#6F8B4E;background:#EEF1E0}
 </style>
 </head>
 <body>
@@ -1423,14 +1424,23 @@ function amCalc(){const v=amVals(),e=$('#a-mk');if(v.every(x=>x===null)||v.some(
 
 /* v63: واجهة تركيب الحصص في نموذج الصنف */
 let cmpS={},cmpMode='cmp';
-function cmpRows(){const L=[];[['starch'],['veg'],['fruit'],['milk'],['meat'],['fat']].forEach(([g])=>{if(!GR[g])return;const G=GR[g];if(G.ty){const ks=Object.keys(G.ty).filter(k=>k!=='base');if(g==='meat')ks.unshift('vl');ks.forEach(t=>L.push([g,t]))}else L.push([g,''])});L.push(['oth','']);return L}
-function cmpName(g,t){if(g==='oth')return'كارب أخرى (سكريات/حلويات/غيرها)';if(g==='meat'&&t==='vl')return'اللحوم — قليلة جداً الدهون';return GR[g].n+(t&&GR[g].ty&&GR[g].ty[t]?' — '+GR[g].ty[t][0]:'')}
-function cmpDraw(){const e=$('#a-crows');if(!e)return;e.innerHTML=cmpRows().map(([g,t])=>{const k=g+'|'+t,n=+cmpS[k]||0,v=cV(g,t);return `<div class="xcr${n>0?' on':''}"><div class="xcn"><b>${esc(g==='milk'?'ح':cCode(g,t))}</b>${esc(cmpName(g,t))}<small>${R(v.k)} سعرة • ${fm(v.c)} كارب • ${fm(v.p)} بروتين • ${fm(v.f)} دهون (للحصة)</small></div><div class="xcq"><button type="button" data-d="-.5" data-k="${k}" aria-label="إنقاص نصف حصة">−</button><b class="xcv" dir="ltr">${n>0?nf(n):'0'}</b><button type="button" data-d=".5" data-k="${k}" aria-label="زيادة نصف حصة">+</button></div></div>`}).join('');cmpPrev()}
+const cmpMg={};
+function cmpRows(){const L=[];Object.keys(cmpMg).forEach(k=>delete cmpMg[k]);[['starch'],['veg'],['fruit'],['milk'],['meat'],['fat']].forEach(([g])=>{if(!GR[g])return;const G=GR[g];if(G.ty){const ks=Object.keys(G.ty).filter(k=>k!=='base');if(g==='meat')ks.unshift('vl');
+  /* أنواع بقيم متطابقة تُدمج في صف واحد باسم المجموعة؛ المختلفة (مثل الحليب واللحوم) تبقى منفصلة */
+  const cl={};ks.forEach(t=>{const v=cV(g,t),k=[v.k,v.c,v.p,v.f].map(x=>(+x).toFixed(1)).join('|');(cl[k]=cl[k]||[]).push(t)});
+  const seen={};ks.forEach(t=>{const v=cV(g,t),k=[v.k,v.c,v.p,v.f].map(x=>(+x).toFixed(1)).join('|'),c=cl[k];if(c.length>1){c.forEach(x=>cmpMg[g+'|'+x]=c[0]);if(seen[k])return;seen[k]=1;L.push([g,c[0],1])}else L.push([g,t])});
+  if(!ks.length)L.push([g,''])}else L.push([g,''])});L.push(['oth','']);return L}
+const cmpKey=(g,t)=>cmpMg[g+'|'+t]?g+'|'+cmpMg[g+'|'+t]:g+'|'+t;
+function cmpName(g,t,mg){if(g==='oth')return'كارب أخرى (سكريات/حلويات/غيرها)';if(g==='meat'&&t==='vl')return'اللحوم — قليلة جداً الدهون';return GR[g].n+(!mg&&t&&GR[g].ty&&GR[g].ty[t]?' — '+GR[g].ty[t][0]:'')}
+function cmpShort(g,t,mg){if(g==='oth')return'ك. أخرى';if(g==='meat')return cCode(g,t);if(g==='milk')return 'ح · '+(GR.milk.ty&&GR.milk.ty[t]?GR.milk.ty[t][0]:'');return cCode(g,t)+' '+GR[g].n}
+function cmpDraw(){const e=$('#a-crows');if(!e)return;const rows=cmpRows(),on=rows.filter(([g,t])=>(+cmpS[g+'|'+t]||0)>0);
+ const row=([g,t,mg])=>{const k=g+'|'+t,n=+cmpS[k]||0,v=cV(g,t);return `<div class="xcr on"><div class="xcn"><b>${esc(g==='milk'?'ح':cCode(g,t))}</b>${esc(cmpName(g,t,mg))}<small>${R(v.k)} سعرة • ${fm(v.c)} ك • ${fm(v.p)} ب • ${fm(v.f)} د (للحصة)</small></div><div class="xcq"><button type="button" data-d="-.5" data-k="${k}" aria-label="إنقاص نصف حصة">−</button><b class="xcv" dir="ltr">${nf(n)}</b><button type="button" data-d=".5" data-k="${k}" aria-label="زيادة نصف حصة">+</button></div></div>`};
+ e.innerHTML=(on.length?on.map(row).join(''):'<div class="mh" style="margin:4px 0 8px">لم تُضف مكوّنات بعد. اختاري من الأزرار أدناه.</div>')+'<div class="cadj" style="margin-top:6px"><div class="f">إضافة حصة من:</div><div class="xch">'+rows.map(([g,t,mg])=>`<button type="button" class="xchip${(+cmpS[g+'|'+t]||0)>0?' on':''}" data-k="${g}|${t}" data-d="1">+ ${esc(cmpShort(g,t,mg))}</button>`).join('')+'</div></div>';cmpPrev()}
 function cmpAdj(){const n=i=>{const v=$('#'+i).value;return v===''||isNaN(+v)?0:+v};return{c:n('a-xc'),p:n('a-xp'),f:n('a-xf')}}
 function cmpX(){return cmpRows().map(([g,t])=>[g,t,+cmpS[g+'|'+t]||0]).filter(a=>a[2]>0)}
 function cmpPrev(){const e=$('#a-cpv');if(!e)return;const x=cmpX(),a=cmpAdj();if(!x.length&&!a.c&&!a.p&&!a.f){e.textContent='';return}const f={mac:{x,adj:a}},v=cIv(f);e.innerHTML='<b>'+R(v.k)+' سعرة</b> للحصة الواحدة • كارب <b>'+fm(v.c)+'</b> • بروتين <b>'+fm(v.p)+'</b> • دهون <b>'+fm(v.f)+'</b> غم<br>التركيب: '+esc(cLabel(f))}
 function cmpMd(m){cmpMode=m;document.querySelectorAll('#a-mode button').forEach(b=>b.classList.toggle('on',b.dataset.m===m));$('#a-cmp').classList.toggle('hide',m!=='cmp');$('#a-man').classList.toggle('hide',m!=='man')}
-function cmpFill(f){cmpS={};const xs=isC(f)?cX(f):[];xs.forEach(([g,t,n])=>{cmpS[g+'|'+t]=+n});const a=isC(f)?cAdj(f):{c:0,p:0,f:0};['c','p','f'].forEach(k=>{$('#a-x'+k).value=a[k]?a[k]:''});cmpMd(f&&f.mac&&!isC(f)?'man':'cmp');cmpDraw()}
+function cmpFill(f){cmpS={};const xs=isC(f)?cX(f):[];cmpRows();xs.forEach(([g,t,n])=>{const k=cmpKey(g,t);cmpS[k]=(+cmpS[k]||0)+(+n)});const a=isC(f)?cAdj(f):{c:0,p:0,f:0};['c','p','f'].forEach(k=>{$('#a-x'+k).value=a[k]?a[k]:''});cmpMd(f&&f.mac&&!isC(f)?'man':'cmp');cmpDraw()}
 document.addEventListener('click',e=>{const b=e.target.closest('#a-mode button');if(b){e.preventDefault();cmpMd(b.dataset.m);return}
  const d=e.target.closest('#a-crows button[data-k]');if(d){e.preventDefault();const k=d.dataset.k,v=Math.max(0,Math.min(20,+((+cmpS[k]||0)+(+d.dataset.d)).toFixed(2)));if(v>0)cmpS[k]=v;else delete cmpS[k];cmpDraw()}});
 ['a-xc','a-xp','a-xf'].forEach(i=>$('#'+i).addEventListener('input',cmpPrev));
