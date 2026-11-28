@@ -1093,7 +1093,8 @@ const pk={};
 function csRaw(g,q,G){return all().filter(f=>f.g===g&&(!G.ty||isGen(g,q.t)||f.t===q.t))}
 /* v66: دمج الأصناف المتطابقة في القيم (سعرات/كارب/بروتين/دهون) في خيار واحد باسم المجموعة؛ تبقى الأصناف المختلفة أو المخصصة منفصلة */
 const csM={},csGet=id=>byId(id)||csM[id]||null;
-function csList(g,q,G){const raw=csRaw(g,q,G),cl={},out=[];
+function csList(g,q,G){return csRaw(g,q,G)}
+function csListMerged_unused(g,q,G){const raw=csRaw(g,q,G),cl={},out=[];
  raw.forEach(f=>{if(f.rng||f.mac)return;const v=iv(f),k=[v.k,v.c,v.p,v.f].map(x=>(+x).toFixed(1)).join('|');(cl[k]=cl[k]||[]).push(f)});
  const done={};
  raw.forEach(f=>{if(f.rng||f.mac){out.push(f);return}const v=iv(f),k=[v.k,v.c,v.p,v.f].map(x=>(+x).toFixed(1)).join('|'),c=cl[k];
