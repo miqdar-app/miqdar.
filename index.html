@@ -1687,6 +1687,8 @@ $('#a-g').onchange=fillTy;$('#a-no').onclick=()=>dClose($('#dlg'));
 $('#a-ok').onclick=()=>{if(!can('foods')){dClose($('#dlg'));return}
  const n=$('#a-n').value.trim(),d=$('#a-d').value.trim(),g=$('#a-g').value;
  if(!n||!d){$('#a-e').textContent='اكتب اسم الصنف ووصف الحصة.';return}
+ {const nz=x=>String(x||'').replace(/[\u064B-\u0652\u0640]/g,'').replace(/[إأآٱ]/g,'ا').replace(/ى/g,'ي').replace(/ة/g,'ه').replace(/[\s()\u200f\u200e]+/g,'').toLowerCase(),t0=GR[g].ty?$('#a-ty').value:'',dup=all().find(x=>x.id!==eid&&x.g===g&&(x.t||'')===t0&&nz(x.name)===nz(n)&&nz(gm(x.d))===nz(d));
+  if(dup){$('#a-e').textContent='هذا الصنف موجود مسبقاً بنفس المجموعة ونفس حجم الحصة: «'+dup.name+'» ('+gm(dup.d)+'). لا حاجة لإضافته مرة ثانية.';try{toast('الصنف موجود مسبقاً')}catch(e){}return}}
  const o={id:eid||'c'+Date.now(),g,t:GR[g].ty?$('#a-ty').value:'',name:n,d,custom:true},mv=amVals();
 if($('#a-rt').checked){const rg=rgRead();if(rg.e){$('#a-e').textContent=rg.e;return}o.rng=rg.r}
  else if(cmpMode==='cmp'){const x=cmpX(),a=cmpAdj();if(x.length||a.c||a.p||a.f){const v=cIv({mac:{x,adj:a}}),m={c:v.c,p:v.p,f:v.f,x:x.map(r=>r.slice())};if(a.c||a.p||a.f)m.adj={c:+a.c.toFixed(2),p:+a.p.toFixed(2),f:+a.f.toFixed(2)};o.mac=m}}
