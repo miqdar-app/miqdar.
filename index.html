@@ -446,13 +446,13 @@ const EXTRA_GROUPS={groups:[],types:[]};
 /* ====== نهاية كتلة النسخ ====== */
 const EXTRA=EXTRA_FOODS.map((f,i)=>Object.assign({t:''},f,{id:f.id||'x'+i}));
 function applyCfg(c){(c.groups||[]).forEach(x=>{if(!GR[x.key])GR[x.key]={n:x.n,i:x.i||'🍽️',k:+x.k||0,c:+x.c||0,p:+x.p||0,f:+x.f||0};if(x.rg)GR[x.key].rg=x.rg});
- (c.types||[]).forEach(t=>{const G=GR[t.g];if(!G)return;if(t.del){if(G.ty){delete G.ty[t.key];if(!Object.keys(G.ty).length)delete G.ty}return}if(!G.ty)G.ty={base:['عام',G.k,G.c,G.p,G.f,G.rg]};G.ty[t.key]=[t.n,+t.k||0,+t.c||0,+t.p||0,+t.f||0,t.rg]})}
+ (c.types||[]).forEach(t=>{const G=GR[t.g];if(!G||t.g==='veg')return;if(t.del){if(G.ty){delete G.ty[t.key];if(!Object.keys(G.ty).length)delete G.ty}return}if(!G.ty)G.ty={base:['عام',G.k,G.c,G.p,G.f,G.rg]};G.ty[t.key]=[t.n,+t.k||0,+t.c||0,+t.p||0,+t.f||0,t.rg]})}
 const g0b=(g,k)=>{try{const b=JSON.parse(GR0)[g];return !!(b&&b.ty&&b.ty[k])}catch(e){return false}};
 function rebuildGR(){const b=JSON.parse(GR0);Object.keys(GR).forEach(k=>delete GR[k]);Object.assign(GR,b);applyCfg(EXTRA_GROUPS);applyCfg(A.cfg)}
 // مجموعات البدائل الغذائية (قيم الحصة الواحدة): [الاسم، سعرات، كارب، بروتين، دهون]
 const GR={
  starch:{n:'النشويات',i:'🍞',k:80,c:15,p:3,f:1},
- veg:{n:'الخضار',i:'🥬',k:25,c:5,p:2,f:0},
+ veg:{n:'الخضار',i:'🥬',k:25,c:5,p:2,f:0,ty:{vc:['½ كوب خضروات مطبوخة',25,5,2,0],vj:['½ كوب عصير خضروات',25,5,2,0],vr:['1 كوب خضروات طازجة',25,5,2,0]}},
  fruit:{n:'الفواكه',i:'🍎',k:60,c:15,p:0,f:0},
  milk:{n:'الحليب',i:'🥛',ty:{skim:['خالي الدسم',80,12,8,0],low:['قليل الدسم',125,12,8,5],full:['كامل الدسم',150,12,8,8]}},
  meat:{n:'اللحوم وبدائلها',i:'🍗',ty:{lean:['قليلة الدهون',55,0,7,3],med:['متوسطة الدهون',75,0,7,5],high:['عالية الدهون',100,0,7,8]}},
@@ -992,11 +992,11 @@ function iv(f){if(f&&f.rng&&f.rng.k)return rgV(f,rgT(f));if(isC(f))return cIv(f)
 const ex=()=>S.ex||(S.ex={items:{},q:{}});
 /* v78: نوع الخضار (اختياري) لكل حالة — S.ex.vn={b8:'كوسا',...} */
 const VEGS={b8:'مطبوخة',b9:'غير مطبوخة',b39:'عصير'};
-let vst='c';
 const isVv=f=>!!(f&&f.g==='veg'&&String(f.id).indexOf('vv_')===0);
-function mkVeg(f0){const c=vst!=='r',id='vv_'+f0.id+'_'+(c?'c':'r'),e=ex();(e.cu=e.cu||{})[id]={id,g:'veg',t:'',name:f0.name+(c?' مطبوخة':' غير مطبوخة'),d:c?'½ كوب':'1 كوب'};return id}
+function mkVeg(f0){const t=qg('veg').t,T={vc:[' مطبوخة','½ كوب'],vj:['','½ كوب'],vr:[' طازجة','1 كوب']}[t]||[' مطبوخة','½ كوب'],id='vv_'+f0.id+'_'+t,e=ex();(e.cu=e.cu||{})[id]={id,g:'veg',t,name:t==='vj'?'عصير '+f0.name:f0.name+T[0],d:T[1]};return id}
 function vegLbl(id){const nm=String((ex().vn||{})[id]||'').replace(/\s+/g,' ').trim();return id==='b39'?(nm?'عصير '+nm:'عصير خضروات'):(nm?nm+' ':'خضار ')+VEGS[id]}
-function vegFull(id,n,v,f){return (VEGS[id]?vegLbl(id):f.name)+' ('+fd(f.d)+' • '+nf(n)+' حصة) — '+R(v.k*n)+' سعرة • '+fm(v.c*n)+' كارب غم • '+fm(v.p*n)+' بروتين غم • '+fm(v.f*n)+' دهون غم'}
+function vegSz(f,n){const d=String(f.d||''),h=d.indexOf('½')===0?.5:d.indexOf('1 كوب')===0?1:0;if(!h)return fd(f.d);const t=Math.round(h*n*4)/4,w=Math.floor(t),fr=t-w,F={0:'',.25:'¼',.5:'½',.75:'¾'}[fr];return (w?w:'')+(F||'')+' كوب'}
+function vegFull(id,n,v,f){return (VEGS[id]?vegLbl(id):f.name)+' ('+vegSz(f,n)+' • '+nf(n)+' حصة) — '+R(v.k*n)+' سعرة • '+fm(v.c*n)+' كارب غم • '+fm(v.p*n)+' بروتين غم • '+fm(v.f*n)+' دهون غم'}
 const qg=g=>ex().q[g]||(ex().q[g]={t:GR[g].ty?Object.keys(GR[g].ty)[0]:'',n:0});
 function gInfo(g,t){const G=GR[g];if(G.ty){const tk=G.ty[t]?t:Object.keys(G.ty)[0],a=G.ty[tk];return{b:{k:a[1],c:a[2],p:a[3],f:a[4]},r:a[5],key:g+'|'+tk}}return{b:{k:G.k,c:G.c,p:G.p,f:G.f},r:G.rg,key:g}}
 function gT(key,r){const m=(typeof S!=='undefined'&&S&&S.ex&&S.ex.gt)||{},v=m[key];return v!=null?v:(r.def==='min'?0:.5)}
@@ -1126,7 +1126,7 @@ function pls(g,x,q){const live=x.n>0,v=live?x:gv(g,q.t);
  return `<span class="pl k">${fm(v.k)} سعرة</span><span class="pl c">كارب ${fm(v.c)} غم</span><span class="pl p">بروتين ${fm(v.p)} غم</span><span class="pl f">دهون ${fm(v.f)} غم</span>${live?'':'<span class="pl r">لكل حصة</span>'}`}
 function isGen(g,t){const a=GR[g]&&GR[g].ty&&GR[g].ty[t];return !t||/^(base|gen|general|all|common|عام|الكل|عامة)$/i.test(String(t).trim())||!!(a&&/^\s*(عام|عامة|الكل)\s*$/.test(String(a[0])))}
 const pk={};
-function csRaw(g,q,G){return all().filter(f=>f.g===g&&(g==='veg'||!G.ty||isGen(g,q.t)||f.t===q.t))}
+function csRaw(g,q,G){return all().filter(f=>f.g===g&&!(g==='veg'&&(f.id==='b8'||f.id==='b9'||f.id==='b39'))&&(g==='veg'||!G.ty||isGen(g,q.t)||f.t===q.t))}
 const vegSt=f=>f&&f.g==='veg'?(f.id==='b8'?'مطبوخ':f.id==='b9'?'غير مطبوخ':f.id==='b39'?'عصير خضروات':(f.t&&GR.veg.ty&&GR.veg.ty[f.t]?GR.veg.ty[f.t][0]:'')):'';
 /* v66: دمج الأصناف المتطابقة في القيم (سعرات/كارب/بروتين/دهون) في خيار واحد باسم المجموعة؛ تبقى الأصناف المختلفة أو المخصصة منفصلة */
 const csM={},csGet=id=>byId(id)||csM[id]||null;
@@ -1182,7 +1182,6 @@ function gcard(g,x){
   Object.entries(ex().items).forEach(([id,n])=>{const f=byId(id);if(!f||(f.g!==g&&!(isC(f)&&pIn(f,g)>0)))return;if(f.g!==g){const pn=pIn(f,g)*n;h+=`<div class="it"><div><b>${esc(fd(f.name))}</b> <span class="bd">من تركيب حصص</span><small>${nf(pn)} حصة من هذه المجموعة ضمن تركيب الصنف، تُخصم من رصيدها وسعراتها محسوبة في «${esc(GR[f.g].n)}» (للتعديل: من هناك)</small></div></div>`;return}const v=iv(f);
    h+=`<div class="it"><div><b>${esc(fd(f.name))}</b>${isC(f)?' <span class="bd">تركيب حصص</span>':f.mac?' <span class="bd">ماكروز معدّلة</span>':''}<small>الحصة الواحدة = ${esc(fd(f.d))}${f.t?' · '+tn(g,f.t):''}${isC(f)?'<br>التركيب: '+esc(cLabel(f,n))+(n!==1?' (لـ '+nf(n)+' حصة)':''):''}<br><b class="tq">المقدار الكلي: ${esc(tot(f.d,n))}</b> — ${R(v.k*n)} سعرة${f.mac?'<br>كارب '+fm(v.c*n)+' • بروتين '+fm(v.p*n)+' • دهون '+fm(v.f*n)+' غم':''}</small></div><div class="q"><button data-act="im" data-id="${id}">−</button><b class="qn">${n}</b><button data-act="ip" data-id="${id}">+</button><button class="del" data-act="irm" data-id="${id}" aria-label="حذف">×</button></div></div>${f.rng?`<div class="vr"><div class="vrl">${esc(rgTxt(f,n))}</div><input type="range" class="vrs" min="0" max="100" step="1" value="${Math.round(rgT(f)*100)}" data-id="${id}" aria-label="ضبط القيمة داخل النطاق"><div class="vrv" id="rv-${id}">القيمة المحددة: <b>${R(v.k)}</b> سعرة للحصة — <b>${R(v.k*n)}</b> سعرة لـ ${nf(n)} حصة</div></div>`:''}`});
   h+=x.over>0?`<div class="warn">الأصناف المختارة (${+x.sum.toFixed(2)} حصة) تتجاوز حصص المجموعة المحددة (${x.N}). لم يتغيّر العدد المحدد، والزيادة محسوبة في السعرات؛ زيدي حصص المجموعة أو قلّلي الأصناف.</div>`:`<div class="std">موزّع على أصناف: ${+x.sum.toFixed(2)} من ${x.N} — غير مخصص: ${+(x.N-x.sum).toFixed(2)}${x.N-x.sum>0&&G.ty?' (يُحسب بنوع '+tn(g,q.t)+')':''}</div>`;
-  if(g==='veg')h+=`<div class="f" style="margin-top:10px">حالة الخضار — تحدد حجم الحصة (سعراتها واحدة)</div><div class="opts">${[['c','مطبوخ (½ كوب)'],['r','غير مطبوخ (1 كوب)']].map(([k,l])=>`<button class="${vst===k?'on':''}" data-act="vst" data-v="${k}">${l}</button>`).join('')}</div>`;
   h+=`<div class="pick">${csPick(g,q,G)}<select id="sn-${g}">${[.5,1,1.5,2,3].map(n=>`<option${n===1?' selected':''}>${n}</option>`).join('')}</select><button data-act="iadd" data-g="${g}">إضافة</button>${macPanel(g,q,G)}${csPanel(g,q,G)}</div>`;
   h+='</div>';
  }
@@ -1601,7 +1600,6 @@ if(a==='delt')arm(b,()=>{const g=b.dataset.g,k=b.dataset.t,G=GR[g];if(b.dataset.
   c.plan={at:cToday(),k:t.k,ex:hCopy(S.ex),mv:hCopy(S.mv)};c.s=0;save();cloudCase(c);page='home';anim=true;render();scrollTo(0,0);try{toast('طُبّقت الخطة على الرئيسية: '+t.k+' سعرة')}catch(e){}})
  else if(a==='mauto'){S.mv={};save();rr()}
  else if(a==='tog'){op[b.dataset.g]=!op[b.dataset.g];lastTog=op[b.dataset.g]?b.dataset.g:null;rr()}
- else if(a==='vst'){vst=b.dataset.v==='r'?'r':'c';rr()}
  else if(a==='gty'){qg(b.dataset.g).t=b.dataset.t;save();rr()}
  else if(a==='qp'||a==='qm'){const q=qg(b.dataset.g);q.n=Math.max(0,+(q.n+(a==='qp'?.5:-.5)).toFixed(2));save();rr()}
  else if(a==='ip'||a==='im'){const e=ex(),id=b.dataset.id,v=Math.max(0,+((e.items[id]||0)+(a==='ip'?.5:-.5)).toFixed(2));if(v)e.items[id]=v;else delete e.items[id];save();rr()}
