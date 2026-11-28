@@ -459,8 +459,8 @@ const GR={
  fat:{n:'الدهون',i:'🫒',k:45,c:0,p:0,f:5},
  free:{n:'الأطعمة الحرة',i:'🍃',k:0,c:0,p:0,f:0},
  main:{n:'الأطباق الرئيسية',i:'🍲',k:300,c:35,p:15,f:12,ty:{mn:['المنسف',300,35,15,12],rc:['أطباق الرز',300,35,15,12],mh:['المحاشي',300,35,15,12],gr:['أطباق الحبوب الرئيسية',300,35,15,12],ch:['صواني الدجاج',300,35,15,12],lb:['أطباق اللبن',300,35,15,12],bq:['أطباق البقلاء',300,35,15,12]}},
- sweet:{n:'الحلويات',i:'🍰',k:200,c:30,p:3,f:8,ty:{se:['حلويات شرقية',200,30,3,8],sw:['حلويات غربية',200,30,3,8],sp:['معجنات حلوة',200,30,3,8]}},
- appt:{n:'المقبلات',i:'🥙',k:100,c:10,p:4,f:5,ty:{ac:['مقبلات باردة',100,10,4,5],ah:['مقبلات ساخنة',100,10,4,5],am:['معجنات مالحة',100,10,4,5]}}
+ sweet:{n:'الحلويات',i:'🍰',k:200,c:30,p:3,f:8},
+ appt:{n:'المقبلات',i:'🥙',k:100,c:10,p:4,f:5}
 };
 const COMPG=['main','sweet','appt'];let compOpen=true;
 function homeGroups(per){const ks=Object.keys(GR),cg=ks.filter(g=>COMPG.indexOf(g)>=0),on=ks.filter(g=>COMPG.indexOf(g)<0).map(g=>gcard(g,per[g])).join('');if(!cg.length)return on;const used=cg.reduce((a,g)=>a+(per[g]?per[g].sum||0:0),0);return on+`<div class="gc" style="border:2px solid var(--g1,#4f6b3a);padding:0 10px 4px;background:#f6f3e8"><button class="gh" data-act="comp" style="padding:14px 6px"><span class="ic">🍽️</span><span class="gn"><b>الأطعمة المركبة</b><div class="pls"><small>الأطباق الرئيسية • الحلويات • المقبلات</small></div></span><span class="gt"><b>${compOpen?'▾':'◂'}</b></span></button>${compOpen?cg.map(g=>gcard(g,per[g])).join(''):''}</div>`}
@@ -1661,7 +1661,8 @@ if(a==='delt')arm(b,()=>{const g=b.dataset.g,k=b.dataset.t,G=GR[g];if(b.dataset.
    return r})}
 });
 async function admAct(fn){if(admBusy)return;admBusy=true;try{const r=await fn();if(r&&r.ok===false&&!r.silent){cloudSet('تعذّر التنفيذ: '+(ERRM[r.err]||r.err||''),0)}if(!r||r.ok!==false||!r.silent)await admRefresh()}catch(x){cloudSet('تعذّر الاتصال بالسحابة.',0)}finally{admBusy=false;if(page==='adm')rr()}}
-function vegLock(){const g=$('#a-g').value,f0=eid?byId(eid):null,on=g==='veg'&&!(f0&&f0.d===VEGD),lb=$('#a-d').closest('label');lb.style.display=on?'none':'';$('#a-pick').style.display=on?'none':'';const n=$('#a-vn');n.style.display=on?'':'none';if(on){const t=$('#a-ty').value,m=t==='vr'?'1 كوب':'½ كوب';$('#a-d').value=m;n.innerHTML='معيار الحصة يتحدد حسب النوع المختار: <b>'+m+'</b>'}}
+function vLk(){const g=$('#a-g').value,f0=eid?byId(eid):null;return g==='veg'&&!(f0&&f0.d!==VEGD)}
+function vegLock(){const on=vLk(),lb=$('#a-d').closest('label');lb.style.display=on?'none':'';$('#a-pick').style.display=on?'none':'';$('#a-vn').style.display='none';if(on){$('#a-d').value=VEGD;$('#a-tl').classList.add('hide')}}
 function fillTy(){const G=GR[$('#a-g').value];$('#a-tl').classList.toggle('hide',!G.ty);$('#a-ty').innerHTML=G.ty?Object.entries(G.ty).map(([k,a])=>`<option value="${k}">${a[0]}</option>`).join(''):'';try{vegLock()}catch(e){}}
 function openAdd(id){eid=id||null;const f=id?byId(id):null;
  $('#a-g').innerHTML=Object.entries(GR).map(([k,G])=>`<option value="${k}">${G.n}</option>`).join('');
@@ -1707,9 +1708,9 @@ $('#a-g').onchange=fillTy;$('#a-ty').onchange=vegLock;$('#a-no').onclick=()=>dCl
 $('#a-ok').onclick=()=>{if(!can('foods')){dClose($('#dlg'));return}
  const n=$('#a-n').value.trim(),d=$('#a-d').value.trim(),g=$('#a-g').value;
  if(!n||!d){$('#a-e').textContent='اكتب اسم الصنف ووصف الحصة.';return}
- {const nz=x=>String(x||'').replace(/[\u064B-\u0652\u0640]/g,'').replace(/[إأآٱ]/g,'ا').replace(/ى/g,'ي').replace(/ة/g,'ه').replace(/[\s()\u200f\u200e]+/g,'').toLowerCase(),t0=GR[g].ty?$('#a-ty').value:'',dup=all().find(x=>x.id!==eid&&x.g===g&&(x.t||'')===t0&&nz(x.name)===nz(n)&&nz(gm(x.d))===nz(d));
+ {const nz=x=>String(x||'').replace(/[\u064B-\u0652\u0640]/g,'').replace(/[إأآٱ]/g,'ا').replace(/ى/g,'ي').replace(/ة/g,'ه').replace(/[\s()\u200f\u200e]+/g,'').toLowerCase(),t0=GR[g].ty&&!vLk()?$('#a-ty').value:'',dup=all().find(x=>x.id!==eid&&x.g===g&&(x.t||'')===t0&&nz(x.name)===nz(n)&&nz(gm(x.d))===nz(d));
   if(dup){$('#a-e').textContent='هذا الصنف موجود مسبقاً بنفس المجموعة ونفس حجم الحصة: «'+dup.name+'» ('+gm(dup.d)+'). لا حاجة لإضافته مرة ثانية.';try{toast('الصنف موجود مسبقاً')}catch(e){}return}}
- const o={id:eid||'c'+Date.now(),g,t:GR[g].ty?$('#a-ty').value:'',name:n,d,custom:true},mv=amVals();
+ const o={id:eid||'c'+Date.now(),g,t:GR[g].ty&&!vLk()?$('#a-ty').value:'',name:n,d,custom:true},mv=amVals();
 if($('#a-rt').checked){const rg=rgRead();if(rg.e){$('#a-e').textContent=rg.e;return}o.rng=rg.r}
  else if(cmpMode==='cmp'){const x=cmpX(),a=cmpAdj();if(x.length||a.c||a.p||a.f){const v=cIv({mac:{x,adj:a}}),m={c:v.c,p:v.p,f:v.f,x:x.map(r=>r.slice())};if(a.c||a.p||a.f)m.adj={c:+a.c.toFixed(2),p:+a.p.toFixed(2),f:+a.f.toFixed(2)};o.mac=m}}
  else if(mv.some(x=>x!==null)){if(mv.some(x=>x!==null&&!(x>=0))){$('#a-e').textContent='أدخلي قيماً صحيحة (0 أو أكبر) للكارب والبروتين والدهون.';return}o.mac={c:+(mv[0]||0).toFixed(2),p:+(mv[1]||0).toFixed(2),f:+(mv[2]||0).toFixed(2)}}
