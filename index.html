@@ -1121,7 +1121,8 @@ function pls(g,x,q){const live=x.n>0,v=live?x:gv(g,q.t);
  return `<span class="pl k">${fm(v.k)} سعرة</span><span class="pl c">كارب ${fm(v.c)} غم</span><span class="pl p">بروتين ${fm(v.p)} غم</span><span class="pl f">دهون ${fm(v.f)} غم</span>${live?'':'<span class="pl r">لكل حصة</span>'}`}
 function isGen(g,t){const a=GR[g]&&GR[g].ty&&GR[g].ty[t];return !t||/^(base|gen|general|all|common|عام|الكل|عامة)$/i.test(String(t).trim())||!!(a&&/^\s*(عام|عامة|الكل)\s*$/.test(String(a[0])))}
 const pk={};
-function csRaw(g,q,G){return all().filter(f=>f.g===g&&(!G.ty||isGen(g,q.t)||f.t===q.t))}
+function csRaw(g,q,G){return all().filter(f=>f.g===g&&(g==='veg'||!G.ty||isGen(g,q.t)||f.t===q.t))}
+const vegSt=f=>f&&f.g==='veg'?(f.id==='b8'?'مطبوخ':f.id==='b9'?'غير مطبوخ':f.id==='b39'?'عصير خضروات':(f.t&&GR.veg.ty&&GR.veg.ty[f.t]?GR.veg.ty[f.t][0]:'')):'';
 /* v66: دمج الأصناف المتطابقة في القيم (سعرات/كارب/بروتين/دهون) في خيار واحد باسم المجموعة؛ تبقى الأصناف المختلفة أو المخصصة منفصلة */
 const csM={},csGet=id=>byId(id)||csM[id]||null;
 function csList(g,q,G){return csRaw(g,q,G)}
@@ -1135,7 +1136,7 @@ function csListMerged_unused(g,q,G){const raw=csRaw(g,q,G),cl={},out=[];
   const e={id,g,t:tt,name:nm,d:'حصة واحدة',_m:true,_v:v,_names:c.map(x=>x.name)};csM[id]=e;out.push(e)});
  return out}
 function csSel(g,l){return l.find(f=>f.id===pk[g])||l[0]||null}
-const csLab=f=>f&&f._m?`<span class="n">${esc(f.name)}</span><span class="m">${R(f._v.k)} سعرة • ${fm(f._v.c)} كارب • ${fm(f._v.p)} بروتين • ${fm(f._v.f)} دهون<i class="hide"> ${esc(f._names.join(' '))}</i></span>`:f?`<span class="n">${esc(fd(f.name))}</span><span class="m">${esc(fd(f.d))}${f.rng&&f.rng.k?' • '+fm(f.rng.k[0])+'–'+fm(f.rng.k[1])+' سعرة':''}</span>`:'<span class="n">لا توجد أصناف لهذا النوع</span>';
+const csLab=f=>f&&f._m?`<span class="n">${esc(f.name)}</span><span class="m">${R(f._v.k)} سعرة • ${fm(f._v.c)} كارب • ${fm(f._v.p)} بروتين • ${fm(f._v.f)} دهون<i class="hide"> ${esc(f._names.join(' '))}</i></span>`:f?`<span class="n">${esc(fd(f.name))}</span><span class="m">${esc(fd(f.d))}${vegSt(f)?' • '+esc(vegSt(f)):''}${f.rng&&f.rng.k?' • '+fm(f.rng.k[0])+'–'+fm(f.rng.k[1])+' سعرة':''}</span>`:'<span class="n">لا توجد أصناف لهذا النوع</span>';
 function csPick(g,q,G){const l=csList(g,q,G),c=csSel(g,l);
  return `<select id="sel-${g}" class="hide" tabindex="-1" aria-hidden="true">${l.length?l.map(f=>`<option value="${f.id}"${c&&c.id===f.id?' selected':''}>${esc(f.name)}</option>`).join(''):'<option value="" disabled selected></option>'}</select><button type="button" class="cs-b cs-w" id="csb-${g}" data-act="cso" data-g="${g}"${l.length?'':' disabled'} aria-haspopup="listbox">${csLab(c)}<svg viewBox="0 0 24 24" aria-hidden="true"><path d="M6 9l6 6 6-6"/></svg></button>`}
 function csPanel(g,q,G){const l=csList(g,q,G),c=csSel(g,l);if(!l.length)return'';
