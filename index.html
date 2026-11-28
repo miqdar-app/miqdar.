@@ -340,6 +340,19 @@ h1{color:#3F5A2B}
 .wat .wr{display:flex;gap:10px}.wat .wr>div{flex:1;background:#F1F7FA;border:1px solid #D5E7F0;border-radius:14px;padding:9px 6px;text-align:center}.wat .wr b{display:block;font-size:17px;color:#2F7BA3}.wat .wr span{font-size:12px;color:var(--mu)}
 .wat .wf{font-size:12px;color:var(--mu);margin-top:10px;line-height:1.8}
 .xch{display:flex;flex-wrap:wrap;gap:6px}.xchip{background:linear-gradient(180deg,#FFFDF8,#F5ECDA);color:var(--g2);border:1px solid var(--bd);border-radius:999px;padding:6px 11px;font-size:12.5px;font-weight:600;box-shadow:none}.xchip.on{border-color:#6F8B4E;background:#EEF1E0}
+
+/* v71: محيط الخصر */
+.wcc .wh{display:flex;align-items:center;gap:10px;margin-bottom:8px}.wcc .wh h2{margin:0}.wcc .wh small{color:var(--mu);font-size:12.5px}
+.wcc .wi{width:40px;height:40px;border-radius:14px;background:linear-gradient(180deg,#EEF1E0,#DCE6C6);display:flex;align-items:center;justify-content:center;flex:none}.wcc .wi svg{width:22px;height:22px;stroke:#44602F;fill:none;stroke-width:1.8;stroke-linecap:round;stroke-linejoin:round}
+.wcc .wv{display:flex;align-items:center;gap:12px;margin:6px 0 10px}.wcc .wv b{font-size:38px;color:var(--g2);line-height:1}.wcc .wv em{font-style:normal;font-size:14px;color:var(--mu)}
+.wcc .bb2{display:inline-block;border-radius:999px;padding:4px 12px;font-size:13px;font-weight:700}.wcc .bb2.n{background:#E3EFD6;color:#3C5A27}.wcc .bb2.o{background:#F7E6C9;color:#8A5A12}.wcc .bb2.b{background:#F4D9D2;color:#9B3A2A}
+.wcc .sc2{position:relative;display:flex;height:12px;border-radius:8px;overflow:hidden;margin:10px 0 4px}.wcc .sc2 i{display:block;height:100%}.wcc .sc2 .mk3{position:absolute;top:-3px;width:4px;height:18px;border-radius:3px;background:#2d2b1e;box-shadow:0 0 0 2px #fff;transform:translateX(50%)}
+.wcc .scl{display:flex;justify-content:space-between;font-size:11.5px;color:var(--mu)}
+.wcc .mx{display:grid;grid-template-columns:1fr 1fr;gap:10px;margin-top:12px}.wcc .mx>div{background:#F7F4EA;border:1px solid var(--bd);border-radius:14px;padding:10px;text-align:center}.wcc .mx b{display:block;font-size:19px;color:var(--g2)}.wcc .mx span{font-size:12px;color:var(--mu)}.wcc .mx small{display:block;font-size:11.5px;margin-top:3px}
+.wcc .dl{display:flex;align-items:center;justify-content:space-between;background:#F7F4EA;border:1px solid var(--bd);border-radius:14px;padding:12px;margin-top:12px}.wcc .dl b{font-size:22px}.wcc .dl .up{color:#9B3A2A}.wcc .dl .dn{color:#3C5A27}
+.wcc h3{font-size:14px;margin:16px 0 6px;color:var(--g2)}.wcc .lg{display:flex;justify-content:space-between;font-size:13px;padding:7px 0;border-bottom:1px dashed rgba(176,150,100,.35)}.wcc .lg i{font-style:normal;color:var(--mu);font-size:12px}
+.wcc .wadd{display:flex;gap:8px;margin-top:12px;align-items:flex-end}.wcc .wadd label{flex:1;margin:0}.wcc .wadd button{white-space:nowrap}
+.wcc svg.ch{width:100%;height:90px;margin-top:8px}
 </style>
 </head>
 <body>
@@ -618,7 +631,7 @@ ${pWho()}${pStats()}${can('activate')?`\u0001subs\u0002<div class="card"><h2>${a
 `:''}${canAny('activate','codes','stats')?`\u0001subs\u0002<div class="card"><h2>الاشتراكات (${A.users.length})</h2><button class="s full" data-act="refu" style="margin-bottom:8px">تحديث القائمة من السحابة</button>
  ${A.users.length?A.users.filter(u=>!(u.src==='bulk'&&!u.exp&&!u.name)).map(u=>{const now=Date.now(),ex=u.exp&&u.exp<now,st=!u.active?['موقوف','background:var(--rd2);color:#B04A43']:ex?['منتهٍ','background:var(--rd2);color:#B04A43']:['مفعّل',''];
   return `<div class="fi"><div><b>${esc(u.name)||'(بدون اسم)'}</b><span class="bd" style="${st[1]}">${st[0]}</span>${u.td?'<span class="bd" style="background:#F6E7BF;color:#8A6A1F">تجربة</span>':''}<small>${esc(u.phone)}${canAny('activate','codes')?` • الكود: <span dir="ltr" style="font-weight:700">${esc(u.pass)}</span>`:''}</small><small>${u.exp?(ex?'انتهى في ':'ينتهي في ')+fdate(u.exp)+(ex?'':' (متبقي '+Math.max(0,Math.ceil((u.exp-now)/864e5))+' يوم)'):'لم يُفعَّل بعد — تبدأ المدة ('+(u.td?tdLbl(u.td)+' تجربة':(u.months||2)+' شهر')+') من أول تفعيل'}</small><small>${u.dev?'🔒 مرتبط بـ '+(u.dev2?'جهازين (الحد الأقصى)':'جهاز (يسمح بجهاز ثانٍ)')+' منذ '+fdate(u.devAt):'🔓 غير مرتبط بجهاز'}${u.seen?' • آخر ظهور '+fdate(u.seen):''}</small>${u.by?`<small>✅ بواسطة: <b>${esc(u.by)}</b></small>`:''}</div>
- ${can('activate')?`<div style="display:flex;gap:4px;flex-wrap:wrap;justify-content:flex-end"><button class="s" data-act="editu" data-id="${u.id}">تعديل</button>${u.dev?`<button class="s" data-act="unb" data-id="${u.id}">فك ارتباط الأجهزة</button>`:''}${u.exp?'':`<button class="s" data-act="cwa" data-id="${u.id}">واتساب</button>`}<button class="s" data-act="renu" data-id="${u.id}">تجديد</button><button class="s" data-act="togu" data-id="${u.id}">${u.active?'إيقاف':'تفعيل'}</button><button class="s" data-act="newc" data-id="${u.id}">كود جديد</button>${isOwner()?`<button class="r" data-act="delu" data-id="${u.id}">حذف</button>`:''}</div>`:''}</div>`}).join(''):'<div style="color:var(--mu);text-align:center;padding:10px">لا توجد اشتراكات بعد.</div>'}</div>`:''}
+ ${can('activate')?`<div style="display:flex;gap:4px;flex-wrap:wrap;justify-content:flex-end"><button class="s" data-act="editu" data-id="${u.id}">تعديل</button><button class="s" data-act="meas" data-id="${u.id}">القياسات</button>${u.dev?`<button class="s" data-act="unb" data-id="${u.id}">فك ارتباط الأجهزة</button>`:''}${u.exp?'':`<button class="s" data-act="cwa" data-id="${u.id}">واتساب</button>`}<button class="s" data-act="renu" data-id="${u.id}">تجديد</button><button class="s" data-act="togu" data-id="${u.id}">${u.active?'إيقاف':'تفعيل'}</button><button class="s" data-act="newc" data-id="${u.id}">كود جديد</button>${isOwner()?`<button class="r" data-act="delu" data-id="${u.id}">حذف</button>`:''}</div>`:''}</div>`}).join(''):'<div style="color:var(--mu);text-align:center;padding:10px">لا توجد اشتراكات بعد.</div>'}</div>`:''}
  ${can('stats')?`\u0001stat\u0002<div class="card"><h2>سجل النشاط</h2><button class="s full" data-act="logs">${admLogs?'تحديث السجل':'عرض آخر النشاطات'}</button>${admLogs?(admLogs.length?`<div style="margin-top:8px;max-height:260px;overflow:auto">${admLogs.map(l=>`<div class="fi" style="padding:6px 0"><div><b>${esc(l.name||'—')}</b><span class="bd">${esc(l.action)}</span><small>${fdate(l.created_at)} ${new Date(l.created_at).toLocaleTimeString('ar',{hour:'2-digit',minute:'2-digit'})}</small></div></div>`).join('')}</div>`:'<div class="mh">لا يوجد نشاط بعد.</div>'):''}</div>`:''}`}
 /* بطاقة الإعلان: رسم مباشر على canvas (بدون مكتبات أو صور خارجية) */
 const AD_F="Cairo,'Reem Kufi',Tahoma,'Segoe UI',Arial,sans-serif",AD_PH='[رقم التواصل / حسابكِ]';
@@ -1148,7 +1161,7 @@ function bmiCard(p){
  return `<div class="card"><h2>مؤشر كتلة الجسم (BMI)</h2><div class="bmi"><b class="bn">${v}</b><span class="bb ${lv[1]}">${lv[0]}</span></div>
  <div class="sc"><i style="width:14%;background:#E8D5A3"></i><i style="width:26%;background:#9DB383"></i><i style="width:20%;background:#DDB27C"></i><i style="width:40%;background:#D49A8A"></i><span class="mk2" style="inset-inline-start:${pos}%"></span></div>
  <div style="font-size:12px;color:var(--mu);display:flex;justify-content:space-between"><span>أقل من 18.5</span><span>18.5–24.9</span><span>25–29.9</span><span>30+</span></div>
- <div class="kv" style="margin-top:8px"><span>المدى التقريبي للوزن الطبيعي لطولك</span><b>${lo} – ${hi} كجم</b></div></div>${waterCard(p)}`}
+ <div class="kv" style="margin-top:8px"><span>المدى التقريبي للوزن الطبيعي لطولك</span><b>${lo} – ${hi} كجم</b></div></div>${waterCard(p)}${waistCard(p)}`}
 function waterCard(p){
  const w=+p.w;if(!(w>0))return '';
  const a=w*30,b=w*35,L=x=>+(x/1000).toFixed(2),C=x=>+(x/250).toFixed(1),nc=Math.min(20,Math.ceil(b/250)),fc=Math.floor(a/250);
@@ -1262,6 +1275,34 @@ const hCopy=o=>JSON.parse(JSON.stringify(o||{}));
 function histSaveCard(){return `<div class="card"><h2>حفظ في السجل 🗂️</h2><div class="qres"><small>احفظي جدولك الحالي (الحصص والأصناف وتوزيع الوجبات) لترجعي له لاحقاً من «حسابي ← السجل».</small></div><label class="f" style="margin-top:8px">اسم الحالة (اختياري)<input id="h-n" maxlength="40" placeholder="مثال: حالة السيدة أمل — إنقاص وزن"></label><button class="full" data-act="hsave">حفظ في السجل</button></div>`}
 function histCard(){const L=(S.hist||[]);
  return `<div class="card"><h2>السجل 🗂️</h2>${L.length?L.map(r=>`<div class="it"><div><b>${esc(r.name)}</b><small>${hDate(r.at)} • ${r.k} سعرة • كارب ${r.c} • بروتين ${r.p} • دهون ${r.f} غم</small></div><div style="display:flex;gap:4px;align-items:center"><button class="s" data-act="hopen" data-id="${r.id}">فتح</button><button class="del" data-act="hdel" data-id="${r.id}" aria-label="حذف">×</button></div></div>`).join('')+'<div class="mh" style="font-size:12px;color:var(--mu);margin-top:8px">«فتح» يستبدل جدولك الحالي بالمحفوظ، فاحفظي الحالي أولاً إن أردتِ.</div>':'<div class="qres"><small>لا توجد حالات محفوظة بعد. من صفحة «الملخص» اضغطي «حفظ في السجل».</small></div>'}</div>`}
+
+/* v71: محيط الخصر — سجل القياسات S.wlog=[{t,wc,w,s}] (s=1 تمت مزامنته مع Supabase) */
+const wcLv=(sex,v)=>sex==='m'?(v<94?['ضمن النطاق الصحي','n']:v<102?['ارتفاع متوسط','o']:['مرتفع','b']):(v<80?['ضمن النطاق الصحي','n']:v<88?['ارتفاع متوسط','o']:['مرتفع','b']);
+const wcCut=sex=>sex==='m'?[94,102]:[80,88];
+const wlog=()=>(S.wlog||[]).slice().sort((a,b)=>a.t-b.t);
+function wcPush(e){const x=who();if(!x||x.admin||!x.pass)return;rpc('save_measurement',{p_code:x.pass,p_device:devId(),p_waist:e.wc,p_weight:e.w||null,p_height:(S.profile&&S.profile.h)||null,p_sex:(S.profile&&S.profile.sex)||null,p_at:new Date(e.t).toISOString()}).then(r=>{if(r&&r.ok){e.s=1;save()}}).catch(()=>{})}
+function wcAdd(v,w){v=+v;if(!(v>=40&&v<=250))return false;const L=S.wlog=S.wlog||[],last=wlog().pop(),day=t=>new Date(t).toDateString();
+ if(last&&last.wc===v&&day(last.t)===day(Date.now()))return true;
+ const e={t:Date.now(),wc:+v.toFixed(1)};if(w>0)e.w=w;L.push(e);if(S.profile)S.profile.wc=e.wc;save();wcPush(e);return true}
+function wcRetry(){(S.wlog||[]).filter(e=>!e.s).slice(0,10).forEach(wcPush)}
+function wcChart(L){if(L.length<2)return'';const W=300,H=90,p=10,v=L.map(e=>e.wc),mn=Math.min(...v)-1,mx=Math.max(...v)+1,t0=L[0].t,t1=L[L.length-1].t||1,X=t=>p+(t1===t0?0:(t-t0)/(t1-t0))*(W-2*p),Y=x=>H-p-(x-mn)/(mx-mn||1)*(H-2*p),pts=L.map(e=>X(e.t).toFixed(1)+','+Y(e.wc).toFixed(1));
+ return `<svg class="ch" viewBox="0 0 ${W} ${H}" preserveAspectRatio="none" aria-hidden="true"><polyline points="${pts.join(' ')}" fill="none" stroke="#5E7A3E" stroke-width="2.4" stroke-linejoin="round" stroke-linecap="round" vector-effect="non-scaling-stroke"/>${L.map(e=>`<circle cx="${X(e.t).toFixed(1)}" cy="${Y(e.wc).toFixed(1)}" r="3.4" fill="#44602F"/>`).join('')}</svg>`}
+function waistCard(p){
+ if(!p||p.a<18)return '';
+ const L=wlog(),icon='<svg viewBox="0 0 24 24"><path d="M5 4c1 3 1 5 0 8s-1 5 0 8M19 4c-1 3-1 5 0 8s1 5 0 8M5 9h14M5 15h14"/></svg>';
+ const add=`<div class="wadd"><label class="f">${L.length?'قياس جديد (سم)':'محيط الخصر (سم)'}<input id="wc-in" type="number" inputmode="decimal" step="0.5" placeholder="مثال: 82"></label><button data-act="wcadd">تسجيل القياس</button></div><div class="err" id="wc-e"></div>`;
+ if(!L.length)return `<div class="card wcc"><div class="wh"><span class="wi">${icon}</span><div><h2>محيط الخصر</h2><small>اختياري — يقيس دهون البطن وخطر الأمراض</small></div></div><div class="qres"><small>أدخلي محيط خصرك لتظهر لك الحالة (معايير WHO) ونسبة الخصر إلى الطول، وتتابعين تطوّرك بالسنتيمتر.</small></div>${add}</div>`;
+ const cur=L[L.length-1],f=L[0],v=cur.wc,lv=wcLv(p.sex,v),ct=wcCut(p.sex),lo=ct[0]-20,hi=ct[1]+16,pos=Math.max(2,Math.min(98,(v-lo)/(hi-lo)*100)),w1=(ct[0]-lo)/(hi-lo)*100,w2=(ct[1]-ct[0])/(hi-lo)*100;
+ const r=p.h>0?v/p.h:0,rl=r<.5?['مثالي','n']:['يحتاج تحسين','o'],rpos=Math.max(2,Math.min(98,(r-.35)/.35*100));
+ const d=+(cur.wc-f.wc).toFixed(1),dtxt='<span dir="ltr">'+(d>0?'+':d<0?'−':'')+Math.abs(d)+'</span> سم';
+ return `<div class="card wcc"><div class="wh"><span class="wi">${icon}</span><div><h2>محيط الخصر</h2><small>آخر قياس: ${hDate(cur.t)}</small></div></div>
+ <div class="wv"><b dir="ltr">${v}</b><em>سم</em><span class="bb2 ${lv[1]}">${lv[0]}</span></div>
+ <div class="sc2"><i style="width:${w1}%;background:#9DB383"></i><i style="width:${w2}%;background:#DDB27C"></i><i style="flex:1;background:#D49A8A"></i><span class="mk3" style="inset-inline-start:${pos}%"></span></div>
+ <div class="scl"><span>أقل من ${ct[0]}</span><span>${ct[0]}–${ct[1]-.1}</span><span>${ct[1]} فأكثر</span></div>
+ <div class="mx"><div><b dir="ltr">${r?r.toFixed(2):'—'}</b><span>نسبة الخصر ÷ الطول</span><small class="bb2 ${rl[1]}" style="padding:2px 10px">${rl[0]}</small></div><div><b dir="ltr">0.50</b><span>الحد المثالي (أقل من)</span><small style="color:var(--mu)">لكل الأعمار والأجناس تقريباً</small></div></div>
+ ${L.length>1?`<div class="dl"><span>الفرق بين أول وآخر قياس<br><i style="font-style:normal;font-size:12px;color:var(--mu)" dir="ltr">${f.wc} ← ${cur.wc} سم</i></span><b class="${d>0?'up':d<0?'dn':''}">${dtxt}</b></div>${wcChart(L)}`:''}
+ <h3>سجل القياسات</h3>${L.slice().reverse().map((e,i,a)=>{const pv=a[i+1],df=pv?+(e.wc-pv.wc).toFixed(1):null;return `<div class="lg"><span>${hDate(e.t)}${e.w?` <i>• ${e.w} كجم</i>`:''}</span><b><span dir="ltr">${e.wc}</span> سم${df?` <i style="color:${df>0?'#9B3A2A':'#3C5A27'}">(<span dir="ltr">${df>0?'+':'−'}${Math.abs(df)}</span>)</i>`:''}</b></div>`}).join('')}
+ ${add}<div class="mh" style="font-size:11.5px;color:var(--mu);margin-top:8px;line-height:1.7">معايير WHO للبالغين: ${p.sex==='m'?'ذكور أقل من 94 صحي، 94–101.9 ارتفاع متوسط، 102 فأكثر مرتفع.':'إناث أقل من 80 صحي، 80–87.9 ارتفاع متوسط، 88 فأكثر مرتفع.'} هذه مؤشرات إرشادية وليست تشخيصاً.</div></div>`}
 function pSum(){
  if(!S.profile)return `<h1>الملخص</h1>`+needP();
  const t=targets(S.profile),{T,per}=totals();let ns=0;const ks=Object.keys(GR);
@@ -1284,7 +1325,8 @@ function pMe(){
   <label class="f">الجنس<select id="p-sex"><option value="m"${v.sex==='m'?' selected':''}>ذكر</option><option value="f"${v.sex==='f'?' selected':''}>أنثى</option></select></label>
   <label class="f">العمر (سنة)<input id="p-a" type="number" inputmode="numeric" value="${v.a}"></label>
   <label class="f">الوزن (كجم)<input id="p-w" type="number" inputmode="decimal" value="${v.w}"></label>
-  <label class="f">الطول (سم)<input id="p-h" type="number" inputmode="decimal" value="${v.h}"></label></div>
+  <label class="f">الطول (سم)<input id="p-h" type="number" inputmode="decimal" value="${v.h}"></label>
+  <label class="f">محيط الخصر (سم) — اختياري<input id="p-wc" type="number" inputmode="decimal" step="0.5" value="${v.wc||''}" placeholder="اختياري"></label></div>
   <div class="qres"><small>ملاحظة: لمن هم أقل من 18 سنة لا يُطبَّق استبيان النشاط ولا BMI، وتُدخل السعرات يدوياً من صفحة حسابي.</small></div>${qzHTML()}
   <div class="lbl">الهدف<div class="gch">${Object.entries(GOAL).map(([k,n])=>`<button type="button" class="chp${fg===k?' on':''}" data-act="goal" data-v="${k}">${n}</button>`).join('')}</div></div><div id="adjbox">${adjHTML(fg,fadj>0?fadj:adjDef(fg),'form')}</div><div class="qres" id="adjprev"></div>
   <div class="err" id="p-e"></div><div class="acts"><button data-act="savep">حفظ البيانات</button>${p?'<button class="s" data-act="cancel">إلغاء</button>':''}</div></div><button class="r full" data-act="logout">تسجيل الخروج</button>`}
@@ -1355,6 +1397,13 @@ if(a==='delt')arm(b,()=>{const g=b.dataset.g,k=b.dataset.t,G=GR[g];if(b.dataset.
  else if(a==='mp'){shift(b.dataset.g,b.dataset.i,-1,+b.dataset.m,1);save();rr()}
  else if(a==='mm'){shift(b.dataset.g,b.dataset.i,+b.dataset.m,-1,1);save();rr()}
  else if(a==='md'){shift(b.dataset.g,b.dataset.i,+b.dataset.m,-1,1e9);save();rr()}
+ else if(a==='wcadd'){const v=+($('#wc-in')||{}).value;if(!wcAdd(v,S.profile&&S.profile.w)){const e=$('#wc-e');if(e)e.textContent='أدخلي قيمة بين 40 و250 سم.';return}rr()}
+ else if(a==='meas'){const id=b.dataset.id,u=A.users.find(x=>x.id===id);if(!u)return;const d=$('#sdlg');d.innerHTML='<h2>قياسات '+esc(u.name||'المشتركة')+'</h2><div class="qres"><small>جارٍ التحميل…</small></div><div class="acts"><button class="s" data-act="sclose">إغلاق</button></div>';dOpen(d);
+  rpc('admin_list_measurements',{p_admin:ADM_PASS,p_sub_id:id}).then(r=>{const L=(r&&r.ok&&r.rows||[]).map(e=>({t:new Date(e.measured_at).getTime(),wc:+e.waist_cm,w:e.weight_kg?+e.weight_kg:0})).filter(e=>e.wc>0).sort((a,b)=>a.t-b.t);
+   const dd=L.length>1?+(L[L.length-1].wc-L[0].wc).toFixed(1):null,hh=r&&r.rows&&r.rows[0]&&r.rows[0].height_cm?+r.rows[0].height_cm:0,sx=r&&r.rows&&r.rows[0]?r.rows[0].sex:'f';
+   const body=!r||r.ok===false?'<div class="warn">تعذّر جلب القياسات. تأكدي من تشغيل ملف v61.sql في Supabase.</div>':!L.length?'<div class="qres"><small>لا توجد قياسات مسجّلة لهذه المشتركة بعد.</small></div>':
+    `<div class="wcc"><div class="mx"><div><b dir="ltr">${L[0].wc}</b><span>أول قياس</span><small>${hDate(L[0].t)}</small></div><div><b dir="ltr">${L[L.length-1].wc}</b><span>آخر قياس</span><small>${hDate(L[L.length-1].t)}</small></div></div>${dd!==null?`<div class="dl"><span>الفرق</span><b class="${dd>0?'up':dd<0?'dn':''}"><span dir="ltr">${(dd>0?'+':dd<0?'−':'')+Math.abs(dd)}</span> سم</b></div>`:''}${wcChart(L)}${hh?`<div class="mh" style="font-size:12.5px;margin-top:8px">آخر تقييم: ${wcLv(sx,L[L.length-1].wc)[0]} • نسبة الخصر÷الطول ${(L[L.length-1].wc/hh).toFixed(2)}</div>`:''}<h3>السجل</h3>${L.slice().reverse().map(e=>`<div class="lg"><span>${hDate(e.t)}${e.w?` <i>• ${e.w} كجم</i>`:''}</span><b><span dir="ltr">${e.wc}</span> سم</b></div>`).join('')}</div>`;
+   d.innerHTML='<h2>قياسات '+esc(u.name||'المشتركة')+'</h2>'+body+'<div class="acts"><button class="s" data-act="sclose">إغلاق</button></div>'}).catch(()=>{d.innerHTML='<h2>قياسات</h2><div class="warn">تعذّر الاتصال بالسحابة.</div><div class="acts"><button class="s" data-act="sclose">إغلاق</button></div>'})}
  else if(a==='hsave'){const {T}=totals();if(!(T.k>0)){try{toast('لا يوجد شيء لحفظه بعد')}catch(e){}return}
   const nm=(($('#h-n')||{}).value||'').trim()||('حالة '+hDate(Date.now())),r={id:'h'+Date.now().toString(36),name:nm,at:Date.now(),k:R(T.k),c:R(T.c),p:R(T.p),f:R(T.f),d:{ex:hCopy(S.ex),mv:hCopy(S.mv),pr:hCopy(S.profile)}};
   S.hist=[r].concat(S.hist||[]).slice(0,60);save();const i=$('#h-n');if(i)i.value='';try{toast('تم الحفظ في السجل')}catch(e){}}
@@ -1385,7 +1434,7 @@ if(a==='delt')arm(b,()=>{const g=b.dataset.g,k=b.dataset.t,G=GR[g];if(b.dataset.
   const n={sex:$('#p-sex').value,a:+$('#p-a').value,w:+$('#p-w').value,h:+$('#p-h').value,goal:fg||'keep'};if(n.goal!=='keep'){const av=fadj>0?fadj:adjDef(n.goal);if(!(av>=200&&av<=750)){$('#p-e').textContent='مقدار العجز أو الفائض يجب أن يكون بين 200 و750 سعرة.';return}n.adj=av}
   if(!(n.a>=2&&n.a<=100&&n.w>=8&&n.h>=70)){$('#p-e').textContent='أدخل العمر والوزن والطول بقيم صحيحة.';return}
   if(n.a>=18&&!qDone(qz)){$('#p-e').textContent='أجب عن كل أسئلة استبيان النشاط (واختر نوع التمارين إن كنت تتمرن).';return}
-  if(qDone(qz)){n.qz=Object.assign({},qz);n.pal=palOf(qz)}if(S.profile&&S.profile.pc)n.pc=S.profile.pc;if(S.profile&&S.profile.kc)n.kc=S.profile.kc;const first=!S.profile;S.profile=n;editing=false;qz=null;fg=null;fadj=null;save();if(first)page='home';render();scrollTo(0,0)}
+  if(qDone(qz)){n.qz=Object.assign({},qz);n.pal=palOf(qz)}{const wv=$('#p-wc').value.trim();if(wv!==''){const w2=+wv;if(!(w2>=40&&w2<=250)){$('#p-e').textContent='محيط الخصر يجب أن يكون بين 40 و250 سم (أو اتركيه فارغاً).';return}n.wc=w2}else if(S.profile&&S.profile.wc)n.wc=S.profile.wc}if(S.profile&&S.profile.pc)n.pc=S.profile.pc;if(S.profile&&S.profile.kc)n.kc=S.profile.kc;const first=!S.profile;S.profile=n;if(n.wc&&n.a>=18)wcAdd(n.wc,n.w);editing=false;qz=null;fg=null;fadj=null;save();if(first)page='home';render();scrollTo(0,0)}
  else if(a==='qz'){const k=b.dataset.k,v=+b.dataset.v;qz[k]=v;if(k==='gy'&&v===0)delete qz.ty;setTimeout(adjPrev,0);b.parentElement.querySelectorAll('button').forEach(x=>x.classList.toggle('on',x===b));if(k==='gy')$('#gt').classList.toggle('hide',v===0);qzRes()}
  else if(a==='goal'){fg=b.dataset.v;if(fg==='keep')fadj=null;else if(!(fadj>0))fadj=adjDef(fg);b.parentElement.querySelectorAll('button').forEach(x=>x.classList.toggle('on',x===b));$('#adjbox').innerHTML=adjHTML(fg,fadj>0?fadj:adjDef(fg),'form');adjPrev()}
  else if(a==='adjq'){adjApply(b.dataset.m,+b.dataset.v)}
@@ -1473,7 +1522,7 @@ if($('#a-rt').checked){const rg=rgRead();if(rg.e){$('#a-e').textContent=rg.e;ret
 function startCloud(){const x=who();if(x&&x.admin)adminSync();else if(x)syncCat();
  setInterval(()=>{if(document.hidden)return;const y=who();if(y&&!y.admin)syncCat()},90000);
  document.addEventListener('visibilitychange',()=>{if(!document.hidden){const y=who();if(y&&!y.admin)syncCat()}})}
-render();startCloud();
+render();startCloud();try{setTimeout(wcRetry,4000)}catch(e){}
 (function(){try{const m=/^#staff=(.+)~([A-Za-z0-9]{4,24})$/.exec(location.hash||'');if(!m)return;history.replaceState(null,'',location.pathname+location.search);
  const u=decodeURIComponent(m[1]);if(A.sess==='admin'&&ADM_PASS)return;stfMode=true;render();const a=$('#st-user'),b=$('#st-code');if(a&&b){a.value=u;b.value=m[2];stfLogin()}}catch(e){}})();
 /* ===== custom select (bottom sheet) ===== */
