@@ -353,6 +353,26 @@ h1{color:#3F5A2B}
 .wcc h3{font-size:14px;margin:16px 0 6px;color:var(--g2)}.wcc .lg{display:flex;justify-content:space-between;font-size:13px;padding:7px 0;border-bottom:1px dashed rgba(176,150,100,.35)}.wcc .lg i{font-style:normal;color:var(--mu);font-size:12px}
 .wcc .wadd{display:flex;gap:8px;margin-top:12px;align-items:flex-end}.wcc .wadd label{flex:1;margin:0}.wcc .wadd button{white-space:nowrap}
 .wcc svg.ch{width:100%;height:90px;margin-top:8px}
+
+/* v72: حالاتي */
+.kz-top{display:flex;align-items:center;justify-content:space-between;gap:8px;margin-bottom:10px}.kz-top h1{margin:0}
+.kz-it{display:block;width:100%;text-align:right;background:var(--w);border:1px solid var(--bd);border-radius:20px;padding:14px;margin-bottom:10px;box-shadow:0 6px 16px -10px rgba(110,85,45,.35);color:var(--tx)}
+.kz-h{display:flex;align-items:center;gap:10px}.kz-av{width:42px;height:42px;border-radius:14px;background:linear-gradient(180deg,#EEF1E0,#DCE6C6);color:#44602F;display:flex;align-items:center;justify-content:center;font-weight:800;font-size:18px;flex:none}
+.kz-h b{font-size:16px;display:block}.kz-h small{color:var(--mu);font-size:12.5px}
+.kz-chip{display:inline-block;border-radius:999px;padding:3px 11px;font-size:12px;font-weight:700;background:#E3EFD6;color:#3C5A27}.kz-chip.g{background:#F7E6C9;color:#8A5A12}.kz-chip.k{background:#E8E5D8;color:#5B5A44}
+.kz-nums{display:grid;grid-template-columns:repeat(3,1fr);gap:8px;margin:12px 0 8px}.kz-nums>div{background:#F7F4EA;border:1px solid var(--bd);border-radius:14px;padding:9px 4px;text-align:center}.kz-nums b{display:block;font-size:19px;color:var(--g2)}.kz-nums span{font-size:11.5px;color:var(--mu)}
+.kz-bar{height:10px;border-radius:8px;background:#E9E3D2;overflow:hidden;margin:6px 0 4px}.kz-bar i{display:block;height:100%;border-radius:8px;background:linear-gradient(90deg,#7C9A5A,#44602F)}.kz-bar.t i{background:linear-gradient(90deg,#E2C285,#C9A24E)}
+.kz-bl{display:flex;justify-content:space-between;font-size:12px;color:var(--mu)}
+.kz-ph{font-size:12.5px;color:var(--mu);margin:2px 0 8px}
+.kz-fu{border:1px solid var(--bd);border-radius:16px;padding:12px;margin-bottom:8px;background:#fff}.kz-fu.nx{border-color:#6F8B4E;background:#F4F8EC}.kz-fu.em{background:#FAF8F1;border-style:dashed;color:var(--mu)}
+.kz-fh{display:flex;align-items:center;justify-content:space-between;margin-bottom:6px}.kz-fh b{font-size:14.5px}.kz-fh span{font-size:12px;color:var(--mu)}
+.kz-r{display:flex;justify-content:space-between;font-size:13px;padding:4px 0}.kz-r i{font-style:normal;font-size:12px}.up{color:#9B3A2A}.dn{color:#3C5A27}
+.kz-note{background:#F7F4EA;border-radius:10px;padding:8px 10px;font-size:12.5px;color:#5B5A44;margin-top:6px;line-height:1.7}
+.kz-pv{background:#EEF1E0;color:#3C5A27;border-radius:14px;padding:10px 12px;font-size:13px;line-height:1.9;margin-top:10px}.kz-pv:empty{display:none}
+.kz-mo{display:flex;gap:6px;margin:4px 0 8px;flex-wrap:wrap}.kz-mo button{padding:7px 14px;font-size:13px}
+.kz-acts{display:flex;flex-wrap:wrap;gap:8px;margin-top:10px}.kz-acts button{flex:1;min-width:140px}
+.kz-pl{display:grid;grid-template-columns:1fr 1fr;gap:8px;margin:8px 0}.kz-pl>div{background:#F7F4EA;border:1px solid var(--bd);border-radius:14px;padding:10px;text-align:center}.kz-pl b{display:block;font-size:18px;color:var(--g2)}.kz-pl span{font-size:11.5px;color:var(--mu)}
+#cf-fu input[type=date]{-webkit-appearance:none;appearance:none;min-height:46px;width:100%;text-align:right;direction:ltr}
 </style>
 </head>
 <body>
@@ -366,6 +386,7 @@ h1{color:#3F5A2B}
  <button data-act="nav" data-p="meals"><svg viewBox="0 0 24 24"><path d="M3 11h18a9 9 0 0 1-18 0z"/><path d="M8 21h8"/></svg>الوجبات</button>
  <button data-act="nav" data-p="sum"><svg viewBox="0 0 24 24"><path d="M12 3v9h9"/><path d="M20 15a9 9 0 1 1-11-11"/></svg>الملخص</button>
  <button data-act="nav" data-p="me"><svg viewBox="0 0 24 24"><circle cx="12" cy="8" r="4"/><path d="M4 21c0-4 4-6 8-6s8 2 8 6"/></svg>حسابي</button>
+ <button data-act="nav" data-p="cases"><svg viewBox="0 0 24 24"><path d="M9 11a3 3 0 1 0 0-6 3 3 0 0 0 0 6zM3 20c0-3.3 2.7-5 6-5s6 1.7 6 5"/><path d="M16 5.5a3 3 0 0 1 0 5M18 15c2 .6 3 2.100 3 5"/></svg>حالاتي</button>
  <button data-act="nav" data-p="adm" class="hide"><svg viewBox="0 0 24 24"><path d="M12 3l8 3v6c0 5-3.5 8-8 9-4.5-1-8-4-8-9V6z"/></svg>الإدارة</button>
 </div></nav>
 <dialog id="dlg">
@@ -1273,9 +1294,6 @@ let sumOpen={};
 /* v69: السجل — حفظ الجدول اليومي (الحصص والأصناف وتوزيع الوجبات) والرجوع إليه */
 const hDate=t=>{const d=new Date(t),z=n=>String(n).padStart(2,'0');return z(d.getDate())+'/'+z(d.getMonth()+1)+'/'+d.getFullYear()};
 const hCopy=o=>JSON.parse(JSON.stringify(o||{}));
-function histSaveCard(){return `<div class="card"><h2>حفظ في السجل 🗂️</h2><div class="qres"><small>احفظي جدولك الحالي (الحصص والأصناف وتوزيع الوجبات) لترجعي له لاحقاً من «حسابي ← السجل».</small></div><label class="f" style="margin-top:8px">اسم الحالة (اختياري)<input id="h-n" maxlength="40" placeholder="مثال: حالة السيدة أمل — إنقاص وزن"></label><button class="full" data-act="hsave">حفظ في السجل</button></div>`}
-function histCard(){const L=(S.hist||[]);
- return `<div class="card"><h2>السجل 🗂️</h2>${L.length?L.map(r=>`<div class="it"><div><b>${esc(r.name)}</b><small>${hDate(r.at)} • ${r.k} سعرة • كارب ${r.c} • بروتين ${r.p} • دهون ${r.f} غم</small></div><div style="display:flex;gap:4px;align-items:center"><button class="s" data-act="hopen" data-id="${r.id}">فتح</button><button class="del" data-act="hdel" data-id="${r.id}" aria-label="حذف">×</button></div></div>`).join('')+'<div class="mh" style="font-size:12px;color:var(--mu);margin-top:8px">«فتح» يستبدل جدولك الحالي بالمحفوظ، فاحفظي الحالي أولاً إن أردتِ.</div>':'<div class="qres"><small>لا توجد حالات محفوظة بعد. من صفحة «الملخص» اضغطي «حفظ في السجل».</small></div>'}</div>`}
 
 /* v71: محيط الخصر — سجل القياسات S.wlog=[{t,wc,w,s}] (s=1 تمت مزامنته مع Supabase) */
 const wcLv=(sex,v)=>sex==='m'?(v<94?['ضمن النطاق الصحي','n']:v<102?['ارتفاع متوسط','o']:['مرتفع','b']):(v<80?['ضمن النطاق الصحي','n']:v<88?['ارتفاع متوسط','o']:['مرتفع','b']);
@@ -1304,6 +1322,102 @@ function waistCard(p){
  ${L.length>1?`<div class="dl"><span>الفرق بين أول وآخر قياس<br><i style="font-style:normal;font-size:12px;color:var(--mu)" dir="ltr">${f.wc} ← ${cur.wc} سم</i></span><b class="${d>0?'up':d<0?'dn':''}">${dtxt}</b></div>${wcChart(L)}`:''}
  <h3>سجل القياسات</h3>${L.slice().reverse().map((e,i,a)=>{const pv=a[i+1],df=pv?+(e.wc-pv.wc).toFixed(1):null;return `<div class="lg"><span>${hDate(e.t)}${e.w?` <i>• ${e.w} كجم</i>`:''}</span><b><span dir="ltr">${e.wc}</span> سم${df?` <i style="color:${df>0?'#9B3A2A':'#3C5A27'}">(<span dir="ltr">${df>0?'+':'−'}${Math.abs(df)}</span>)</i>`:''}</b></div>`}).join('')}
  ${add}<div class="mh" style="font-size:11.5px;color:var(--mu);margin-top:8px;line-height:1.7">معايير WHO للبالغين: ${p.sex==='m'?'ذكور أقل من 94 صحي، 94–101.9 ارتفاع متوسط، 102 فأكثر مرتفع.':'إناث أقل من 80 صحي، 80–87.9 ارتفاع متوسط، 88 فأكثر مرتفع.'} هذه مؤشرات إرشادية وليست تشخيصاً.</div></div>`}
+
+/* v72: حالاتي — ملفات حالات ومتابعة دورية. S.cases=[{id,name,sex,a,h,pal,w0,wc0,wt,months,start,plan,fu:[{no,at,w,wc,note,k,s}],s}] */
+const PALS=[['خامل',1.2],['خفيف',1.375],['متوسط',1.55],['نشيط',1.725],['نشيط جداً',1.9]];
+let cmode='list',cid=null;
+const cases=()=>S.cases||(S.cases=[]);
+const cget=id=>cases().find(c=>c.id===id);
+const cToday=()=>{const d=new Date(),z=n=>String(n).padStart(2,'0');return d.getFullYear()+'-'+z(d.getMonth()+1)+'-'+z(d.getDate())};
+const cDate=v=>{const m=/^(\d{4})-(\d\d)-(\d\d)/.exec(v||'');return m?m[3]+'/'+m[2]+'/'+m[1]:''};
+const cLast=c=>c.fu.length?c.fu[c.fu.length-1]:null;
+const cWt=c=>cLast(c)&&cLast(c).w>0?cLast(c).w:c.w0;
+const cGoal=c=>c.wt<c.w0?['إنقاص وزن','']:c.wt>c.w0?['زيادة وزن','g']:['ثبات','k'];
+const sg=(v,u,d)=>'<span dir="ltr">'+(v>0?'+':v<0?'−':'')+Math.abs(+(+v).toFixed(d==null?1:d))+'</span> '+u;
+function cPlan(c,w,used){
+ w=+w||c.w0;used=used==null?c.fu.length:used;
+ const t=targets({sex:c.sex,a:c.a,w,h:c.h,pal:c.pal,goal:'keep'}),rem=+(c.wt-w).toFixed(2),ml=Math.max(1,c.months-used),pm=rem/ml,pw=pm/4.345,adj=pm*7700/30;
+ let k=t.tdee+adj,note='';
+ if(k<1200){k=1200;note='وُضع الحد الأدنى 1200 سعرة؛ المعدل المطلوب أسرع من الآمن، يُنصح بتمديد المدة.'}
+ else if(Math.abs(pw)>1)note='المعدل الأسبوعي أعلى من 1 كجم؛ يُنصح بتمديد المدة لتغيير آمن ومستدام.';
+ const pr=w*(rem<0?2:rem>0?1.8:1.6),fa=k*.25/9,ca=Math.max(0,(k-pr*4-fa*9)/4);
+ return{tdee:R(t.tdee),rem,ml,pm,pw,adj:R(adj),k:R(k),p:R(pr),c:R(ca),f:R(fa),note}}
+const cPct=(c,w)=>{const t=c.wt-c.w0;return t?Math.max(0,Math.min(100,(w-c.w0)/t*100)):100};
+function cloudCase(c){const x=who();if(!x||x.admin||!x.pass)return;
+ rpc('upsert_case',{p_code:x.pass,p_device:devId(),p_case:{local_id:c.id,name:c.name,sex:c.sex,age:c.a,height:c.h,pal:c.pal,w0:c.w0,wt:c.wt,months:c.months,wc0:c.wc0||'',start:c.start||'',plan:c.plan||null}}).then(r=>{if(r&&r.ok){c.s=1;save()}}).catch(()=>{})}
+function cloudFu(c,f){const x=who();if(!x||x.admin||!x.pass)return;
+ rpc('upsert_followup',{p_code:x.pass,p_device:devId(),p_local_id:c.id,p_no:f.no,p_at:f.at,p_weight:f.w||null,p_waist:f.wc||null,p_note:f.note||'',p_kcal:f.k||null}).then(r=>{if(r&&r.ok){f.s=1;save()}}).catch(()=>{})}
+function casesRetry(){cases().forEach(c=>{if(!c.s)cloudCase(c);c.fu.filter(f=>!f.s).forEach(f=>cloudFu(c,f))})}
+function casesPull(){const x=who();if(!x||x.admin||!x.pass)return;
+ rpc('get_my_cases',{p_code:x.pass,p_device:devId()}).then(r=>{if(!r||!r.ok)return;let ch=false;
+  (r.cases||[]).forEach(o=>{let c=cget(o.local_id);if(!c){c={id:o.local_id,name:o.name,sex:o.sex||'f',a:+o.age,h:+o.height,pal:+o.pal,w0:+o.w0,wc0:o.wc0?+o.wc0:0,wt:+o.wt,months:+o.months,start:o.start||cToday(),plan:o.plan||null,fu:[],s:1};cases().push(c);ch=true}
+   (o.followups||[]).forEach(f=>{if(!c.fu.some(y=>y.no===f.no)){c.fu.push({no:f.no,at:f.at,w:f.w?+f.w:0,wc:f.wc?+f.wc:0,note:f.note||'',k:f.k||0,s:1});ch=true}});c.fu.sort((a,b)=>a.no-b.no)});
+  if(ch){save();if(page==='cases')rr()}}).catch(()=>{})}
+
+function pCases(){
+ if(cmode==='form')return cForm();
+ if(cmode==='det'&&cget(cid))return cDetail(cget(cid));
+ cmode='list';const L=cases();
+ return `<div class="kz-top"><h1>حالاتي</h1></div><button class="full" data-act="cnew" style="margin-bottom:12px">+ إضافة حالة جديدة</button>`+
+ (L.length?L.map(c=>{const w=cWt(c),g=cGoal(c),pc=cPct(c,w),lf=cLast(c);return `<button class="kz-it" data-act="copen" data-id="${c.id}"><div class="kz-h"><span class="kz-av">${esc((c.name||'؟').trim().charAt(0))}</span><div style="flex:1"><b>${esc(c.name)}</b><small>${c.sex==='m'?'ذكر':'أنثى'} • ${c.a} سنة • ${c.months} أشهر</small></div><span class="kz-chip ${g[1]}">${g[0]}</span></div>
+  <div class="kz-bl" style="margin-top:10px"><span dir="ltr">${c.w0} → ${w} → ${c.wt} كجم</span><span>${R(pc)}%</span></div><div class="kz-bar"><i style="width:${pc}%"></i></div>
+  <div class="kz-bl"><span>زيارات: ${c.fu.length} من ${c.months}</span><span>${lf?'آخر متابعة: '+cDate(lf.at):'لا متابعات بعد'}</span></div></button>`}).join(''):
+ `<div class="card" style="text-align:center"><h2>لا توجد حالات بعد</h2><p style="color:var(--mu);margin:0 0 12px;line-height:1.8">أضيفي حالة لتحسبي مسار الخطة (الهدف والمدة) وتتابعي الوزن ومحيط الخصر شهرياً.</p></div>`)
+}
+function cForm(){const c=cget(cid)||{},ed=!!cget(cid),u=S.profile;
+ const v=(k,d)=>c[k]!=null&&c[k]!==0?c[k]:(d==null?'':d);
+ return `<div class="kz-top"><h1>${ed?'تعديل الحالة':'حالة جديدة'}</h1></div><div class="card" id="cf-box">
+ ${!ed&&u&&u.sex?`<button class="s full" data-act="cfrom" style="margin-bottom:10px">تعبئة من بياناتي الحالية</button>`:''}
+ <label class="f">اسم الحالة / رمز المراجع<input id="cf-n" maxlength="40" placeholder="مثال: حالة 1 - سارة" value="${esc(v('name'))}"></label>
+ <div class="g2"><label class="f">الجنس<select id="cf-s"><option value="f"${c.sex!=='m'?' selected':''}>أنثى</option><option value="m"${c.sex==='m'?' selected':''}>ذكر</option></select></label>
+ <label class="f">العمر (سنة)<input id="cf-a" type="number" inputmode="numeric" value="${v('a')}"></label>
+ <label class="f">الطول (سم)<input id="cf-h" type="number" inputmode="decimal" value="${v('h')}"></label>
+ <label class="f">مستوى النشاط<select id="cf-p">${PALS.map(([n,p])=>`<option value="${p}"${(+c.pal||1.375)===p?' selected':''}>${n} (${p})</option>`).join('')}</select></label>
+ <label class="f">الوزن الحالي (كجم)<input id="cf-w" type="number" inputmode="decimal" ${ed?'disabled ':''}value="${v('w0')}"></label>
+ <label class="f">محيط الخصر (سم) — اختياري<input id="cf-c" type="number" inputmode="decimal" ${ed?'disabled ':''}value="${v('wc0')}"></label>
+ <label class="f">الوزن المستهدف (كجم)<input id="cf-t" type="number" inputmode="decimal" value="${v('wt')}"></label>
+ <label class="f">مدة الخطة (أشهر)<input id="cf-m" type="number" inputmode="numeric" min="1" max="36" value="${v('months',3)}"></label></div>
+ <div class="kz-mo">${[3,4,5,6].map(n=>`<button type="button" class="chp" data-act="cmo" data-v="${n}">${n} أشهر</button>`).join('')}</div>
+ <div class="kz-pv" id="cf-pv"></div><div class="err" id="cf-e"></div>
+ <div class="acts"><button data-act="csave">${ed?'حفظ التعديلات':'حفظ الحالة'}</button><button class="s" data-act="cback">إلغاء</button></div></div>`}
+function cfRead(){const n=i=>{const e=$('#'+i);return e&&e.value!==''?+e.value:NaN},c=cget(cid);
+ return{name:($('#cf-n').value||'').trim(),sex:$('#cf-s').value,a:n('cf-a'),h:n('cf-h'),pal:n('cf-p'),w0:c?c.w0:n('cf-w'),wc0:c?c.wc0:(isNaN(n('cf-c'))?0:n('cf-c')),wt:n('cf-t'),months:n('cf-m'),fu:c?c.fu:[]}}
+function cfCheck(o){if(!o.name)return 'اكتبي اسم الحالة أو رمز المراجع.';if(!(o.a>=18&&o.a<=100))return 'العمر من 18 إلى 100 سنة (الخطة مخصصة للبالغين).';if(!(o.h>=100&&o.h<=230))return 'أدخلي الطول بالسنتيمتر (100–230).';if(!(o.w0>=30&&o.w0<=300))return 'أدخلي الوزن الحالي بالكيلوغرام.';if(o.wc0&&!(o.wc0>=40&&o.wc0<=250))return 'محيط الخصر بين 40 و250 سم (أو اتركيه فارغاً).';if(!(o.wt>=30&&o.wt<=300))return 'أدخلي الوزن المستهدف بالكيلوغرام.';if(!(o.months>=1&&o.months<=36&&Number.isInteger(o.months)))return 'مدة الخطة من 1 إلى 36 شهراً.';return ''}
+function cfPrev(){const e=$('#cf-pv');if(!e)return;const o=cfRead();if(cfCheck(o)){e.innerHTML='';return}const p=cPlan(o,o.w0,0),g=o.wt-o.w0;
+ e.innerHTML=`<b>مسار الخطة:</b> ${g===0?'ثبات الوزن':(g<0?'نزول ':'زيادة ')+Math.abs(+g.toFixed(1))+' كجم خلال '+o.months+' أشهر'}<br>المعدل: <b>${Math.abs(+p.pm.toFixed(2))} كجم شهرياً</b> (${Math.abs(+p.pw.toFixed(2))} كجم أسبوعياً)<br>السعرات اليومية المقترحة: <b>${p.k} سعرة</b> • بروتين ${p.p} • كارب ${p.c} • دهون ${p.f} غم${p.note?'<br><span style="color:#9B3A2A">'+esc(p.note)+'</span>':''}`}
+document.addEventListener('input',e=>{if(e.target.closest&&e.target.closest('#cf-box'))cfPrev()});
+document.addEventListener('change',e=>{if(e.target.closest&&e.target.closest('#cf-box'))cfPrev()});
+
+function cDetail(c){const w=cWt(c),g=cGoal(c),pc=cPct(c,w),L=c.fu,last=cLast(c),pl=cPlan(c,w),tp=Math.min(100,L.length/c.months*100),ch=+(w-c.w0).toFixed(1),lastWc=[...L].reverse().find(f=>f.wc>0),wcc=lastWc&&c.wc0?+(lastWc.wc-c.wc0).toFixed(1):null;
+ const rows=Math.max(c.months,L.length),tl=[];
+ for(let i=0;i<rows;i++){const f=L[i];
+  if(f){const pv=i?L[i-1]:null,pw=pv&&pv.w?pv.w:c.w0,pwc=pv&&pv.wc?pv.wc:c.wc0;
+   tl.push(`<div class="kz-fu"><div class="kz-fh"><b>${i<c.months?'الشهر '+(i+1):'زيارة إضافية '+(i+1)}</b><span>${cDate(f.at)}</span></div>
+   ${f.w?`<div class="kz-r"><span>الوزن</span><b><span dir="ltr">${f.w}</span> كجم <i class="${f.w<pw?'dn':f.w>pw?'up':''}">(${sg(f.w-pw,'عن السابق')}${i?' • '+sg(f.w-c.w0,'عن البداية'):''})</i></b></div>`:''}
+   ${f.wc?`<div class="kz-r"><span>محيط الخصر</span><b><span dir="ltr">${f.wc}</span> سم ${pwc?`<i class="${f.wc<pwc?'dn':f.wc>pwc?'up':''}">(${sg(f.wc-pwc,'سم')})</i>`:''}</b></div>`:''}
+   ${f.k?`<div class="kz-r"><span>السعرات المحدّثة</span><b>${f.k} سعرة</b></div>`:''}${f.note?`<div class="kz-note">${esc(f.note)}</div>`:''}</div>`)}
+  else tl.push(`<div class="kz-fu ${i===L.length?'nx':'em'}"><div class="kz-fh"><b>الشهر ${i+1}</b><span>${i===L.length?'الزيارة القادمة':'لم يُسجَّل بعد'}</span></div></div>`)}
+ const nxt=L.length+1;
+ return `<div class="kz-top"><button class="s" data-act="cback">← الحالات</button></div>
+ <div class="card"><div class="kz-h"><span class="kz-av">${esc((c.name||'؟').trim().charAt(0))}</span><div style="flex:1"><b style="font-size:18px">${esc(c.name)}</b><small>${c.sex==='m'?'ذكر':'أنثى'} • ${c.a} سنة • ${c.h} سم • ${(PALS.find(p=>p[1]===c.pal)||['','']) [0]}</small></div><span class="kz-chip ${g[1]}">${g[0]}</span></div>
+ <div class="kz-nums"><div><b dir="ltr">${c.w0}</b><span>البداية (كجم)</span></div><div><b dir="ltr">${w}</b><span>الحالي</span></div><div><b dir="ltr">${c.wt}</b><span>الهدف</span></div></div>
+ <div class="kz-bl"><span>الإنجاز من الهدف</span><b>${R(pc)}%</b></div><div class="kz-bar"><i style="width:${pc}%"></i></div>
+ <div class="kz-bl" style="margin-top:8px"><span>الزيارات المنجزة</span><b>${L.length} من ${c.months} أشهر</b></div><div class="kz-bar t"><i style="width:${tp}%"></i></div>
+ <div class="kz-pl"><div><b class="${ch<0?'dn':ch>0?'up':''}">${sg(ch,'كجم')}</b><span>التغيّر منذ البداية</span></div><div><b class="${wcc<0?'dn':wcc>0?'up':''}">${wcc===null?'—':sg(wcc,'سم')}</b><span>محيط الخصر منذ البداية</span></div></div>
+ <div class="kz-acts"><button class="s" data-act="cedit" data-id="${c.id}">تعديل بيانات الحالة</button><button class="r" data-act="cdel" data-id="${c.id}">حذف الحالة</button></div></div>
+ <div class="card"><h2>مسار الخطة والسعرات</h2><div class="kz-ph">محسوبة لوزنك الحالي (${w} كجم) وللأشهر المتبقية (${pl.ml}).</div>
+ <div class="kz-pl"><div><b>${Math.abs(+pl.pm.toFixed(2))}</b><span>كجم شهرياً المطلوب ${pl.rem<0?'نزولاً':pl.rem>0?'زيادة':''}</span></div><div><b>${Math.abs(+pl.pw.toFixed(2))}</b><span>كجم أسبوعياً</span></div><div><b>${pl.k}</b><span>سعرة يومياً مقترحة</span></div><div><b>${pl.tdee}</b><span>إجمالي الحرق اليومي</span></div></div>
+ <div class="kz-ph" style="text-align:center">بروتين ${pl.p} • كارب ${pl.c} • دهون ${pl.f} غم</div>${pl.note?`<div class="warn">${esc(pl.note)}</div>`:''}
+ <div class="kz-acts"><button data-act="capply" data-id="${c.id}">تحديث خطة الحصص للوزن الجديد</button><button class="s" data-act="csavep" data-id="${c.id}">حفظ الخطة الحالية لهذه الحالة</button>${c.plan?`<button class="s" data-act="copenp" data-id="${c.id}">فتح الخطة المحفوظة</button>`:''}</div>
+ <div class="kz-ph" style="margin-top:8px">«تحديث خطة الحصص» يستبدل ملفك الشخصي وجدول حصصك الحالي بما يناسب بيانات هذه الحالة (وتُحفظ الخطة في ملفها).</div>${c.plan?`<div class="kz-ph" style="margin-top:4px">الخطة المحفوظة: ${cDate(c.plan.at)} • ${c.plan.k} سعرة</div>`:''}</div>
+ <div class="card"><h2>سجل المتابعة</h2>${tl.join('')}</div>
+ <div class="card" id="cf-fu"><h2>تسجيل ${nxt<=c.months?'متابعة الشهر '+nxt:'زيارة إضافية'}</h2><div class="g2">
+ <label class="f">تاريخ المتابعة<input id="fu-d" type="date" value="${cToday()}"></label>
+ <label class="f">الوزن الجديد (كجم)<input id="fu-w" type="number" inputmode="decimal" placeholder="${w}"></label>
+ <label class="f">محيط الخصر (سم) — اختياري<input id="fu-c" type="number" inputmode="decimal"></label></div>
+ <label class="f">ملاحظات (الالتزام بالحصص، التعديلات المقترحة)<textarea id="fu-n" rows="3" maxlength="500" style="width:100%"></textarea></label>
+ <div class="err" id="fu-e"></div><div class="acts"><button data-act="cfu" data-id="${c.id}">حفظ المتابعة</button></div>
+ ${L.length?`<button class="r full" style="margin-top:8px" data-act="cfudel" data-id="${c.id}">حذف آخر متابعة</button>`:''}</div>`}
 function pSum(){
  if(!S.profile)return `<h1>الملخص</h1>`+needP();
  const t=targets(S.profile),{T,per}=totals();let ns=0;const ks=Object.keys(GR);
@@ -1317,7 +1431,7 @@ function pSum(){
  return `<h1>الملخص</h1><div class="card"><div class="hd2"><h2 style="margin:0">جدول الحصص اليومي</h2><button class="s xs" data-act="sxa">${allOpen?'إخفاء الأصناف':'عرض كل الأصناف'}</button></div><div class="hint">اضغطي على اسم المجموعة لعرض أصنافها.</div><div class="tw"><table class="tbl sum"><tr><th>المجموعة</th><th>الحصص</th><th>كارب<br>غم</th><th>بروتين<br>غم</th><th>دهون<br>غم</th><th>سعرات</th></tr>${rows}
  <tr class="tt"><td>المجموع المحسوب</td><td>${+ns.toFixed(2)}</td><td>${R(T.c)}</td><td>${R(T.p)}</td><td>${R(T.f)}</td><td>${R(T.k)}</td></tr>
  <tr class="tg"><td>المستهدف</td><td>—</td><td>${t.c}</td><td>${t.p}</td><td>${t.f}</td><td>${t.k}</td></tr>
- <tr class="df"><td>الفرق</td><td>—</td>${dv(t.c,T.c)}${dv(t.p,T.p)}${dv(t.f,T.f)}${dv(t.k,T.k)}</tr></table></div><div class="sumnote">المجموع محسوب من القيم الدقيقة قبل التقريب، لذلك قد يختلف مجموع الأرقام المعروضة بسعرة واحدة.</div>${Object.values(per).some(x=>x.over>0)?'<div class="warn">بعض المجموعات تتجاوز حصصها المحددة (بالأحمر)؛ الزيادة محسوبة في المجاميع.</div>':''}</div>${histSaveCard()}`;
+ <tr class="df"><td>الفرق</td><td>—</td>${dv(t.c,T.c)}${dv(t.p,T.p)}${dv(t.f,T.f)}${dv(t.k,T.k)}</tr></table></div><div class="sumnote">المجموع محسوب من القيم الدقيقة قبل التقريب، لذلك قد يختلف مجموع الأرقام المعروضة بسعرة واحدة.</div>${Object.values(per).some(x=>x.over>0)?'<div class="warn">بعض المجموعات تتجاوز حصصها المحددة (بالأحمر)؛ الزيادة محسوبة في المجاميع.</div>':''}</div>`;
 }
 function pMe(){
  const p=S.profile;
@@ -1340,9 +1454,9 @@ function pMe(){
  <div class="card"><h2>احتياجك اليومي (Harris-Benedict)</h2><div class="qres"><small>المرجع: معادلة Harris-Benedict المعتمدة في المنهج الجامعي، مع معاملات النشاط القياسية (1.2 / 1.375 / 1.55 / 1.725 / 1.9).</small></div>
  ${[['معدل الحرق الأساسي (BMR)',t.bmr+' سعرة'],['معامل النشاط',t.pal.toFixed(3).replace(/0+$/,'').replace(/\.$/,'')],['إجمالي الحرق اليومي (TDEE)',t.tdee+' سعرة'],['السعرات المستهدفة',t.k+' سعرة'],['البروتين',t.p+' غم'],['الكارب',t.c+' غم'],['الدهون',t.f+' غم']].map(([k,v])=>`<div class="kv"><span>${k}</span><b>${v}</b></div>`).join('')}</div>${bmiCard(p)}`}
  ${mCard(t)}
- ${histCard()}${isAdm()?'':(()=>{const x=who();return x&&x.exp?`<div class="card"><h2>اشتراكك</h2><div class="kv"><span>ينتهي في</span><b>${fdate(x.exp)}</b></div><div class="kv"><span>المتبقي</span><b>${Math.max(0,Math.ceil((x.exp-Date.now())/864e5))} يوم</b></div></div>`:''})()}
+ ${isAdm()?'':(()=>{const x=who();return x&&x.exp?`<div class="card"><h2>اشتراكك</h2><div class="kv"><span>ينتهي في</span><b>${fdate(x.exp)}</b></div><div class="kv"><span>المتبقي</span><b>${Math.max(0,Math.ceil((x.exp-Date.now())/864e5))} يوم</b></div></div>`:''})()}
  ${isAdm()?'':`<div class="card"><h2>تحديث قائمة الأصناف</h2><div class="qres"><small>إن ظهر لديكِ صنف قديم أو كسر غير صحيح، اضغطي لإعادة تحميل قائمة الأصناف والمجموعات المضمّنة في هذه النسخة. وجباتك وبياناتك وأصنافك الخاصة لا تتأثر.</small></div><button class="s full" data-act="rstcat">إعادة تحميل قائمة الأصناف</button><div class="mh" id="rst-m"></div></div>`}
-<button class="full" data-act="newcase">＋ حالة جديدة (تصفير الجدول والبيانات)</button><div class="mh" style="font-size:12px;color:var(--mu);margin:6px 0 12px;text-align:center">تُحفظ الحالة الحالية تلقائياً في السجل ثم تبدأين ببيانات فارغة.</div>
+<button class="full" data-act="newcase">＋ حالة جديدة (تصفير الجدول والبيانات)</button><div class="mh" style="font-size:12px;color:var(--mu);margin:6px 0 12px;text-align:center">يُصفَّر الجدول والبيانات لتبدأي بملف فارغ. لحفظ حالة ومتابعتها استخدمي تبويب «حالاتي».</div>
  <button class="r full" data-act="logout">تسجيل الخروج</button>`;
 }
 function staffBar(sp){const nm=(who()||{}).name||'';
@@ -1357,7 +1471,7 @@ function render(){
  const stf=!!(me.admin&&me.sub),sp=stf?staffPages():[];if(stf&&!sp.includes(page)){page=sp[0];open=null;editing=false}
  $('#nav').classList.toggle('hide',stf);
  $('#nav [data-p=adm]').classList.toggle('hide',!me.admin);
- const ap=$('#app');ap.className=anim?'enter':'';anim=false;ap.innerHTML=(stf?staffBar(sp):'')+{home:pHome,foods:pFoods,meals:pMeals,sum:pSum,me:pMe,adm:pAdm}[page]();
+ const ap=$('#app');ap.className=anim?'enter':'';anim=false;ap.innerHTML=(stf?staffBar(sp):'')+{home:pHome,foods:pFoods,meals:pMeals,sum:pSum,me:pMe,cases:pCases,adm:pAdm}[page]();
  document.querySelectorAll('#nav button').forEach(b=>b.classList.toggle('on',b.dataset.p===page));
  if(page==='foods')fList();
  if(page==='adm'){const go=()=>adDraw();go();try{document.fonts&&document.fonts.ready.then(go)}catch(e){}}
@@ -1382,7 +1496,7 @@ document.addEventListener('click',e=>{
  if(subAct(b))return;
  if(a==='cso'){const p=$('#csp-'+b.dataset.g);if(!p)return;const sh=p.classList.contains('hide');document.querySelectorAll('.cs-p').forEach(x=>x.classList.add('hide'));if(sh){p.classList.remove('hide');const qi=p.querySelector('.cs-q');qi.value='';p.querySelectorAll('.cs-i').forEach(x=>x.classList.remove('hide'));p.querySelector('.cs-e').classList.add('hide');const on=p.querySelector('.cs-i.on');if(on)on.scrollIntoView({block:'nearest'});setTimeout(()=>{try{p.scrollIntoView({block:'nearest',behavior:'smooth'})}catch(x){}},30)}return}
  if(a==='csp'){const g=b.dataset.g,id=b.dataset.id;pk[g]=id;const sl=$('#sel-'+g);if(sl)sl.value=id;const f=csGet(id),bt=$('#csb-'+g);if(bt&&f)bt.innerHTML=csLab(f)+bt.querySelector('svg').outerHTML;const p=$('#csp-'+g);p.querySelectorAll('.cs-i').forEach(x=>x.classList.toggle('on',x===b));p.classList.add('hide');{const mp=$('#mac-'+g);if(mp&&!mp.classList.contains('hide'))macFill(g)}return}
- if(a==='nav'){page=b.dataset.p;open=null;anim=true;if(page==='me')editing=!S.profile;qz=null;render();scrollTo(0,0)}
+ if(a==='nav'){page=b.dataset.p;open=null;anim=true;if(page==='me')editing=!S.profile;if(page==='cases'){cmode='list';cid=null}qz=null;render();scrollTo(0,0)}
  else if(a==='savem'){const g=x=>Math.max(0,Math.min(100,parseInt($('#m-'+x).value)||0));S.profile.pc={c:g('c'),p:g('p'),f:g('f')};save();rr()}
  else if(a==='resetm'){delete S.profile.pc;save();rr()}
  else if(a==='expo'){showCode=showCode==='all'?null:'all';if(showCode==='all'){A.pubver=Date.now();A.catver=A.pubver;A.adm=true;saveA()}rr()}
@@ -1405,13 +1519,29 @@ if(a==='delt')arm(b,()=>{const g=b.dataset.g,k=b.dataset.t,G=GR[g];if(b.dataset.
    const body=!r||r.ok===false?'<div class="warn">تعذّر جلب القياسات. تأكدي من تشغيل ملف v61.sql في Supabase.</div>':!L.length?'<div class="qres"><small>لا توجد قياسات مسجّلة لهذه المشتركة بعد.</small></div>':
     `<div class="wcc"><div class="mx"><div><b dir="ltr">${L[0].wc}</b><span>أول قياس</span><small>${hDate(L[0].t)}</small></div><div><b dir="ltr">${L[L.length-1].wc}</b><span>آخر قياس</span><small>${hDate(L[L.length-1].t)}</small></div></div>${dd!==null?`<div class="dl"><span>الفرق</span><b class="${dd>0?'up':dd<0?'dn':''}"><span dir="ltr">${(dd>0?'+':dd<0?'−':'')+Math.abs(dd)}</span> سم</b></div>`:''}${wcChart(L)}${hh?`<div class="mh" style="font-size:12.5px;margin-top:8px">آخر تقييم: ${wcLv(sx,L[L.length-1].wc)[0]} • نسبة الخصر÷الطول ${(L[L.length-1].wc/hh).toFixed(2)}</div>`:''}<h3>السجل</h3>${L.slice().reverse().map(e=>`<div class="lg"><span>${hDate(e.t)}${e.w?` <i>• ${e.w} كجم</i>`:''}</span><b><span dir="ltr">${e.wc}</span> سم</b></div>`).join('')}</div>`;
    d.innerHTML='<h2>قياسات '+esc(u.name||'المشتركة')+'</h2>'+body+'<div class="acts"><button class="s" data-act="sclose">إغلاق</button></div>'}).catch(()=>{d.innerHTML='<h2>قياسات</h2><div class="warn">تعذّر الاتصال بالسحابة.</div><div class="acts"><button class="s" data-act="sclose">إغلاق</button></div>'})}
- else if(a==='hsave'){const {T}=totals();if(!(T.k>0)){try{toast('لا يوجد شيء لحفظه بعد')}catch(e){}return}
-  const nm=(($('#h-n')||{}).value||'').trim()||('حالة '+hDate(Date.now())),r={id:'h'+Date.now().toString(36),name:nm,at:Date.now(),k:R(T.k),c:R(T.c),p:R(T.p),f:R(T.f),d:{ex:hCopy(S.ex),mv:hCopy(S.mv),pr:hCopy(S.profile)}};
-  S.hist=[r].concat(S.hist||[]).slice(0,60);save();const i=$('#h-n');if(i)i.value='';try{toast('تم الحفظ في السجل')}catch(e){}}
- else if(a==='hopen')arm(b,()=>{const r=(S.hist||[]).find(x=>x.id===b.dataset.id);if(!r)return;S.ex=hCopy(r.d.ex);if(!S.ex.items)S.ex.items={};if(!S.ex.q)S.ex.q={};S.mv=hCopy(r.d.mv);if(r.d.pr&&r.d.pr.sex){S.profile=hCopy(r.d.pr);editing=false;qz=null;fg=null;fadj=null}save();page='home';anim=true;render();scrollTo(0,0)})
- else if(a==='newcase')arm(b,()=>{const {T}=totals();if(T.k>0&&S.profile){S.hist=[{id:'h'+Date.now().toString(36),name:'حالة '+hDate(Date.now())+' (حُفظت تلقائياً)',at:Date.now(),k:R(T.k),c:R(T.c),p:R(T.p),f:R(T.f),d:{ex:hCopy(S.ex),mv:hCopy(S.mv),pr:hCopy(S.profile)}}].concat(S.hist||[]).slice(0,60)}
-  S.ex={items:{},q:{}};S.mv={};S.profile=null;editing=true;qz=null;fg=null;fadj=null;save();page='me';anim=true;render();scrollTo(0,0)})
- else if(a==='hdel')arm(b,()=>{S.hist=(S.hist||[]).filter(x=>x.id!==b.dataset.id);save();rr()})
+ else if(a==='newcase')arm(b,()=>{S.ex={items:{},q:{}};S.mv={};S.profile=null;editing=true;qz=null;fg=null;fadj=null;save();page='me';anim=true;render();scrollTo(0,0)})
+ else if(a==='cnew'){cmode='form';cid=null;rr();scrollTo(0,0)}
+ else if(a==='copen'){cmode='det';cid=b.dataset.id;rr();scrollTo(0,0)}
+ else if(a==='cback'){cmode=(cmode==='form'&&cid&&cget(cid))?'det':'list';if(cmode==='list')cid=null;rr();scrollTo(0,0)}
+ else if(a==='cedit'){cmode='form';cid=b.dataset.id;rr();scrollTo(0,0)}
+ else if(a==='cmo'){const e=$('#cf-m');if(e){e.value=b.dataset.v;cfPrev()}}
+ else if(a==='cfrom'){const u=S.profile;if(!u)return;const set=(i,v)=>{const e=$('#'+i);if(e&&v!=null)e.value=v};set('cf-s',u.sex);set('cf-a',u.a);set('cf-h',u.h);set('cf-w',u.w);if(u.wc)set('cf-c',u.wc);const pl=u.pal||[0,1.2,1.375,1.55,1.725][u.act]||1.375,po=PALS.reduce((a,p)=>Math.abs(p[1]-pl)<Math.abs(a[1]-pl)?p:a);set('cf-p',po[1]);cfPrev()}
+ else if(a==='csave'){const o=cfRead(),er=cfCheck(o);if(er){$('#cf-e').textContent=er;return}
+  let c=cget(cid);if(c){Object.assign(c,{name:o.name,sex:o.sex,a:o.a,h:o.h,pal:o.pal,wt:o.wt,months:o.months});c.s=0}
+  else{c=Object.assign({id:'k'+Date.now().toString(36)+Math.floor(Math.random()*1e3).toString(36),start:cToday(),plan:null,s:0},o);cases().push(c)}
+  save();cloudCase(c);cid=c.id;cmode='det';rr();scrollTo(0,0)}
+ else if(a==='cdel')arm(b,()=>{const x=who(),id=b.dataset.id;S.cases=cases().filter(c=>c.id!==id);save();if(x&&!x.admin&&x.pass)rpc('delete_case',{p_code:x.pass,p_device:devId(),p_local_id:id}).catch(()=>{});cmode='list';cid=null;rr();scrollTo(0,0)})
+ else if(a==='cfu'){const c=cget(b.dataset.id);if(!c)return;const w=+$('#fu-w').value,wcv=$('#fu-c').value===''?0:+$('#fu-c').value,d=$('#fu-d').value||cToday(),e=$('#fu-e');
+  if(!(w>=30&&w<=300)){e.textContent='أدخلي الوزن الجديد بالكيلوغرام.';return}if(wcv&&!(wcv>=40&&wcv<=250)){e.textContent='محيط الخصر بين 40 و250 سم (أو اتركيه فارغاً).';return}
+  const f={no:c.fu.length+1,at:d,w,wc:wcv,note:($('#fu-n').value||'').trim(),s:0};c.fu.push(f);f.k=cPlan(c,w).k;save();cloudFu(c,f);rr()}
+ else if(a==='cfudel')arm(b,()=>{const c=cget(b.dataset.id);if(!c||!c.fu.length)return;const f=c.fu.pop(),x=who();save();if(x&&!x.admin&&x.pass)rpc('delete_followup',{p_code:x.pass,p_device:devId(),p_local_id:c.id,p_no:f.no}).catch(()=>{});rr()})
+ else if(a==='csavep'){const c=cget(b.dataset.id),{T}=totals();if(!c)return;if(!(T.k>0)){try{toast('لا يوجد جدول حالي لحفظه. حددي حصصك من الرئيسية أولاً.')}catch(e){}return}
+  c.plan={at:cToday(),k:R(T.k),ex:hCopy(S.ex),mv:hCopy(S.mv)};c.s=0;save();cloudCase(c);try{toast('تم حفظ الخطة لهذه الحالة')}catch(e){}rr()}
+ else if(a==='copenp')arm(b,()=>{const c=cget(b.dataset.id);if(!c||!c.plan)return;S.ex=hCopy(c.plan.ex);if(!S.ex.items)S.ex.items={};if(!S.ex.q)S.ex.q={};S.mv=hCopy(c.plan.mv);save();page='home';anim=true;render();scrollTo(0,0)})
+ else if(a==='capply')arm(b,()=>{const c=cget(b.dataset.id);if(!c)return;const w=cWt(c),pl=cPlan(c,w),g=c.wt<w?'loss':c.wt>w?'gain':'keep',ad=Math.max(200,Math.min(750,Math.abs(pl.adj)));
+  const pr={sex:c.sex,a:c.a,w,h:c.h,pal:c.pal,goal:g};if(g!=='keep')pr.adj=ad;const old=S.profile;if(old&&old.qz)pr.qz=old.qz;S.profile=pr;editing=false;
+  const t=targets(pr);S.ex={items:{},q:{}};S.mv={};autoApply(t);
+  c.plan={at:cToday(),k:t.k,ex:hCopy(S.ex),mv:hCopy(S.mv)};c.s=0;save();cloudCase(c);page='home';anim=true;render();scrollTo(0,0);try{toast('طُبّقت الخطة على الرئيسية: '+t.k+' سعرة')}catch(e){}})
  else if(a==='mauto'){S.mv={};save();rr()}
  else if(a==='tog'){op[b.dataset.g]=!op[b.dataset.g];lastTog=op[b.dataset.g]?b.dataset.g:null;rr()}
  else if(a==='gty'){qg(b.dataset.g).t=b.dataset.t;save();rr()}
@@ -1523,7 +1653,7 @@ if($('#a-rt').checked){const rg=rgRead();if(rg.e){$('#a-e').textContent=rg.e;ret
 function startCloud(){const x=who();if(x&&x.admin)adminSync();else if(x)syncCat();
  setInterval(()=>{if(document.hidden)return;const y=who();if(y&&!y.admin)syncCat()},90000);
  document.addEventListener('visibilitychange',()=>{if(!document.hidden){const y=who();if(y&&!y.admin)syncCat()}})}
-render();startCloud();try{setTimeout(wcRetry,4000)}catch(e){}
+render();startCloud();try{setTimeout(wcRetry,4000);setTimeout(()=>{casesRetry();casesPull()},3500)}catch(e){}
 (function(){try{const m=/^#staff=(.+)~([A-Za-z0-9]{4,24})$/.exec(location.hash||'');if(!m)return;history.replaceState(null,'',location.pathname+location.search);
  const u=decodeURIComponent(m[1]);if(A.sess==='admin'&&ADM_PASS)return;stfMode=true;render();const a=$('#st-user'),b=$('#st-code');if(a&&b){a.value=u;b.value=m[2];stfLogin()}}catch(e){}})();
 /* ===== custom select (bottom sheet) ===== */
